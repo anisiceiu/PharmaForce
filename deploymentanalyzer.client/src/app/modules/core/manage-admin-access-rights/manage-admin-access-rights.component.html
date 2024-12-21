@@ -1,0 +1,128 @@
+<div class="page-header">
+  <span class="page-title">Manage Admin Access Rights</span>
+  <!-- <div class="page-action">
+      <button mat-raised-button class="btn btn-primary">
+          <mat-icon>add</mat-icon>
+          Add/Edit User
+      </button>
+  </div> -->
+</div>
+
+<div class="page-body da-card">
+  <div class="form-card">
+    <div class="row">
+      <!-- <div class="col-4">
+        <mat-form-field appearance="outline">
+          <mat-label>Select User</mat-label>
+          <input type="text" matInput [formControl]="userControl" [matAutocomplete]="auto">
+          <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onSelectedUserChange($event)" [displayWith]="displayFn">
+            @for (user of filteredOptions | async; track user) {
+            <mat-option [value]="user">{{user.name}}</mat-option>
+            }
+          </mat-autocomplete>
+        </mat-form-field>
+      </div> -->
+      <div class="col-4">
+        <mat-form-field appearance="outline">
+          <mat-label>Select User</mat-label>
+            <mat-select  [(value)]="selectedUser"
+            (selectionChange)="onSelectedUserChange($event, selectedUser.id)">
+                <mat-option *ngFor="let user of users" [value]="user">
+                    {{user.name}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+ 
+      <div class="col-8">
+        <div class="d-flex align-items-center justify-content-end">
+          <button mat-raised-button class="btn btn-primary" (click)="saveAdminPermission(selectedUser.id)">
+            <mat-icon>save</mat-icon>
+            Save
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="selection-panel">
+  <div class="chk-list-card da-card country-card">
+    <p class="card-title">Country</p>
+    <div class="advance-filter-card">
+      <div class="filter-header">
+        <div class="search-field">
+          <mat-icon>search</mat-icon>
+          <input type="search" class="form-control" (search)="onSearchCountry($event)" (keyup)="filterCountries($event)" [(ngModel)]="searchTextFieldCountry"
+                 id="searchCountry" placeholder="Search..">
+        </div>
+      </div>
+    </div>
+    <ul class="chk-list">
+      <li>
+        <mat-checkbox [(ngModel)]="selectAllCountryChecked" [checked]="selectAllCountryChecked" (change)="onCountrySelectAllChange($event)">Select All</mat-checkbox>
+      </li>
+      <li *ngFor="let country of countriesFiltered">
+        <mat-checkbox [checked]="selectedCountryIds.includes(country.country_Id)"
+                      (change)="onCountryChange($event, country.country_Id)">
+          {{ country.country_Name }}
+        </mat-checkbox>
+      </li>
+    </ul>
+  </div>
+
+  <div class="chk-list-card da-card company-card">
+    <p class="card-title">Company</p>
+    <div class="advance-filter-card">
+      <div class="filter-header">
+        <div class="search-field">
+          <mat-icon>search</mat-icon>
+          <input type="search" class="form-control" (search)="onSearchCompany($event)" (keyup)="filterCompanies($event)" [(ngModel)]="searchTextFieldCompany"
+                 id="searchCompany" placeholder="Search..">
+        </div>
+      </div>
+    </div>
+    <ul class="chk-list">
+      <li>
+        <mat-checkbox [(ngModel)]="selectAllCompanyChecked" [checked]="selectAllCompanyChecked" (change)="onCompanySelectAllChange($event)">Select All</mat-checkbox>
+      </li>
+      <li *ngFor="let company of companiesFiltered">
+        <mat-checkbox [checked]="selectedCompanyIds.includes(company.company_Id)"
+                      (change)="onCompanyChange($event, company.company_Id)">
+          {{ company.company_Name }}
+        </mat-checkbox>
+      </li>
+    </ul>
+  </div>
+
+
+  <div class="chk-list-card da-card function-card">
+    <p class="card-title">Functions</p>
+    <div class="advance-filter-card">
+      <div class="filter-header">
+        <div class="search-field">
+          <mat-icon>search</mat-icon>
+          <input type="search" class="form-control" (search)="onSearchFunction($event)" (keyup)="filterAppFunctions($event)" [(ngModel)]="searchTextFieldFunction"
+                 id="searchFunction" placeholder="Search..">
+        </div>
+      </div>
+    </div>
+    <ul class="chk-list">
+      <li>
+        <mat-checkbox [(ngModel)]="selectAllFunctionChecked" [checked]="selectAllFunctionChecked" (change)="onFunctionSelectAllChange($event)">Select All</mat-checkbox>
+      </li>
+      <li *ngFor="let function of functionsFiltered">
+        @if ( selectedUser && selectedUser.userType && selectedUser.userType.trim() == 'A' && (function.functionName == 'Manage Admin Accounts' || function.functionName == 'Manage Admin Access Rights'
+        || function.functionName == 'Review Admin Activity Log' || function.functionName == 'SQL Data Management')) {
+
+        } @else {
+        <mat-checkbox [checked]="selectedFunctionIds.includes(function.adminFunctionId)"
+                      (change)="onFunctionChange($event, function.adminFunctionId)">
+          {{function.functionName}}
+        </mat-checkbox>
+        }
+
+      </li>
+    </ul>
+  </div>
+</div>

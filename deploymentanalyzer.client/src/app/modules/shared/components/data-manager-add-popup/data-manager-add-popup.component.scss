@@ -1,0 +1,21 @@
+::ng-deep .mat-mdc-form-field-hint-wrapper{
+    padding: 0 !important;
+}
+
+.mat-mdc-table {
+  width: 100%;
+  max-height: auto;
+  overflow: auto;
+}
+
+.example-container {
+  height: auto;
+  width: auto;
+  max-width: 100%;
+  overflow: auto;
+}
+
+.mat-column-specialty_Physicians_Targeted {
+  flex: none;
+  min-width: 300px;
+}

@@ -1,0 +1,19 @@
+<div class="lg-section">
+  <div class="wrapper">
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <h2><i class="material-icons link-icon">admin_panel_settings</i> Admin Login</h2>
+
+      <div class="input-field">
+        <input type="text" formControlName="username" required (focus)="onFocus($event)" (blur)="onBlur($event)">
+        <label [class.filled]="loginForm.get('username')?.value">Enter username</label>
+      </div>
+
+      <div class="input-field">
+        <input type="password" formControlName="password" required (focus)="onFocus($event)" (blur)="onBlur($event)">
+        <label [class.filled]="loginForm.get('password')?.value">Enter password</label>
+      </div>
+
+      <button class="btnLogin" type="submit">Login</button>
+    </form>
+  </div>
+</div>

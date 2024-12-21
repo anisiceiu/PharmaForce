@@ -1,0 +1,65 @@
+<div class="page-header">
+  <span class="page-title">User Restricted Email Suffix Management</span>
+  <div class="page-action">
+    <button mat-raised-button class="btn btn-primary" (click)="openDialog()">
+      <mat-icon>add</mat-icon>
+      Add Email Suffix
+    </button>
+  </div>
+</div>
+<div class="page-body da-card">
+  <!--<div class="advance-filter-card">
+    <div class="filter-header">
+      <div class="form-field ml-auto">
+        <mat-form-field appearance="outline">
+          <mat-label>Users</mat-label>
+          <mat-select [(value)]="selectedUser" (selectionChange)="loadUserRestrictedEmailSuffix($event.value)">
+            <mat-option *ngFor="let user of userList" [value]="user">{{ user.name }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+  </div>-->
+
+  @defer () {
+  @if(this.userEmailSuffixList.length > 0){
+
+  <table mat-table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)" disableClear>
+    <ng-container matColumnDef="select">
+      <th mat-header-cell *matHeaderCellDef>
+        Actions
+      </th>
+      <td mat-cell *matCellDef="let element">
+        <button mat-icon-button matTooltip="Basic" [matMenuTriggerFor]="menu"
+                aria-label="Example icon-button with a heart icon">
+          <mat-icon>more_vert</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu">
+          <button (click)="RemoveUserRestrictedEmailSuffix(element.emailSuffixId,element.emailSuffix)" mat-mini-fab aria-label="Delete icon button" color="warn"
+                  class="action-button delete">
+            <mat-icon>delete</mat-icon>
+          </button>
+
+        </mat-menu>
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="emailSuffix">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Email Suffix</th>
+      <td mat-cell *matCellDef="let element">{{element.emailSuffix}}</td>
+    </ng-container>
+
+
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true;"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+
+  }
+
+
+  }
+
+  <mat-paginator [pageSizeOptions]="[5,10,25,50,100]" showFirstLastButtons aria-label="Select page of depUsers">
+  </mat-paginator>
+
+</div>

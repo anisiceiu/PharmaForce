@@ -1,0 +1,702 @@
+<div class="page-body">
+  <aside class="da-sibedar da-sidebar-xxl {{isOpenManageProductSidebar ? 'da-sidebar-open' : ''}}">
+    <div class="sidebar-content">
+      <div class="sidebar-header">
+        <h6 class="sidebar-title">{{ isEditable? 'Edit Product -' : 'Record -'}} {{product_id}}</h6>
+        <div class="sidebar-action">
+          <button *ngIf="isEditable" mat-raised-button [mat-dialog-close]="productForm" [disabled]="!productForm.valid">
+           Save
+          </button>
+          <a class="link-pointer" (click)="onCloseClick()">
+            <mat-icon>close</mat-icon>
+          </a>
+        </div>
+      </div>
+      <div class="sidebar-body">
+        <mat-tab-group dynamicHeight (selectedTabChange)="tabChanged($event)">
+          <mat-tab label="Product Summary">
+        <form [formGroup]="productForm" autocomplete="off">
+          <input type="hidden" name="daDatabase_Product_Id" formControlName="daDatabase_Product_Id">
+          <input type="hidden" name="daDatabase_Salesforce_Id" formControlName="daDatabase_Salesforce_Id">
+        
+          
+          <div class="dm-field-card-list list-column-3">
+            <mat-card class="dm-field-card">
+              <mat-card-header [ngStyle]="{
+                'background-color': isDifferent('uS_Product_Name_Product_Promoted')
+                  ? 'rgb(247 184 184)'
+                  : 'rgb(246,246,246)'
+              }">
+                <div class="card-title">
+                  US Brand Name Product Promoted
+                </div>
+                <div class="card-action">
+                  <button mat-icon-button aria-label="Citation" (click)="openCitationPopup('uS_Product_Name_Product_Promoted')">
+                    <mat-icon>format_quote</mat-icon>
+                  </button>
+                  <button mat-icon-button aria-label="Notes" (click)="openNotesPopup('uS_Product_Name_Product_Promoted')">
+                    <mat-icon>notes</mat-icon>
+                  </button>
+                </div>
+              </mat-card-header>
+              <mat-card-content>
+                <div class="form-field-group addon-btn">
+
+                  <mat-form-field appearance="outline">
+                    <mat-label>US Product Name Promoted</mat-label>
+                    <input type="text"
+                           placeholder="Pick one"
+                           aria-label="productpromoted"
+                           matInput
+                           formControlName="uS_Product_Name_Product_Promoted"
+                           [matAutocomplete]="autoproductpromoted">
+                    <mat-autocomplete autoActiveFirstOption #autoproductpromoted="matAutocomplete">
+                      @for (option of us_Brand_Name_Options | async; track option.id) {
+                        <mat-option [value]="option.name">{{option.name}}</mat-option>
+                      }
+                    </mat-autocomplete>
+                  </mat-form-field>
+                  <div class="form-field-group addon-btn" *ngIf="productionData && productionData.uS_Product_Name_Product_Promoted">
+                    <div class="field-readonly label-text-production">
+                      {{ productionData.uS_Product_Name_Product_Promoted }}
+                    </div>
+                  </div>
+        
+                 
+                  <!-- <button type="button" (click)="addMasterCode('uS_Product_Name_Product_Promoted','US_Product')" class="form-field-addon-btn">
+                    <mat-icon>add</mat-icon>
+                  </button> -->
+                </div>
+                <!-- @defer () {
+                  @if(productionData){
+                  <p class="field-published-value">
+                    {{productionData.uS_Product_Name_Product_Promoted ? productionData.uS_Product_Name_Product_Promoted : '-'}}
+                  </p>
+                }
+                } -->
+              </mat-card-content>
+            </mat-card>
+
+            <mat-card class="dm-field-card">
+              <mat-card-header  [ngStyle]="{
+                'background-color': isDifferent('country_Specific_Product_Name_Product_Promoted')
+                  ? 'rgb(247 184 184)'
+                  : 'rgb(246,246,246)'
+              }">
+                <div class="card-title">
+                  Country Specific Brand Name Product Promoted
+                </div>
+                <div class="card-action">
+                  <button mat-icon-button aria-label="Citation" (click)="openCitationPopup('country_Specific_Product_Name_Product_Promoted')">
+                    <mat-icon>format_quote</mat-icon>
+                  </button>
+                  <button mat-icon-button aria-label="Notes" (click)="openNotesPopup('country_Specific_Product_Name_Product_Promoted')">
+                    <mat-icon>notes</mat-icon>
+                  </button>
+                </div>
+              </mat-card-header>
+              <mat-card-content>
+              
+                <div class="form-field-group addon-btn">
+
+                  <mat-form-field appearance="outline">
+                    <mat-label>Country-Specific Product Name</mat-label>
+                    <input type="text"
+                           placeholder="Pick one"
+                           aria-label="countryspecificproductpromoted"
+                           matInput
+                           formControlName="country_Specific_Product_Name_Product_Promoted"
+                           [matAutocomplete]="autocountryspecificproductpromoted">
+                    <mat-autocomplete autoActiveFirstOption #autocountryspecificproductpromoted="matAutocomplete">
+                      @for (option of country_Specific_Product_Options | async; track option.id) {
+                        <mat-option [value]="option.name">{{option.name}}</mat-option>
+                      }
+                    </mat-autocomplete>
+                  </mat-form-field>
+                  <!-- <button type="button" (click)="addMasterCode('country_Specific_Product_Name_Product_Promoted','Country_Product')" class="form-field-addon-btn">
+                    <mat-icon>add</mat-icon>
+                  </button> -->
+                  <div class="form-field-group addon-btn" *ngIf="productionData && productionData.country_Specific_Product_Name_Product_Promoted">
+                    <div class="field-readonly label-text-production">
+                      {{ productionData.country_Specific_Product_Name_Product_Promoted }}
+                    </div>
+                  </div>
+                </div>
+                <!-- @defer () {
+                  @if(productionData){
+                  <p class="field-published-value">
+                    {{productionData.country_Specific_Product_Name_Product_Promoted ? productionData.country_Specific_Product_Name_Product_Promoted : '-'}}
+                  </p>
+                }
+                } -->
+                
+              </mat-card-content>
+            </mat-card>
+
+            <mat-card class="dm-field-card">
+              <mat-card-header  [ngStyle]="{
+                'background-color': isDifferent('generic_Name')
+                  ? 'rgb(247 184 184)'
+                  : 'rgb(246,246,246)'
+              }">
+                <div class="card-title">
+                  Generic Name
+                </div>
+                <div class="card-action">
+                  <button mat-icon-button aria-label="Citation" (click)="openCitationPopup('generic_Name')">
+                    <mat-icon>format_quote</mat-icon>
+                  </button>
+                  <button mat-icon-button aria-label="Notes" (click)="openNotesPopup('generic_Name')">
+                    <mat-icon>notes</mat-icon>
+                  </button>
+                </div>
+              </mat-card-header>
+              <mat-card-content>
+              
+                <div class="form-field-group addon-btn">
+
+                  <mat-form-field appearance="outline">
+                    <mat-label>Generic Name</mat-label>
+                    <input type="text"
+                           placeholder="Pick one"
+                           aria-label="genericname"
+                           matInput
+                           formControlName="generic_Name"
+                           [matAutocomplete]="autogenericname">
+                    <mat-autocomplete autoActiveFirstOption #autogenericname="matAutocomplete">
+                      @for (option of generic_Name_Options | async; track option.id) {
+                        <mat-option [value]="option.name">{{option.name}}</mat-option>
+                      }
+                    </mat-autocomplete>
+                  </mat-form-field>
+                
+                  <!-- <button type="button" (click)="addMasterCode('generic_Name','Generic_Name')" class="form-field-addon-btn">
+                    <mat-icon>add</mat-icon>
+                  </button> -->
+                  <div class="form-field-group addon-btn" *ngIf="productionData && productionData.generic_Name">
+                    <div class="field-readonly label-text-production">
+                      {{ productionData.generic_Name }}
+                    </div>
+                  </div>
+                </div>
+                <!-- @defer () {
+                  @if(productionData){
+                  <p class="field-published-value">
+                    {{productionData.generic_Name ? productionData.generic_Name : '-'}}
+                  </p>
+                }
+                } -->
+                
+              </mat-card-content>
+            </mat-card>
+
+            <mat-card class="dm-field-card">
+              <mat-card-header  [ngStyle]="{
+                'background-color': isDifferent('therapeutic_Category')
+                  ? 'rgb(247 184 184)'
+                  : 'rgb(246,246,246)'
+              }">
+                <div class="card-title">
+                  Therapeutic Category
+                </div>
+                <div class="card-action">
+                  <button mat-icon-button aria-label="Citation" (click)="openCitationPopup('therapeutic_Category')">
+                    <mat-icon>format_quote</mat-icon>
+                  </button>
+                  <button mat-icon-button aria-label="Notes" (click)="openNotesPopup('therapeutic_Category')">
+                    <mat-icon>notes</mat-icon>
+                  </button>
+                </div>
+              </mat-card-header>
+              <mat-card-content>
+              
+                <div class="form-field-group addon-btn">
+
+                  <mat-form-field appearance="outline">
+                    <mat-label>Therapeutic Category</mat-label>
+                    <input type="text"
+                           placeholder="Pick one"
+                           aria-label="therapeuticCategory"
+                           matInput
+                           formControlName="therapeutic_Category"
+                           [matAutocomplete]="autotheraputiccategory">
+                    <mat-autocomplete autoActiveFirstOption #autotheraputiccategory="matAutocomplete">
+                      @for (option of therapeutic_Category_Options | async; track option.id) {
+                        <mat-option [value]="option.name">{{option.name}}</mat-option>
+                      }
+                    </mat-autocomplete>
+                  </mat-form-field>
+        
+              
+                  <!-- <button type="button" (click)="addMasterCode('therapeutic_Category','Therapeutic_Category')" class="form-field-addon-btn">
+                    <mat-icon>add</mat-icon>
+                  </button> -->
+                  <div class="form-field-group addon-btn" *ngIf="productionData && productionData.therapeutic_Category">
+                    <div class="field-readonly label-text-production">
+                      {{ productionData.therapeutic_Category }}
+                    </div>
+                  </div>
+                </div>
+                <!-- @defer () {
+                  @if(productionData){
+                  <p class="field-published-value">
+                    {{productionData.therapeutic_Category ? productionData.therapeutic_Category : '-'}}
+                  </p>
+                }
+                } -->
+                
+              </mat-card-content>
+            </mat-card>
+
+            <!-- <mat-card class="dm-field-card">
+              <mat-card-header>
+                <div class="card-title">
+                  Product Promotion Priority Order
+                </div>
+                <div class="card-action">
+                  <button mat-icon-button aria-label="Citation" (click)="openCitationPopup('product_Promotion_Priority_Order')">
+                    <mat-icon>format_quote</mat-icon>
+                  </button>
+                  <button mat-icon-button aria-label="Notes" (click)="openNotesPopup('product_Promotion_Priority_Order')">
+                    <mat-icon>notes</mat-icon>
+                  </button>
+                </div>
+              </mat-card-header>
+              <mat-card-content>
+              
+                <mat-form-field appearance="outline">
+                  <mat-label>Product Promotion Priority Order</mat-label>
+                  <input matInput type="number" name="product_Promotion_Priority_Order"
+                    formControlName="product_Promotion_Priority_Order">
+                </mat-form-field>
+                @defer () {
+                  @if(productionData){
+                  <p class="field-published-value">
+                    {{productionData.product_Promotion_Priority_Order ? productionData.product_Promotion_Priority_Order : '-'}}
+                  </p>
+                }
+                }
+                
+              </mat-card-content>
+            </mat-card> -->
+
+            <!-- <mat-card class="dm-field-card">
+              <mat-card-header>
+                <div class="card-title">
+                  Total Number of Full-Time Equivalents (FTEs)
+                </div>
+                <div class="card-action">
+                  <button mat-icon-button aria-label="Citation" (click)="openCitationPopup('total_Number_of_Full_Time_Equivalents_FTEs')">
+                    <mat-icon>format_quote</mat-icon>
+                  </button>
+                  <button mat-icon-button aria-label="Notes" (click)="openNotesPopup('total_Number_of_Full_Time_Equivalents_FTEs')">
+                    <mat-icon>notes</mat-icon>
+                  </button>
+                </div>
+              </mat-card-header>
+              <mat-card-content>
+              
+                <mat-form-field appearance="outline">
+                  <mat-label>Total Number of Full-Time Equivalents (FTEs)</mat-label>
+                  <input matInput type="number" name="total_Number_of_Full_Time_Equivalents_FTEs"
+                    formControlName="total_Number_of_Full_Time_Equivalents_FTEs">
+                </mat-form-field>
+                @defer () {
+                  @if(productionData){
+                  <p class="field-published-value">
+                    {{productionData.total_Number_of_Full_Time_Equivalents_FTEs ? productionData.total_Number_of_Full_Time_Equivalents_FTEs : '-'}}
+                  </p>
+                }
+                }
+                
+              </mat-card-content>
+            </mat-card> -->
+
+            <mat-card class="dm-field-card">
+              <mat-card-header  [ngStyle]="{
+                'background-color': isDifferent('primary_Care_Full_Time_Equivalents_FTEs')
+                  ? 'rgb(247 184 184)'
+                  : 'rgb(246,246,246)'
+              }">
+                <div class="card-title">
+                  Primary Care Full-Time Equivalents (FTEs)
+                </div>
+                <div class="card-action">
+                  <button mat-icon-button aria-label="Citation" (click)="openCitationPopup('primary_Care_Full_Time_Equivalents_FTEs')">
+                    <mat-icon>format_quote</mat-icon>
+                  </button>
+                  <button mat-icon-button aria-label="Notes" (click)="openNotesPopup('primary_Care_Full_Time_Equivalents_FTEs')">
+                    <mat-icon>notes</mat-icon>
+                  </button>
+                </div>
+              </mat-card-header>
+              <mat-card-content>
+                <mat-form-field appearance="outline">
+                  <mat-label>Primary Care Full-Time Equivalents (FTEs)</mat-label>
+                  <input matInput type="number" name="primary_Care_Full_Time_Equivalents_FTEs"
+                    formControlName="primary_Care_Full_Time_Equivalents_FTEs">
+                </mat-form-field>
+                <div class="form-field-group addon-btn" *ngIf="productionData && productionData.primary_Care_Full_Time_Equivalents_FTEs">
+                  <div class="field-readonly label-text-production">
+                    {{ productionData.primary_Care_Full_Time_Equivalents_FTEs }}
+                  </div>
+                </div>
+                <!-- @defer () {
+                  @if(productionData){
+                  <p class="field-published-value">
+                    {{productionData.primary_Care_Full_Time_Equivalents_FTEs ? productionData.primary_Care_Full_Time_Equivalents_FTEs : '-'}}
+                  </p>
+                }
+                } -->
+                
+              </mat-card-content>
+            </mat-card>
+
+            <mat-card class="dm-field-card">
+              <mat-card-header  [ngStyle]="{
+                'background-color': isDifferent('specialty_Full_Time_Equivalents_FTEs')
+                  ? 'rgb(247 184 184)'
+                  : 'rgb(246,246,246)'
+              }">
+                <div class="card-title">
+                  Specialty Full-Time Equivalents (FTEs)
+                </div>
+                <div class="card-action">
+                  <button mat-icon-button aria-label="Citation" (click)="openCitationPopup('specialty_Full_Time_Equivalents_FTEs')">
+                    <mat-icon>format_quote</mat-icon>
+                  </button>
+                  <button mat-icon-button aria-label="Notes" (click)="openNotesPopup('specialty_Full_Time_Equivalents_FTEs')">
+                    <mat-icon>notes</mat-icon>
+                  </button>
+                </div>
+              </mat-card-header>
+              <mat-card-content>
+              
+                <mat-form-field appearance="outline">
+                  <mat-label>Specialty Full-Time Equivalents (FTEs)</mat-label>
+                  <input matInput type="number" name="specialty_Full_Time_Equivalents_FTEs"
+                    formControlName="specialty_Full_Time_Equivalents_FTEs">
+                </mat-form-field>
+                <div class="form-field-group addon-btn" *ngIf="productionData && productionData.specialty_Full_Time_Equivalents_FTEs">
+                  <div class="field-readonly label-text-production">
+                    {{ productionData.specialty_Full_Time_Equivalents_FTEs }}
+                  </div>
+                </div>
+                <!-- @defer () {
+                  @if(productionData){
+                  <p class="field-published-value">
+                    {{productionData.specialty_Full_Time_Equivalents_FTEs ? productionData.specialty_Full_Time_Equivalents_FTEs : '-'}}
+                  </p>
+                }
+                } -->
+                
+              </mat-card-content>
+            </mat-card>
+
+            <!--<mat-card class="dm-field-card">
+              <mat-card-header  [ngStyle]="{
+                'background-color': isDifferent('physicians_Focus_Primary_Care_Physicians_Specialty_Physicians')
+                  ? 'rgb(247 184 184)'
+                  : 'rgb(246,246,246)'
+              }">
+                <div class="card-title">
+                  Physicians Focus
+                </div>
+                <div class="card-action">
+                  <button mat-icon-button aria-label="Citation" (click)="openCitationPopup('physicians_Focus_Primary_Care_Physicians_Specialty_Physicians')">
+                    <mat-icon>format_quote</mat-icon>
+                  </button>
+                  <button mat-icon-button aria-label="Notes" (click)="openNotesPopup('physicians_Focus_Primary_Care_Physicians_Specialty_Physicians')">
+                    <mat-icon>notes</mat-icon>
+                  </button>
+                </div>
+              </mat-card-header>
+              <mat-card-content>
+              
+                <mat-form-field appearance="outline">
+                  <mat-label>Physicians Focus</mat-label>
+                  <input type="text"
+                         placeholder="Pick one"
+                         aria-label="physician_focus"
+                         matInput
+                         formControlName="physicians_Focus_Primary_Care_Physicians_Specialty_Physicians"
+                         [matAutocomplete]="autophysicianfocus">
+                  <mat-autocomplete autoActiveFirstOption #autophysicianfocus="matAutocomplete">
+                    @for (option of physician_Focus_Options | async; track option.id) {
+                      <mat-option [value]="option.name">{{option.name}}</mat-option>
+                    }
+                  </mat-autocomplete>
+                </mat-form-field>
+                <div class="form-field-group addon-btn" *ngIf="productionData && productionData.physicians_Focus_Primary_Care_Physicians_Specialty_Physicians">
+                  <div class="field-readonly label-text-production">
+                    {{ productionData.physicians_Focus_Primary_Care_Physicians_Specialty_Physicians }}
+                  </div>
+                </div>-->
+                <!-- @defer () {
+                  @if(productionData){
+                  <p class="field-published-value">
+                    {{productionData.physicians_Focus_Primary_Care_Physicians_Specialty_Physicians ? productionData.physicians_Focus_Primary_Care_Physicians_Specialty_Physicians : '-'}}
+                  </p>
+                }
+                } -->
+                
+              <!--</mat-card-content>
+            </mat-card>-->
+
+            <mat-card class="dm-field-card">
+              <mat-card-header [ngStyle]="{
+                'background-color': isDifferent('specialty_Physicians_Targeted')
+                  ? 'rgb(247 184 184)'
+                  : 'rgb(246,246,246)'
+              }">
+                <div class="card-title">
+                  Specialty Physicians Targeted
+                </div>
+                <div class="card-action">
+                  <button mat-icon-button aria-label="Citation" (click)="openCitationPopup('specialty_Physicians_Targeted')">
+                    <mat-icon>format_quote</mat-icon>
+                  </button>
+                  <button mat-icon-button aria-label="Notes" (click)="openNotesPopup('specialty_Physicians_Targeted')">
+                    <mat-icon>notes</mat-icon>
+                  </button>
+                </div>
+              </mat-card-header>
+              <mat-card-content>
+              
+                <mat-form-field appearance="outline">
+                  <mat-label>Specialty Physicians Targeted</mat-label>
+                  <mat-select formControlName="specialty_Physicians_Targeted" multiple>
+                  @for (option of physician_Targeted; track option.id) {
+                    <mat-option [value]="option.name">{{option.name}}</mat-option>
+                  }
+                  </mat-select>
+                </mat-form-field>
+                <div class="form-field-group addon-btn" *ngIf="productionData && productionData.specialty_Physicians_Targeted">
+                  <div class="field-readonly label-text-production">
+                    {{ productionData.specialty_Physicians_Targeted }}
+                  </div>
+                </div>
+
+                <!-- @defer () {
+                  @if(productionData){
+                  <p class="field-published-value">
+                    {{productionData.specialty_Physicians_Targeted ? productionData.specialty_Physicians_Targeted : '-'}}
+                  </p>
+                }
+                } -->
+                
+              </mat-card-content>
+            </mat-card>
+
+            <mat-card class="dm-field-card">
+              <mat-card-header  [ngStyle]="{
+                'background-color': isDifferent('name_of_a_Partner_Company')
+                  ? 'rgb(247 184 184)'
+                  : 'rgb(246,246,246)'
+              }">
+                <div class="card-title">
+                  Co-Promotion (Yes/No)
+                </div>
+                <div class="card-action">
+                  <button mat-icon-button aria-label="Citation" (click)="openCitationPopup('name_of_a_Partner_Company')">
+                    <mat-icon>format_quote</mat-icon>
+                  </button>
+                  <button mat-icon-button aria-label="Notes" (click)="openNotesPopup('name_of_a_Partner_Company')">
+                    <mat-icon>notes</mat-icon>
+                  </button>
+                </div>
+              </mat-card-header>
+              <mat-card-content>
+               <div class="position-relative w-100">
+                <mat-form-field appearance="outline">
+                  <mat-label>Name of Partner Company</mat-label>
+                  <input type="text"
+                         placeholder="Pick one"
+                         aria-label="partner_company"
+                         matInput
+                         formControlName="name_of_a_Partner_Company"
+                         [matAutocomplete]="autopartnercompany">
+                  <mat-autocomplete autoActiveFirstOption #autopartnercompany="matAutocomplete">
+                    @for (option of filteredCompaniesOptions | async; track option.id) {
+                      <mat-option [value]="option.name">{{option.name}}</mat-option>
+                    }
+                  </mat-autocomplete>
+                </mat-form-field>
+
+                  <span class="form-field-addon-switch">
+                    <mat-slide-toggle formControlName="co_Promotion_YesNo"></mat-slide-toggle>
+                  </span>
+                  <mat-label></mat-label>
+
+                  <div class="form-field-group addon-btn" *ngIf="productionData && productionData.name_of_a_Partner_Company">
+                    <div class="field-readonly label-text-production">
+                      {{ productionData.name_of_a_Partner_Company }}
+                    </div>
+                  </div>
+                 
+                </div>
+                
+                <!-- @defer () {
+                  @if(productionData){
+                  <p class="field-published-value">
+                    {{productionData.co_Promotion_YesNo ? productionData.co_Promotion_YesNo : '-'}}
+                  </p>
+                }
+                } -->
+                
+              </mat-card-content>
+            </mat-card>
+
+            <mat-card class="dm-field-card">
+              <mat-card-header  [ngStyle]="{
+                'background-color': isDifferent('name_of_a_CSO_Contract_Sales_Organization')
+                  ? 'rgb(247 184 184)'
+                  : 'rgb(246,246,246)'
+              }">
+                <div class="card-title">
+                  Contract Sales Force (Yes/No)
+                </div>
+                <div class="card-action">
+                  <button mat-icon-button aria-label="Citation" (click)="openCitationPopup('name_of_a_CSO_Contract_Sales_Organization')">
+                    <mat-icon>format_quote</mat-icon>
+                  </button>
+                  <button mat-icon-button aria-label="Notes" (click)="openNotesPopup('name_of_a_CSO_Contract_Sales_Organization')">
+                    <mat-icon>notes</mat-icon>
+                  </button>
+                </div>
+              </mat-card-header>
+              <mat-card-content>
+                <div class="position-relative w-100">
+                  <div class="form-field-group addon-btn-switch">
+
+
+                    <mat-form-field appearance="outline">
+                      <mat-label>{{contact_Sales}}</mat-label>
+                      <input type="text"
+                             placeholder="Pick one"
+                             aria-label="cso_name"
+                             matInput
+                             formControlName="name_of_a_CSO_Contract_Sales_Organization"
+                             [matAutocomplete]="autocsoname">
+                      <mat-autocomplete autoActiveFirstOption #autocsoname="matAutocomplete">
+                        @for (option of name_of_cso_Options | async; track option.id) {
+                          <mat-option [value]="option.name">{{option.name}}</mat-option>
+                        }
+                      </mat-autocomplete>
+                    </mat-form-field>
+    
+                    <!-- <button type="button" (click)="addMasterCode('name_of_a_CSO_Contract_Sales_Organization','CSO')" class="form-field-addon-btn">
+                      <mat-icon>add</mat-icon>
+                    </button> -->
+                    <span class="form-field-addon-switch">
+                      <mat-slide-toggle formControlName="contract_Sales_Force_YesNo"></mat-slide-toggle>
+                    </span>
+                    <div class="form-field-group addon-btn" *ngIf="productionData && productionData.name_of_a_CSO_Contract_Sales_Organization">
+                      <div class="field-readonly label-text-production">
+                        {{ productionData.name_of_a_CSO_Contract_Sales_Organization }}
+                      </div>
+                    </div>
+                  </div>
+               
+              </div>
+            
+                <!-- @defer () {
+                  @if(productionData){
+                  <p class="field-published-value">
+                    {{productionData.contract_Sales_Force_YesNo ? productionData.contract_Sales_Force_YesNo : '-'}}
+                  </p>
+                }
+                } -->
+                
+              </mat-card-content>
+            </mat-card>
+           
+          </div>
+
+
+        </form>
+          </mat-tab>
+         
+            <mat-tab label="Product Notes">
+              <div class="p-1">
+                <div class="row">
+                  <div class="col-12">
+                    <section class="example-container mat-elevation-z8" tabindex="0">
+                      <div class="table-container">
+
+                        <table mat-table [dataSource]="notesdataSource" class="mat-elevation-z8 demo-table" matSort>
+
+                          <ng-container matColumnDef="uS_Product_Name_Product_Promoted">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Product Name</th>
+                            <td mat-cell *matCellDef="let element"> {{element.uS_Product_Name_Product_Promoted}} </td>
+                          </ng-container>
+
+                          <ng-container matColumnDef="column_name">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header sticky>Column Name</th>
+                            <td mat-cell *matCellDef="let element">{{element.column_name}}</td>
+                          </ng-container>
+
+                          <ng-container matColumnDef="description">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Description</th>
+                            <td mat-cell *matCellDef="let element" style="width: 100% !important;">{{element.description}}</td>
+                          </ng-container>
+
+                          <ng-container matColumnDef="full_Name">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Full Name</th>
+                            <td mat-cell *matCellDef="let element">{{element.full_Name}}</td>
+                          </ng-container>
+
+                          <ng-container matColumnDef="company_Name">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Company Name</th>
+                            <td mat-cell *matCellDef="let element">{{element.company_Name}}</td>
+                          </ng-container>
+
+                          <ng-container matColumnDef="country_Name">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Country Name</th>
+                            <td mat-cell *matCellDef="let element">{{element.country_Name}}</td>
+                          </ng-container>
+
+                          <ng-container matColumnDef="salesforce_Name">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Salesforce Name</th>
+                            <td mat-cell *matCellDef="let element">{{element.salesforce_Name}}</td>
+                          </ng-container>
+
+                          <ng-container matColumnDef="period_Year">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Year</th>
+                            <td mat-cell *matCellDef="let element">{{element.period_Year}}</td>
+                          </ng-container>
+
+                          <ng-container matColumnDef="period_Quarter">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Quarter</th>
+                            <td mat-cell *matCellDef="let element">{{element.period_Quarter}}</td>
+                          </ng-container>
+                          <ng-container matColumnDef="added_Dt">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Added Date</th>
+                            <td mat-cell *matCellDef="let element"> {{element.added_Dt | date}} </td>
+                          </ng-container>
+
+
+                          <tr mat-header-row *matHeaderRowDef="displayedNotesColumns; sticky: true;"></tr>
+                          <tr mat-row *matRowDef="let row; columns: displayedNotesColumns;"></tr>
+                        </table>
+
+                      </div>
+                      <mat-paginator [pageSizeOptions]="[15,30,50,100]" showFirstLastButtons aria-label="Select page of notes">
+                      </mat-paginator>
+
+                    </section>
+                  </div>
+                </div>
+    
+                
+              </div>
+
+          </mat-tab>
+          </mat-tab-group>
+      </div>
+    </div>
+  </aside>
+
+
+ 
+  </div>

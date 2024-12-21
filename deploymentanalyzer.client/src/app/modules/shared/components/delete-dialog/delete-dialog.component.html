@@ -1,0 +1,7 @@
+
+<h2 mat-dialog-title>Delete Confirmation</h2>
+<mat-dialog-content>Are you sure want to delete {{data.result.title}}?</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-flat-button color="primary" (click)="onNoClick()">Cancel</button>
+  <button mat-flat-button color="warn" [mat-dialog-close]="data.result.id">Delete</button>
+</mat-dialog-actions>

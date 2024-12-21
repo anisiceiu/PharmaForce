@@ -1,0 +1,327 @@
+<div class="main-sidebar-menu collapsed_">
+  <div [ngStyle]="{'background-color': isToggleMenu ? 'transparent' : 'white'}" style="background-color: white; height: 55px;" class="logo-details">
+    <ng-container *ngIf="isToggleMenu; else fullLogo">
+      <span class="logo_name">DA</span>
+    </ng-container>
+    <ng-template #fullLogo>
+      <img style="width: 270px;" src="/images/logo.png" alt="Logo Here" />
+    </ng-template>
+  </div>
+  <ul class="main-menu-links">
+    <li class="main-menu-item">
+      <a class="main-menu-link" [routerLink]="['/dashboard']">
+        <i class="material-icons link-icon">dashboard</i>
+        <span class="link-label">Home</span>
+      </a>
+      <ul class="sub-menu-links blank">
+        <li class="sub-menu-item sub-menu-title">
+          <a class="sub-menu-link sub-menu-title-link" [routerLink]="['/dashboard']">Home</a>
+        </li>
+      </ul>
+    </li>
+    <li class="main-menu-item">
+      <a class="main-menu-link">
+        <i class="material-icons link-icon">badge</i>
+        <span class="link-label">Profiles</span>
+        <i class='material-icons link-icon-arrow'>keyboard_arrow_down</i>
+      </a>
+      <ul class="sub-menu-links">
+        <li class="sub-menu-item sub-menu-title">
+          <a class="sub-menu-link sub-menu-title-link" href="#">Profiles</a>
+        </li>
+        <li class="sub-menu-item"><a [routerLink]="['/company-profile']" class="sub-menu-link">Company</a></li>
+        <li class="sub-menu-item"><a [routerLink]="['/product-profile']" class="sub-menu-link">Product</a></li>
+        <li class="sub-menu-item"><a [routerLink]="['/company-update']" class="sub-menu-link">Company Update</a></li>
+      </ul>
+    </li>
+    @if(userPermission.canAccessReport){
+    <li class="main-menu-item">
+      <a [routerLink]="['/analytics']" class="main-menu-link">
+        <i class="material-icons link-icon">pie_chart</i>
+        <span class="link-label">Analytics</span>
+      </a>
+      <ul class="sub-menu-links blank">
+        <li class="sub-menu-item sub-menu-title">
+          <a class="sub-menu-link sub-menu-title-link" [routerLink]="['/analytics']">Analytics</a>
+        </li>
+      </ul>
+    </li>
+    }
+    <li class="main-menu-item">
+      <a class="main-menu-link">
+        <i class="material-icons link-icon">badge</i>
+        <span class="link-label">Explore By</span>
+        <i class='material-icons link-icon-arrow'>keyboard_arrow_down</i>
+      </a>
+      <ul class="sub-menu-links">
+        <li class="sub-menu-item sub-menu-title">
+          <a class="sub-menu-link sub-menu-title-link" href="#">Explore By</a>
+        </li>
+        <li class="sub-menu-item"><a [routerLink]="['/compensations']" class="sub-menu-link">Compensation</a></li>
+        <li class="sub-menu-item"><a [routerLink]="['/call-planning']" class="sub-menu-link">Call Planning</a></li>
+        <li class="sub-menu-item"><a [routerLink]="['/brand-groups']" class="sub-menu-link">Brand Groups</a></li>
+      </ul>
+    </li>
+    <!--<li class="main-menu-item">
+    <a [routerLink]="['/comming-soon']" class="main-menu-link">
+      <i class="material-icons link-icon">south_america</i>
+      <span class="link-label">Regions</span>
+    </a>
+    <ul class="sub-menu-links blank">
+      <li class="sub-menu-item sub-menu-title">
+        <a class="sub-menu-link sub-menu-title-link" [routerLink]="['/comming-soon']">Regions</a>
+      </li>
+    </ul>
+  </li>-->
+    <!--@if(currentUser.userType == "SA" || adminFunctionList.includes('28'))
+  {-->
+    @if (checkMenuAccess(this.FN_News) || CanAccess_News) {
+    <li class="main-menu-item">
+      <a [routerLink]="['/recent-news']" class="main-menu-link">
+        <i class="material-icons link-icon">feed</i>
+        <span class="link-label">Recent News</span>
+      </a>
+      <ul class="sub-menu-links blank">
+        <li class="sub-menu-item sub-menu-title">
+          <a class="sub-menu-link sub-menu-title-link" [routerLink]="['/recent-news']">Recent News</a>
+        </li>
+      </ul>
+    </li>
+    }
+    <!--}-->
+    @if (checkMenuAccess(this.FN_KeyUpdates) || CanAccess_KeyUpdates) {
+    <li class="main-menu-item">
+      <a [routerLink]="['/key-updates']" class="main-menu-link">
+        <i class="material-icons link-icon">update</i>
+        <span class="link-label">Key Updates</span>
+      </a>
+      <ul class="sub-menu-links blank">
+        <li class="sub-menu-item sub-menu-title">
+          <a class="sub-menu-link sub-menu-title-link" [routerLink]="['/key-updates']">Key Updates</a>
+        </li>
+      </ul>
+    </li>
+    }
+
+    @if(currentUser.userType == "SA")
+    {
+    <li class="main-menu-item">
+      <a class="main-menu-link">
+        <i class="material-icons link-icon">person</i>
+        <span class="link-label">Super Administrator</span>
+        <i class='material-icons link-icon-arrow'>keyboard_arrow_down</i>
+      </a>
+      <ul class="sub-menu-links">
+        <li class="sub-menu-item sub-menu-title">
+          <a class="sub-menu-link sub-menu-title-link" href="#">Super Adminstrator</a>
+        </li>
+        <li class="sub-menu-item"><a [routerLink]="['manage-admin-accounts']" class="sub-menu-link">Manage Admin Accounts</a></li>
+        <li class="sub-menu-item"><a [routerLink]="['manage-admin-access-rights']" class="sub-menu-link">Manage Admin Access Rights</a></li>
+        <li class="sub-menu-item"><a [routerLink]="['admin-activity-log']" class="sub-menu-link">Review Admin Activity Log</a></li>
+        <li class="sub-menu-item"><a [routerLink]="['event-email-config']" class="sub-menu-link">Event Email Config</a></li>
+        <!--<li class="sub-menu-item"><a [routerLink]="['comming-soon']" class="sub-menu-link">Pending Admin Commit Detail</a></li>-->
+        <!--<li class="sub-main-menu-item">
+  <a class="sub-main-menu-link">
+    <span class="link-label">SQL Data Management</span>
+    <i class='material-icons link-icon-arrow'>keyboard_arrow_down</i>
+  </a>
+  <ul class="sub-sub-menu-links">
+    <li class="sub-menu-item"><a [routerLink]="['/company']" class="sub-menu-link">Company</a></li>
+    <li class="sub-menu-item"><a [routerLink]="['/country']" class="sub-menu-link">Country</a></li>
+    <li class="sub-menu-item"><a [routerLink]="['/period']" class="sub-menu-link">Period</a></li>-->
+        <!-- <li class="sub-menu-item"><a [routerLink]="['comming-soon']" class="sub-menu-link">Employer Type</a></li> -->
+        <!--</ul>
+  </li>-->
+        <!--<li class="sub-menu-item"><a [routerLink]="['/comming-soon']" class="sub-menu-link">Unlock Filters</a></li>-->
+      </ul>
+    </li>
+    }
+    @if(currentUser.userType == "SA" || currentUser.userType == "A")
+    {
+    <li class="main-menu-item">
+      <a class="main-menu-link">
+        <i class="material-icons link-icon">admin_panel_settings</i>
+        <span class="link-label">Administrator</span>
+        <i class='material-icons link-icon-arrow'>keyboard_arrow_down</i>
+      </a>
+      <ul class="sub-menu-links">
+        <li class="sub-menu-item sub-menu-title">
+          <a class="sub-menu-link sub-menu-title-link" href="#">Administrator</a>
+        </li>
+        @if (checkMenuAccess(this.FN_Data_Manager)) {
+        <li class="sub-menu-item"><a [routerLink]="['/data-manager']" class="sub-menu-link">Data Manager</a></li>
+        }
+        @if (checkMenuAccess(this.FN_Master_Codes)) {
+        <!--<li class="sub-menu-item"><a [routerLink]="['/master-code']" class="sub-menu-link">Master Codes</a></li>-->
+        <li class="sub-main-menu-item">
+          <a class="sub-main-menu-link">
+            <span class="link-label">Master Codes</span>
+            <i class='material-icons link-icon-arrow'>keyboard_arrow_down</i>
+          </a>
+          <ul class="sub-sub-menu-links">
+            <li class="sub-menu-item"><a [routerLink]="['/master-code/company']" class="sub-menu-link">Company</a></li>
+            <li class="sub-menu-item"><a [routerLink]="['/master-code/country']" class="sub-menu-link">Country</a></li>
+            <li class="sub-menu-item"><a [routerLink]="['/master-code/salesforce']" class="sub-menu-link">Sales Force Name</a></li>
+            <li class="sub-menu-item"><a [routerLink]="['/master-code/salesforce-type']" class="sub-menu-link">Sales Force Type</a></li>
+            <li class="sub-menu-item"><a [routerLink]="['/master-code/generic-name']" class="sub-menu-link">Generic Name</a></li>
+            <li class="sub-menu-item"><a [routerLink]="['/master-code/brand-name']" class="sub-menu-link">Brand Name</a></li>
+            <li class="sub-menu-item"><a [routerLink]="['/master-code/therapeutic-category']" class="sub-menu-link">Therapeutic Category</a></li>
+            <li class="sub-menu-item"><a [routerLink]="['/master-code/physician-specialty']" class="sub-menu-link">Physician Specialty</a></li>
+            <li class="sub-menu-item"><a [routerLink]="['/master-code/physician-focus']" class="sub-menu-link">Physician Focus</a></li>
+            <li class="sub-menu-item"><a [routerLink]="['/master-code/contract-sales-org']" class="sub-menu-link">Contract Sales Organization (CSO)</a></li>
+            <li class="sub-menu-item"><a [routerLink]="['/master-code/period']" class="sub-menu-link">Period</a></li>
+          </ul>
+        </li>
+        }
+        @if (checkMenuAccess(this.FN_Manage_QC_Queue)) {
+        <li class="sub-menu-item"><a [routerLink]="['/qc-queue']" class="sub-menu-link">Manage QC Queue</a></li>
+        }
+        @if (checkMenuAccess(this.FN_Citations)) {
+        <li class="sub-menu-item"><a [routerLink]="['/citations']" class="sub-menu-link">Citations</a></li>
+        }
+        @if (checkMenuAccess(this.FN_Notes)) {
+        <li class="sub-menu-item"><a [routerLink]="['/notes']" class="sub-menu-link">Notes</a></li>
+        }
+      </ul>
+    </li>
+
+    <li class="main-menu-item">
+      <a class="main-menu-link">
+        <i class="material-icons link-icon">manage_accounts</i>
+        <span class="link-label">User & Client Administration</span>
+        <i class='material-icons link-icon-arrow'>keyboard_arrow_down</i>
+      </a>
+      <ul class="sub-menu-links">
+        <li class="sub-menu-item sub-menu-title">
+          <a class="sub-menu-link sub-menu-title-link" href="#">User & Client Administration</a>
+        </li>
+        @if (checkMenuAccess(this.FN_Manage_User_Accounts)) {
+        <li class="sub-main-menu-item">
+          <a class="sub-main-menu-link">
+            <span class="link-label">Manage User Accounts</span>
+            <i class='material-icons link-icon-arrow'>keyboard_arrow_down</i>
+          </a>
+          <ul class="sub-sub-menu-links">
+            @if(currentUser.userType == "SA" || adminFunctionList.includes('12'))
+            {
+            <li class="sub-menu-item">
+              <a [routerLink]="['/unlock-users']" class="sub-menu-link"> Unlock Users </a>
+            </li>
+            }
+            @if(currentUser.userType == "SA" || adminFunctionList.includes('13'))
+            {
+            <li class="sub-menu-item"><a [routerLink]="['/clients']" class="sub-menu-link">Add/Edit</a></li>
+            }
+            @if(currentUser.userType == "SA" || adminFunctionList.includes('14'))
+            {
+            <li class="sub-menu-item">
+              <a [routerLink]="['/expiration-date']" class="sub-menu-link">Expiration Date</a>
+            </li>
+            }
+            <li class="sub-menu-item">
+              <a [routerLink]="['/manage-user-access-rights']" class="sub-menu-link">
+                Manage User Access Rights
+              </a>
+            </li>
+          </ul>
+        </li>
+        }
+        @if (checkMenuAccess(this.FN_Email_Suffix_Management)) {
+        <li class="sub-menu-item">
+          <a [routerLink]="['/user-email-suffix-management']" class="sub-menu-link">
+            Email Suffix Management
+          </a>
+        </li>
+        <li class="sub-menu-item">
+          <a [routerLink]="['/user-restricted-email-suffix-management']" class="sub-menu-link">
+            Restricted Email Suffix Management
+          </a>
+        </li>
+        }
+        @if (checkMenuAccess(this.FN_Manage_Client_Access)) {
+        <li class="sub-menu-item">
+          <a [routerLink]="['/manage-clients']" class="sub-menu-link">
+            Manage Client Access
+          </a>
+        </li>
+        }
+      </ul>
+    </li>
+    <li class="main-menu-item">
+      <a class="main-menu-link">
+        <i class="material-icons link-icon">description</i>
+        <span class="link-label">Reports</span>
+        <i class='material-icons link-icon-arrow'>keyboard_arrow_down</i>
+      </a>
+      <ul class="sub-menu-links">
+        <li class="sub-menu-item sub-menu-title">
+          <a class="sub-menu-link sub-menu-title-link" href="#">Reports</a>
+        </li>
+        @if (checkMenuAccess(this.FN_User_Login_Detail)) {
+        <li class="sub-menu-item"><a [routerLink]="['/user-login-detail']" class="sub-menu-link">User Login Detail</a></li>
+        }
+      </ul>
+    </li>
+    }
+  </ul>
+</div>
+
+<section class="main-container">
+  <div class="app-header">
+    <mat-icon (click)="toggleSidebar()">menu</mat-icon>
+
+    <div class="user-menu" [matMenuTriggerFor]="userHeaderMenu">
+      <div class="user-thumbnail">
+        <span class="user-initials">{{currentUser.name.toString().toUpperCase().substring(0,2)}}</span>
+        <!-- <img src="" class="user-img" alt="User Profile Image" /> -->
+      </div>
+    </div>
+    <mat-menu #userHeaderMenu="matMenu" yPosition="below" xPosition="before" class="header-user-menu">
+      <div class="user-profile-summary p-1">
+        <div class="user-thumbnail">
+          <span class="user-initials">{{currentUser.name.toString().toUpperCase().substring(0,2)}}</span>
+          <!-- <img src="" class="user-img" alt="User Profile Image" /> -->
+        </div>
+        <h6 class="user-name m-0">{{currentUser.name}}</h6>
+        <p class="user-subtitle">
+          @if(currentUser.userType == "SA"){
+            {{"Super Admin"}}
+          }
+          @else if(currentUser.userType == "A"){
+            {{"Admin"}}
+          }
+          @else{
+            {{"Client"}}
+          }
+        </p>
+      </div>
+      <!--<mat-divider></mat-divider>
+      <button mat-menu-item>
+        <mat-icon>person</mat-icon>
+        <span>Account</span>
+      </button>
+      <button mat-menu-item>
+        <mat-icon>settings</mat-icon>
+        <span>Setting</span>
+      </button>-->
+      <mat-divider></mat-divider>
+      <button mat-menu-item (click)="logout()">
+        <mat-icon>logout</mat-icon>
+        <span>Logout</span>
+      </button>
+    </mat-menu>
+  </div>
+  <section class="page-content">
+    <router-outlet></router-outlet>
+  </section>
+  <div class="footer">
+    <p class="footer-text">
+      © <span id="copyrightYear">{{year}}</span>&nbsp;<span class="fw-600">DeploymentAnalyzer</span>.
+    </p>
+    <div class="footer-links">
+      <a href="#">Terms of Use</a>
+      <span>|</span>
+      <a href="#">Privacy Policy</a>
+    </div>
+  </div>
+</section>

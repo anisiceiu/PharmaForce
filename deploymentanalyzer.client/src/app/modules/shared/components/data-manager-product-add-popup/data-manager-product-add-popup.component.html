@@ -1,0 +1,261 @@
+<div class="page-body">
+<aside class="da-sibedar da-sidebar-md {{isOpenManageProductSidebar ? 'da-sidebar-open' : ''}}">
+  <div class="sidebar-content" cdkScrollable>
+    <div class="sidebar-header">
+      <h6 class="sidebar-title">{{ (data.product && data.product.uS_Product_Name_Product_Promoted.length > 0) ? 'Save Product' : 'Add Product' }}</h6>
+      <div class="sidebar-action">
+        <button mat-raised-button [mat-dialog-close]="productForm">
+          <!--{{ (data.product && data.product.uS_Product_Name_Product_Promoted.length > 0) ? 'Save' : 'Add' }}-->
+          Save
+        </button>
+        <a class="link-pointer" (click)="onCloseClick()">
+          <mat-icon>close</mat-icon>
+        </a>
+      </div>
+    </div>
+    <div class="sidebar-body">
+      <form [formGroup]="productForm" autocomplete="off">
+        <input type="hidden" name="dADatabase_Product_Id" formControlName="dADatabase_Product_Id">
+        <input type="hidden" name="dADatabase_Salesforce_Id" formControlName="dADatabase_Salesforce_Id">
+      
+        <div class="row">
+          <div class="col-12">
+            <div class="form-field-group addon-btn">
+
+              <mat-form-field appearance="outline">
+                <mat-label>US Product Name Promoted</mat-label>
+                <input type="text"
+                      placeholder="Pick one"
+                      aria-label="productpromoted"
+                      matInput
+                      formControlName="uS_Product_Name_Product_Promoted"
+                      [matAutocomplete]="autoproductpromoted">
+                <mat-autocomplete autoActiveFirstOption #autoproductpromoted="matAutocomplete">
+                  @for (option of us_Brand_Name_Options | async; track option.id) {
+                    <mat-option [value]="option.name">{{option.name}}</mat-option>
+                  }
+                </mat-autocomplete>
+              </mat-form-field>
+
+            
+              <!-- <button type="button" (click)="addMasterCode('uS_Product_Name_Product_Promoted','US_Product')" class="form-field-addon-btn">
+                <mat-icon>add</mat-icon>
+              </button> -->
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-12">
+            <div class="form-field-group addon-btn">
+
+              <mat-form-field appearance="outline">
+                <mat-label>Country-Specific Product Name</mat-label>
+                <input type="text"
+                      placeholder="Pick one"
+                      aria-label="countryspecificproductpromoted"
+                      matInput
+                      formControlName="country_Specific_Product_Name_Product_Promoted"
+                      [matAutocomplete]="autocountryspecificproductpromoted">
+                <mat-autocomplete autoActiveFirstOption #autocountryspecificproductpromoted="matAutocomplete">
+                  @for (option of country_Specific_Product_Options | async; track option.id) {
+                    <mat-option [value]="option.name">{{option.name}}</mat-option>
+                  }
+                </mat-autocomplete>
+              </mat-form-field>
+              <!-- <button type="button" (click)="addMasterCode('country_Specific_Product_Name_Product_Promoted','Country_Product')" class="form-field-addon-btn">
+                <mat-icon>add</mat-icon>
+              </button> -->
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-12">
+            <div class="form-field-group addon-btn">
+
+              <mat-form-field appearance="outline">
+                <mat-label>Generic Name</mat-label>
+                <input type="text"
+                      placeholder="Pick one"
+                      aria-label="genericname"
+                      matInput
+                      formControlName="generic_Name"
+                      [matAutocomplete]="autogenericname">
+                <mat-autocomplete autoActiveFirstOption #autogenericname="matAutocomplete">
+                  @for (option of generic_Name_Options | async; track option.id) {
+                    <mat-option [value]="option.name">{{option.name}}</mat-option>
+                  }
+                </mat-autocomplete>
+              </mat-form-field>
+            
+              <!-- <button type="button" (click)="addMasterCode('generic_Name','Generic_Name')" class="form-field-addon-btn">
+                <mat-icon>add</mat-icon>
+              </button> -->
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-12">
+            <div class="form-field-group addon-btn">
+
+              <mat-form-field appearance="outline">
+                <mat-label>Therapeutic Category</mat-label>
+                <input type="text"
+                      placeholder="Pick one"
+                      aria-label="therapeuticCategory"
+                      matInput
+                      formControlName="therapeutic_Category"
+                      [matAutocomplete]="autotheraputiccategory">
+                <mat-autocomplete autoActiveFirstOption #autotheraputiccategory="matAutocomplete">
+                  @for (option of therapeutic_Category_Options | async; track option.id) {
+                    <mat-option [value]="option.name">{{option.name}}</mat-option>
+                  }
+                </mat-autocomplete>
+              </mat-form-field>
+
+          
+              <!-- <button type="button" (click)="addMasterCode('therapeutic_Category','Therapeutic_Category')" class="form-field-addon-btn">
+                <mat-icon>add</mat-icon>
+              </button> -->
+            </div>
+          </div>
+        </div>
+
+        <!-- <div class="row">
+          <div class="col-12">
+            <mat-form-field appearance="outline">
+              <mat-label>Promotion Priority Order</mat-label>
+              <input matInput name="product_Promotion_Priority_Order" 
+              formControlName="product_Promotion_Priority_Order" type="number">
+            </mat-form-field>
+          </div>
+          <div class="col-6">
+            <mat-form-field appearance="outline">
+              <mat-label>Total Number of FTEs</mat-label>
+              <input matInput name="total_Number_of_Full_Time_Equivalents_FTEs" 
+              formControlName="total_Number_of_Full_Time_Equivalents_FTEs" type="number">
+            </mat-form-field>
+          </div> 
+        </div> -->
+        <div class="row">
+          <div class="col-6">
+            <mat-form-field appearance="outline">
+              <mat-label>Primary Care FTEs</mat-label>
+              <input matInput name="primary_Care_Full_Time_Equivalents_FTEs" 
+              formControlName="primary_Care_Full_Time_Equivalents_FTEs" type="number">
+            </mat-form-field>
+          </div>
+          <div class="col-6">
+            <mat-form-field appearance="outline">
+              <mat-label>Specialty FTEs</mat-label>
+              <input matInput name="specialty_Full_Time_Equivalents_FTEs" 
+              formControlName="specialty_Full_Time_Equivalents_FTEs" type="number">
+            </mat-form-field>
+          </div>
+        </div>
+        
+        <!--<div class="row">
+          <div class="col-12">
+            <mat-form-field appearance="outline">
+              <mat-label>Physicians Focus</mat-label>
+              <input type="text"
+                    placeholder="Pick one"
+                    aria-label="physician_focus"
+                    matInput
+                    formControlName="physicians_Focus_Primary_Care_Physicians_Specialty_Physicians"
+                    [matAutocomplete]="autophysicianfocus">
+              <mat-autocomplete autoActiveFirstOption #autophysicianfocus="matAutocomplete">
+                @for (option of physician_Focus_Options | async; track option.id) {
+                  <mat-option [value]="option.name">{{option.name}}</mat-option>
+                }
+              </mat-autocomplete>
+            </mat-form-field>
+          </div>
+        </div>-->
+
+        <div class="row">
+          <div class="col-12">
+            <mat-form-field appearance="outline">
+              <mat-label>Specialty Physicians Targeted</mat-label>
+              <mat-select formControlName="specialty_Physicians_Targeted" multiple>
+              @for (option of physician_Targeted; track option.id) {
+                <mat-option [value]="option.name">{{option.name}}</mat-option>
+              }
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+
+           
+        <div class="row">
+          <div class="col-12">
+
+            <mat-form-field appearance="outline">
+              <mat-label>Name of Partner Company</mat-label>
+              <input type="text"
+                     placeholder="Pick one"
+                     aria-label="partner_company"
+                     matInput
+                     formControlName="name_of_a_Partner_Company"
+                     [matAutocomplete]="autopartnercompany">
+              <mat-autocomplete autoActiveFirstOption #autopartnercompany="matAutocomplete">
+                @for (option of filteredCompaniesOptions | async; track option.id) {
+                  <mat-option [value]="option.name">{{option.name}}</mat-option>
+                }
+              </mat-autocomplete>
+            </mat-form-field>
+     
+            <span class="form-field-addon-switch">
+              <mat-slide-toggle formControlName="co_Promotion_YesNo"></mat-slide-toggle>
+            </span>
+          </div>
+          </div>
+
+          <div class="row">
+            <div class="col-12">
+              <div class="form-field-group addon-btn-switch">
+
+
+                <mat-form-field appearance="outline">
+                  <mat-label>{{contact_Sales}}</mat-label>
+                  <input type="text"
+                         placeholder="Pick one"
+                         aria-label="cso_name"
+                         matInput
+                         formControlName="name_of_a_CSO_Contract_Sales_Organization"
+                         [matAutocomplete]="autocsoname">
+                  <mat-autocomplete autoActiveFirstOption #autocsoname="matAutocomplete">
+                    @for (option of name_of_cso_Options | async; track option.id) {
+                      <mat-option [value]="option.name">{{option.name}}</mat-option>
+                    }
+                  </mat-autocomplete>
+                </mat-form-field>
+
+                <!-- <button type="button" (click)="addMasterCode('name_of_a_CSO_Contract_Sales_Organization','CSO')" class="form-field-addon-btn">
+                  <mat-icon>add</mat-icon>
+                </button> -->
+                <span class="form-field-addon-switch">
+                  <mat-slide-toggle formControlName="contract_Sales_Force_YesNo"></mat-slide-toggle>
+                </span>
+              </div>
+              
+            </div>
+          </div>
+         
+          <div class="row">
+            <div class="col-12">
+                <mat-form-field appearance="outline">
+                  <mat-label>Additional Notes</mat-label>
+                  <textarea matInput name="additional_Notes_Product"
+                  formControlName="additional_Notes_Product"></textarea>
+                </mat-form-field>
+              </div>
+            </div>
+      </form>
+      
+    </div>
+  </div>
+</aside>
+</div>

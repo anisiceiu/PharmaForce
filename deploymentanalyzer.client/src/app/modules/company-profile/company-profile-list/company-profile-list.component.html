@@ -1,0 +1,110 @@
+<div class="page-header">
+  <span class="page-title">Company List</span>
+</div>
+<div class="page-body da-card">
+  <div class="container row">
+    <div class="advance-filter-card">
+      <div class="filter-header p-0">
+        <div class="form-field ml-2">
+          <mat-form-field appearance="outline">
+            <mat-label>Region</mat-label>
+            <mat-select [(ngModel)]="selectedRegion" (selectionChange)="changeRegion($event.value)">
+              <mat-option *ngFor="let region of regions" [value]="region.region_Id">
+                {{region.region_Name}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div class="form-field ml-2">
+          <mat-form-field appearance="outline">
+            <mat-label>Country</mat-label>
+            <mat-select [(ngModel)]="selectedCountry" (selectionChange)="changeCountry($event.value)">
+              <mat-option *ngFor="let country of countries" [value]="country.country_Id">
+                {{country.country_Name}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div class="form-field ml-2">
+          <mat-form-field appearance="outline">
+            <mat-label>Therapeutic Category</mat-label>
+            <mat-select [(ngModel)]="therapeutic_category_id"  (selectionChange)="changeTC($event.value)">
+              <mat-option *ngFor="let category of therapeuticCategories" [value]="category.therapeuticCategory_Id">
+                {{ category.therapeuticCategory_Name }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          </div>
+
+          <a (click)="resetFiltersForCompanyProfile()" class="reset-btn">Reset</a>
+
+
+          <div class="form-field ml-auto search-field">
+            <mat-icon>search</mat-icon>
+            <input type="search" class="form-control" (keyup)="filterCompany($event)" (input)="onInputChange($event)"
+                   [(ngModel)]="searchTextField" id="search by" placeholder="search for company..">
+          </div>
+        </div>
+      </div>
+  </div>
+</div>
+
+
+
+<!-- <div class="da-card uir-profile p-16 mt-16">
+  <div class="page-body list-filter-card p-16"> -->
+    
+    <div class="ui-table mt-16 table-container">
+      <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 demo-table" matSort
+             (matSortChange)="announceSortChange($event)">
+        <ng-container matColumnDef="isFavorite">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header sticky>
+            Actions
+          </th>
+          <td mat-cell *matCellDef="let row">
+            <div class="grid-action-cell">
+              <a (click)="toggleFavourite(row)" matTooltip="Favourite"
+                 aria-label="Disabled icon button"
+                 [ngClass]="{'no-favorite-button': !row.isFavorite, 'favorite-button': row.isFavorite}">
+                <mat-icon>star</mat-icon>
+              </a>
+
+            </div>
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="company_Name">
+          <th mat-header-cell *matHeaderCellDef disableClear sticky>
+            <div class="header-container">
+              <br>
+              <span mat-sort-header>Company Name</span>
+              <div class="filter-container">
+                <input matInput placeholder="Search" class="search-input"
+                       (keyup)="applyFilter($any($event.target).value, 'company_Name')">
+              </div>
+              <br>
+            </div>
+            
+          </th>
+          <td mat-cell *matCellDef="let element"><a style="color: #044a98;" [routerLink]="['/company-detail',element.company_Id,unique_id]"> {{element.company_Name}} </a></td>
+        </ng-container>
+        <ng-container matColumnDef="company_Website_Global">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header sticky>Website</th>
+          <td mat-cell *matCellDef="let element"> {{element.company_Website_Global}} </td>
+        </ng-container>
+        <ng-container matColumnDef="type_of_Entity_Public_Private">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Entity Type</th>
+          <td mat-cell *matCellDef="let element"> {{element.type_of_Entity_Public_Private}} </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true;"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+    </div>
+    <div class="table-pagination">
+      <mat-paginator [pageSizeOptions]="[15,30,50,100]" showFirstLastButtons aria-label="Select page of companies">
+      </mat-paginator>
+    </div>
+  <!-- </div>
+  </div> -->

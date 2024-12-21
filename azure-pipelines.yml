@@ -1,0 +1,67 @@
+# ASP.NET Core (.NET Framework)
+# Build and test ASP.NET Core projects targeting the full .NET Framework.
+# Add steps that publish symbols, save build artifacts, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
+
+trigger:
+- master
+
+pool:
+  vmImage: 'windows-latest'
+
+variables:
+  solution: '**/*.sln'
+  buildPlatform: 'Any CPU'
+  buildConfiguration: 'Release'
+
+steps:
+- task: NuGetToolInstaller@1
+
+- task: NuGetCommand@2
+  inputs:
+    restoreSolution: '$(solution)'
+
+# Verify that the environment.prod.ts file exists
+- script: |
+    echo "Files found:"
+    dir **/src/environments/environment.prod.ts
+  displayName: 'Verify environment.prod.ts file exists'
+
+# Log the BASE_URL variable value
+- script: |
+    echo "BASE_URL is set to: $(BASE_URL)"
+  displayName: 'Log BASE_URL variable value'
+
+# Log the content of environment.prod.ts before token replacement
+- script: |
+    echo "Before token replacement:"
+    type **/src/environments/environment.prod.ts
+  displayName: 'Log environment.prod.ts before replacement'
+    
+# Add Replace Tokens task to update environment.prod.ts
+- task: replacetokens@3
+  inputs:
+    targetFiles: '**/src/environments/environment.prod.ts'  # Path to your Angular environment file
+    tokenPrefix: '$('
+    tokenSuffix: ')'
+  displayName: 'Replace tokens in environment.prod.ts'
+
+- task: VSBuild@1
+  inputs:
+    solution: '$(solution)'
+    msbuildArgs: '/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:DesktopBuildPackageLocation="$(build.artifactStagingDirectory)\WebApp.zip" /p:DeployIisAppPath="Default Web Site"'
+    platform: '$(buildPlatform)'
+    configuration: '$(buildConfiguration)'
+    continueOnError: true  # Continue even if this task fails, to view logs
+    condition: always()    # Ensure this runs even if the previous tasks fail
+
+# Log the content of environment.prod.ts after token replacement
+- script: |
+    echo "After token replacement:"
+    type **/src/environments/environment.prod.ts
+  displayName: 'Log environment.prod.ts after replacement'
+
+- task: VSTest@2
+  inputs:
+    platform: '$(buildPlatform)'
+    configuration: '$(buildConfiguration)'

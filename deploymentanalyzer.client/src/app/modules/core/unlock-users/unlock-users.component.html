@@ -1,0 +1,68 @@
+<div class="page-header">
+  <span class="page-title">Unlock Users</span>
+</div>
+<div class="page-body da-card list-filter-card">
+  <div class="list-card">
+    @defer () {
+    @if(this.depUsers.length > 0){
+
+    <table mat-table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)" disableClear>
+      <ng-container matColumnDef="select">
+        <th mat-header-cell *matHeaderCellDef>
+          Actions
+        </th>
+        <td mat-cell *matCellDef="let element">
+          <button mat-icon-button matTooltip="Basic" [matMenuTriggerFor]="menu"
+                  aria-label="Example icon-button with a heart icon">
+            <mat-icon>more_vert</mat-icon>
+          </button>
+          <mat-menu #menu="matMenu">
+            <button (click)="removeUser(element.id,element.name)" mat-mini-fab aria-label="Delete icon button" color="warn"
+                    class="action-button delete">
+              <mat-icon>delete</mat-icon>
+            </button>
+
+          </mat-menu>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
+        <td mat-cell *matCellDef="let element">{{element.name}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="lockTime">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Lock Time</th>
+        <td mat-cell *matCellDef="let element">{{element.lockTime | date}}</td>
+      </ng-container>
+      <ng-container matColumnDef="isLocked" sticky>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Is Locked</th>
+        <td mat-cell *matCellDef="let element">
+          @if(element.isLocked){
+          <mat-icon class="icon-primary">toggle_on</mat-icon>
+          }@else{
+          <mat-icon class="icon-disabled">toggle_off</mat-icon>
+          }
+        </td>
+      </ng-container>
+      <!--<ng-container matColumnDef="isLocked">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Is Locked</th>
+        <td mat-cell *matCellDef="let element; let i = index">
+          <mat-checkbox (click)="$event.stopPropagation()"
+                        (change)="onCheckedChange($event,i)"
+                        [checked]="element.isLocked">
+          </mat-checkbox>
+        </td>
+      </ng-container>-->
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+
+    }
+
+
+    }
+  </div>
+  <mat-paginator [pageSizeOptions]="[10,30,50,100]" showFirstLastButtons aria-label="Select page of depUsers">
+  </mat-paginator>
+
+</div>

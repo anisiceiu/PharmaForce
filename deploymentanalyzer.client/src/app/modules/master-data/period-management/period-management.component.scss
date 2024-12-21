@@ -1,0 +1,29 @@
+.floating-button {
+    position: fixed;
+    bottom: 16px;
+    right: 16px;
+    z-index: 1000;
+  }
+  .search-and-filter-input{
+    width: 88%;
+  }
+  .action-button {
+    margin-right: 5px;
+    margin-left: 7px;
+  }
+  
+  .action-button:last-child {
+    margin-right: 0;
+  }
+  
+  .action-button-add{
+    margin-left: 20px;
+    margin-top: 10px;
+  }
+  
+  .example-button-row button,
+  .example-button-row a {
+    margin-right: 8px;
+  }
+  
+  

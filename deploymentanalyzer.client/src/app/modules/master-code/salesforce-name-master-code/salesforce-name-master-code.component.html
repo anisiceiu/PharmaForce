@@ -1,0 +1,67 @@
+<div class="page-header">
+  <span class="page-title">Master Code (Salesforce Name)</span>
+  <div class="page-action">
+    <button mat-raised-button class="btn btn-primary" (click)="openDialog()">
+      <mat-icon>add</mat-icon>
+      Add Salesforce Name
+    </button>
+  </div>
+</div>
+<div class="page-body da-card list-filter-card">
+  <div class="advance-filter-card">
+    <div class="filter-header">
+      <div class="search-field">
+        <mat-icon>search</mat-icon>
+        <input type="search" class="form-control" (search)="onSearch($event)" (keyup)="filterMasterCode($event)" [(ngModel)]="searchTextField"
+               id="search" placeholder="Search..">
+      </div>
+    </div>
+  </div>
+  <div class="list-card">
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 demo-table" matSort
+           (matSortChange)="announceSortChange($event)">
+      <ng-container matColumnDef="select">
+        <th mat-header-cell *matHeaderCellDef>
+          Actions
+        </th>
+        <td mat-cell *matCellDef="let row">
+          <button mat-icon-button matTooltip="Basic" [matMenuTriggerFor]="menu"
+                  aria-label="Example icon-button with a heart icon">
+            <mat-icon>more_vert</mat-icon>
+          </button>
+          <mat-menu #menu="matMenu">
+            <button (click)="openDialog(row)" mat-mini-fab aria-label="Edit icon button" class="action-button edit">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button (click)="deleteMasterCode(row)" mat-mini-fab aria-label="Delete icon button" color="warn"
+                    class="action-button delete">
+              <mat-icon>delete</mat-icon>
+            </button>
+
+          </mat-menu>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header sticky> Name </th>
+        <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+      </ng-container>
+      <ng-container matColumnDef="country">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header sticky>Country</th>
+        <td mat-cell *matCellDef="let element"> {{element.country}} </td>
+      </ng-container>
+      <ng-container matColumnDef="company">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header sticky>Company</th>
+        <td mat-cell *matCellDef="let element"> {{element.company}} </td>
+      </ng-container>
+      <ng-container matColumnDef="type_of_salesforce">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header sticky>Type of Salesforce</th>
+        <td mat-cell *matCellDef="let element"> {{element.type_of_salesforce}} </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true;"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  </div>
+  <mat-paginator [pageSizeOptions]="[10,25,50,100]" showFirstLastButtons aria-label="Select page of mastercode">
+  </mat-paginator>
+</div>

@@ -1,0 +1,52 @@
+<div class="page-body">
+<aside class="da-sibedar da-sidebar-sm {{isOpenManageCompanySidebar ? 'da-sidebar-open' : ''}}">
+  <div class="sidebar-content">
+    <div class="sidebar-header">
+      <h6 class="sidebar-title">{{ data.company.company_Id > 0 ? 'Edit Company' : 'Add Company' }}</h6>
+      <div class="sidebar-action">
+        <button mat-raised-button [mat-dialog-close]="companyForm" [disabled]="!companyForm.valid">
+          <!--{{ data.company.company_Id > 0 ? 'Save' : 'Add' }}-->
+          Save
+        </button>
+        <a class="link-pointer" (click)="onCloseClick()">
+          <mat-icon>close</mat-icon>
+        </a>
+      </div>
+    </div>
+    <div class="sidebar-body">
+      <form [formGroup]="companyForm" autocomplete="off">
+        <mat-form-field appearance="outline">
+          <mat-label>Company Name</mat-label>
+          <input matInput placeholder="Enter company name" name="company_Name" formControlName="company_Name">
+          
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Company Website Global</mat-label>
+          <input matInput placeholder="Enter company website global" name="company_Website_Global" formControlName="company_Website_Global">
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Headquarters</mat-label>
+          <input matInput placeholder="Enter headquarters" name="headQuarters" formControlName="headQuarters">
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Number of Employees</mat-label>
+          <input matInput placeholder="Enter number of employees" type="number" min="0" name="number_of_Employees" formControlName="number_of_Employees">
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Type of Entity</mat-label>
+            <mat-select formControlName="type_of_Entity_Public_Private">
+              <mat-option value="public">public</mat-option>
+              <mat-option value="private">private</mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Sales Previous Year</mat-label>
+          <input matInput placeholder="Sales previous year" type="text" name="sales_Previous_Year" formControlName="sales_Previous_Year">
+        </mat-form-field>
+    
+      </form>
+    </div>
+  </div>
+</aside>
+</div>
+

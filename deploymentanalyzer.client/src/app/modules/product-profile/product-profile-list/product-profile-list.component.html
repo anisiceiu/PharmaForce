@@ -1,0 +1,124 @@
+<div class="page-header">
+  <span class="page-title">Product List</span>
+</div>
+<div class="page-body da-card">
+  <div class="container row">
+    <div class="advance-filter-card">
+      <div class="filter-header p-0">
+        <div class="form-field ml-2">
+          <mat-form-field appearance="outline">
+            <mat-label>Region</mat-label>
+            <mat-select [(ngModel)]="selectedRegion" (selectionChange)="changeRegion($event.value)">
+              <mat-option *ngFor="let region of regions" [value]="region.region_Id">
+                {{
+ region.region_Name
+                }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div class="form-field ml-2">
+          <mat-form-field appearance="outline">
+            <mat-label>Country</mat-label>
+            <mat-select [(ngModel)]="selectedCountry" (selectionChange)="changeCountry($event.value)">
+              <mat-option *ngFor="let country of countries" [value]="country.country_Id">
+                {{country.country_Name}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div class="form-field ml-2">
+          <mat-form-field appearance="outline">
+            <mat-label>Company</mat-label>
+            <mat-select [(ngModel)]="selectedCompany" (selectionChange)="changeCompany($event.value)">
+              <mat-option *ngFor="let company of companies" [value]="company.company_Id">
+                {{company.company_Name}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <a (click)="resetFiltersForProductProfile()" class="reset-btn">Reset</a>
+
+
+        <div class="form-field ml-auto search-field">
+          <mat-icon>search</mat-icon>
+          <input type="search" class="form-control" (keyup)="filterProduct($event)" (input)="onInputChange($event)"
+                 [(ngModel)]="searchTextField" id="search by" placeholder="search for product..">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+    <div class="ui-table mt-16 table-container">
+      <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 demo-table" matSort
+             (matSortChange)="announceSortChange($event)">
+        <ng-container matColumnDef="isFavorite">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header sticky>
+            Actions
+          </th>
+          <td mat-cell *matCellDef="let row">
+            <div class="grid-action-cell">
+              <a (click)="toggleFavourite(row)" matTooltip="Favourite"
+                 aria-label="Disabled icon button"
+                 [ngClass]="{'no-favorite-button': !row.isFavorite, 'favorite-button': row.isFavorite}">
+                <mat-icon>star</mat-icon> 
+              </a>
+
+            </div>
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="uS_Brand_Name">
+          <th mat-header-cell *matHeaderCellDef disableClear>
+            <div class="header-container">
+              <br>
+              <span mat-sort-header>US Brand Name</span>
+              <div class="filter-container">
+                <input matInput placeholder="Search" class="search-input"
+                       (keyup)="applyFilter($any($event.target).value, 'uS_Brand_Name')">
+              </div>
+              <br>
+            </div>
+          </th>
+          <td mat-cell *matCellDef="let element"><a style="color: #044a98;" [routerLink]="['/product-detail',element.product_Id,unique_id]">  {{element.uS_Brand_Name}} </a></td>
+        </ng-container>
+        <ng-container matColumnDef="company_Specific_Brand_Name">
+          <th mat-header-cell *matHeaderCellDef disableClear>
+            <div class="header-container">
+              <br>
+              <span mat-sort-header>Country-Specific Brand Name</span>
+              <div class="filter-container">
+                <input matInput placeholder="Search" class="search-input"
+                       (keyup)="applyFilter($any($event.target).value, 'company_Specific_Brand_Name')">
+              </div>
+              <br>
+            </div>
+          </th>
+          <td mat-cell *matCellDef="let element"> {{element.company_Specific_Brand_Name}} </td>
+        </ng-container>
+        <ng-container matColumnDef="generic_Name">
+          <th mat-header-cell *matHeaderCellDef disableClear>
+            <div class="header-container">
+              <br>
+              <span mat-sort-header>Generic Name</span>
+              <div class="filter-container">
+                <input matInput placeholder="Search" class="search-input"
+                       (keyup)="applyFilter($any($event.target).value, 'generic_Name')">
+              </div>
+              <br>
+            </div>
+          </th>
+          <td mat-cell *matCellDef="let element"> {{element.generic_Name}} </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true;"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+    </div>
+    <div class="table-pagination">
+      <mat-paginator [pageSizeOptions]="[15,30,50,100]" showFirstLastButtons aria-label="Select page of products">
+      </mat-paginator>
+    </div>

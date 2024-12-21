@@ -1,0 +1,570 @@
+
+  <div class="page-header">
+    <span class="page-title">Company Details</span>
+  </div>
+
+ 
+    <div class="page-body da-card">
+      <div class="container">
+        <div class="company-name">{{headerInfo.company_name}}</div>
+        <div class="info">
+          <!--<div class="info-item">
+            <p>
+              <span>Company </span>
+              <span class="info-detail">{{headerInfo.company_name ? headerInfo.company_name : 'N/A'}}</span>
+            </p>
+          </div>-->
+          <div class="info-item">
+            <p>
+              <span>Headquarters</span>
+              <span class="info-detail"> {{headerInfo.headquarters ? headerInfo.headquarters : 'N/A'}}</span>
+            </p>
+          </div>
+          <div class="info-item">
+            <p>
+              <span>No. of Employees</span>
+              <span class="info-detail">{{headerInfo.number_of_employees ? headerInfo.number_of_employees : 'N/A'}} </span>
+            </p>
+          </div>
+          <div class="info-item">
+            <p>
+              <span>Entity Type</span>
+              <span class="info-detail"> {{headerInfo.type_of_entity ? headerInfo.type_of_entity : 'N/A'}}</span>
+            </p>
+          </div>
+          <div class="info-item">
+            <p>
+              <span>Sales</span>
+              <span class="info-detail"> {{headerInfo.sales ? headerInfo.sales : 'N/A'}}</span>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="n da-card">
+      <form [formGroup]="searchForm">
+        <div class="container row">
+          <!-- <div class="row"> -->
+          <div class="col-3">
+            <button *ngIf="!IsInFavoriteList" mat-button class="btn-primary" (click)="AddRemoveFavoriteForCompany()">
+              <mat-icon>star</mat-icon> Add To Favorite
+            </button>
+            <button *ngIf="IsInFavoriteList" mat-button class="btn-primary" (click)="AddRemoveFavoriteForCompany()">
+              <mat-icon>star</mat-icon> Remove From Favorite
+            </button>
+          </div>
+
+          <div class="col-5">
+
+          </div>
+          <div class="col-2">
+            <mat-form-field appearance="outline">
+              <mat-label>Country</mat-label>
+              <mat-select formControlName="country" (selectionChange)="onCountryChange($event.value)">
+                <mat-option *ngFor="let country of filteredcountryList" [value]="country.country_Name">
+                  {{country.country_Name}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="col-2">
+            <mat-form-field appearance="outline">
+              <mat-label>Period</mat-label>
+              <mat-select formControlName="period_year" (selectionChange)="onPeriod_YearChange($event.value)">
+                <mat-option *ngFor="let period of filteredperiodList" [value]="period">
+                  {{ period.displayed_Title }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+      </form>
+    </div>
+  
+
+  <div class="page-body">
+    <div class="deployment">
+      <div class="deployment-item">
+        <div class="outer-box dpblue"><img src="/images/userEdit.png" alt="" srcset=""></div>
+        <p>Primary Care Deployment <br> <span>{{headerInfo.primary_care_deployment | numberFormat}}</span></p>
+      </div>
+      <div class="deployment-item">
+        <div class="outer-box dpYellow"><img src="/images/userEdit.png" alt="" srcset=""></div>
+        <p>Specialty Deployment <br> <span>{{headerInfo.speciality_deployment | numberFormat}}</span></p>
+      </div>
+      <div class="deployment-item">
+        <div class="outer-box dpblue"><img src="/images/userEdit.png" alt="" srcset=""></div>
+        <p>Total Deployment <br> <span>{{headerInfo.total_deployment | numberFormat}}</span></p>
+      </div>
+    </div>
+  </div>
+
+  <div class="page-body da-card">
+    <div class="container">
+      <div class="therapeutic-categories">
+        <div (click)="clickOnPieByIndex('Anti-Infectives')" class="category dpbluelight" *ngIf="therapeuticCategoryWiseCompanyInfoOdered[0].total_number_of_full_time_equivalents_ftes ? true : false">
+          <p>Anti-infectives</p>
+          <span>
+            Primary Care FTES: {{therapeuticCategoryWiseCompanyInfoOdered[0].primary_care_full_time_equivalents_ftes  | numberFormat}}
+            <br>
+            Specialty FTES: {{therapeuticCategoryWiseCompanyInfoOdered[0].specialty_full_time_equivalents_ftes  | numberFormat}}
+            <br> Total FTEs: {{therapeuticCategoryWiseCompanyInfoOdered[0].total_number_of_full_time_equivalents_ftes  | numberFormat}}
+          </span>
+        </div>
+        <div (click)="clickOnPieByIndex('Cardiovascular')" class="category dpyellowlight" *ngIf="therapeuticCategoryWiseCompanyInfoOdered[1].total_number_of_full_time_equivalents_ftes ? true : false">
+          <p>Cardiovascular</p>
+          <span>
+            Primary Care FTES: {{therapeuticCategoryWiseCompanyInfoOdered[1].primary_care_full_time_equivalents_ftes | numberFormat}}
+            <br> Specialty FTES: {{therapeuticCategoryWiseCompanyInfoOdered[1].specialty_full_time_equivalents_ftes  | numberFormat}} <br>
+            Total FTEs: {{therapeuticCategoryWiseCompanyInfoOdered[1].total_number_of_full_time_equivalents_ftes  | numberFormat}}
+          </span>
+        </div>
+        <div (click)="clickOnPieByIndex('Categgge')" class="category dpbluelight" *ngIf="therapeuticCategoryWiseCompanyInfoOdered[2].total_number_of_full_time_equivalents_ftes ? true : false">
+          <p>Categgge</p>
+          <span>
+            Primary Care FTES: {{therapeuticCategoryWiseCompanyInfoOdered[2].primary_care_full_time_equivalents_ftes | numberFormat}}
+            <br> Specialty FTES: {{therapeuticCategoryWiseCompanyInfoOdered[2].specialty_full_time_equivalents_ftes  | numberFormat}} <br>
+            Total FTEs: {{therapeuticCategoryWiseCompanyInfoOdered[2].total_number_of_full_time_equivalents_ftes  | numberFormat}}
+          </span>
+        </div>
+        <div (click)="clickOnPieByIndex('CNS, Pain and Anesthesia')" class="category dpyellowlight" *ngIf="therapeuticCategoryWiseCompanyInfoOdered[3].total_number_of_full_time_equivalents_ftes ? true : false">
+          <p>CNS, Pain and Anesthesia</p>
+          <span>
+            Primary Care FTES: {{therapeuticCategoryWiseCompanyInfoOdered[3].primary_care_full_time_equivalents_ftes | numberFormat}}
+            <br> Specialty FTES: {{therapeuticCategoryWiseCompanyInfoOdered[3].specialty_full_time_equivalents_ftes | numberFormat}} <br>
+            Total FTEs: {{therapeuticCategoryWiseCompanyInfoOdered[3].total_number_of_full_time_equivalents_ftes | numberFormat}}
+          </span>
+        </div>
+        <div (click)="clickOnPieByIndex('Dermatology')" class="category dpbluelight" *ngIf="therapeuticCategoryWiseCompanyInfoOdered[4].total_number_of_full_time_equivalents_ftes ? true : false">
+          <p>Dermatology</p>
+          <span>
+            Primary Care FTES: {{therapeuticCategoryWiseCompanyInfoOdered[4].primary_care_full_time_equivalents_ftes | numberFormat}}
+            <br>
+            Specialty FTES: {{therapeuticCategoryWiseCompanyInfoOdered[4].specialty_full_time_equivalents_ftes | numberFormat}} <br>
+            Total FTEs: {{therapeuticCategoryWiseCompanyInfoOdered[4].total_number_of_full_time_equivalents_ftes | numberFormat}}
+          </span>
+        </div>
+        <div (click)="clickOnPieByIndex('Endocrinology and Metabolic Disorders')" class="category dpyellowlight" *ngIf="therapeuticCategoryWiseCompanyInfoOdered[5].total_number_of_full_time_equivalents_ftes ? true : false">
+          <p title="Endocrinology and Metabolic Disorders">Endocrinology and Metabolic...</p>
+          <span>
+            Primary Care FTES: {{therapeuticCategoryWiseCompanyInfoOdered[5].primary_care_full_time_equivalents_ftes | numberFormat}}
+            <br>
+            Specialty FTES: {{therapeuticCategoryWiseCompanyInfoOdered[5].specialty_full_time_equivalents_ftes | numberFormat}} <br>
+            Total FTEs: {{therapeuticCategoryWiseCompanyInfoOdered[5].total_number_of_full_time_equivalents_ftes | numberFormat}}
+          </span>
+        </div>
+        <div (click)="clickOnPieByIndex('Gastrointestinal')" class="category dpbluelight" *ngIf="therapeuticCategoryWiseCompanyInfoOdered[6].total_number_of_full_time_equivalents_ftes ? true : false">
+          <p>Gastrointestinal</p>
+          <span>
+            Primary Care FTES: {{therapeuticCategoryWiseCompanyInfoOdered[6].primary_care_full_time_equivalents_ftes | numberFormat}}
+            <br>
+            Specialty FTES: {{therapeuticCategoryWiseCompanyInfoOdered[6].specialty_full_time_equivalents_ftes | numberFormat}} <br>
+            Total FTEs: {{therapeuticCategoryWiseCompanyInfoOdered[6].total_number_of_full_time_equivalents_ftes | numberFormat}}
+          </span>
+        </div>
+        <div (click)="clickOnPieByIndex('Gynecology/Womens Health')" class="category dpyellowlight" *ngIf="therapeuticCategoryWiseCompanyInfoOdered[7].total_number_of_full_time_equivalents_ftes ? true : false">
+          <p>Gynecology/Women's Health</p>
+          <span>
+            Primary Care FTES: {{therapeuticCategoryWiseCompanyInfoOdered[7].primary_care_full_time_equivalents_ftes | numberFormat}}
+            <br>
+            Specialty FTES: {{therapeuticCategoryWiseCompanyInfoOdered[7].specialty_full_time_equivalents_ftes | numberFormat}} <br>
+            Total FTEs: {{therapeuticCategoryWiseCompanyInfoOdered[7].total_number_of_full_time_equivalents_ftes | numberFormat}}
+          </span>
+        </div>
+        <div (click)="clickOnPieByIndex('Nephrology and Transplantation')" class="category dpbluelight" *ngIf="therapeuticCategoryWiseCompanyInfoOdered[8].total_number_of_full_time_equivalents_ftes ? true : false">
+          <p>Nephrology and Transplantation</p>
+          <span>
+            Primary Care FTES: {{therapeuticCategoryWiseCompanyInfoOdered[8].primary_care_full_time_equivalents_ftes | numberFormat}}
+            <br>
+            Specialty FTES: {{therapeuticCategoryWiseCompanyInfoOdered[8].specialty_full_time_equivalents_ftes | numberFormat}} <br>
+            Total FTEs: {{therapeuticCategoryWiseCompanyInfoOdered[8].total_number_of_full_time_equivalents_ftes | numberFormat}}
+          </span>
+        </div>
+        <div (click)="clickOnPieByIndex('Oncology and Hematology')" class="category dpyellowlight" *ngIf="therapeuticCategoryWiseCompanyInfoOdered[9].total_number_of_full_time_equivalents_ftes ? true : false">
+          <p>Oncology and Hematology</p>
+          <span>
+            Primary Care FTES: {{therapeuticCategoryWiseCompanyInfoOdered[9].primary_care_full_time_equivalents_ftes | numberFormat}}
+            <br>
+            Specialty FTES: {{therapeuticCategoryWiseCompanyInfoOdered[9].specialty_full_time_equivalents_ftes | numberFormat}} <br>
+            Total FTEs: {{therapeuticCategoryWiseCompanyInfoOdered[9].total_number_of_full_time_equivalents_ftes | numberFormat}}
+          </span>
+        </div>
+        <div (click)="clickOnPieByIndex('Ophthalmology')" class="category dpbluelight" *ngIf="therapeuticCategoryWiseCompanyInfoOdered[10].total_number_of_full_time_equivalents_ftes ? true : false">
+          <p>Ophthalmology</p>
+          <span>
+            Primary Care FTES: {{therapeuticCategoryWiseCompanyInfoOdered[10].primary_care_full_time_equivalents_ftes | numberFormat}}
+            <br>
+            Specialty FTES: {{therapeuticCategoryWiseCompanyInfoOdered[10].specialty_full_time_equivalents_ftes | numberFormat}} <br>
+            Total FTEs: {{therapeuticCategoryWiseCompanyInfoOdered[10].total_number_of_full_time_equivalents_ftes | numberFormat}}
+          </span>
+        </div>
+        <div (click)="clickOnPieByIndex('Respiratory and Allergy')" class="category dpyellowlight" *ngIf="therapeuticCategoryWiseCompanyInfoOdered[11].total_number_of_full_time_equivalents_ftes ? true : false">
+          <p>Respiratory and Allergy</p>
+          <span>
+            Primary Care FTES: {{therapeuticCategoryWiseCompanyInfoOdered[11].primary_care_full_time_equivalents_ftes | numberFormat}}
+            <br>
+            Specialty FTES: {{therapeuticCategoryWiseCompanyInfoOdered[11].specialty_full_time_equivalents_ftes | numberFormat}} <br>
+            Total FTEs: {{therapeuticCategoryWiseCompanyInfoOdered[11].total_number_of_full_time_equivalents_ftes | numberFormat}}
+          </span>
+        </div>
+        <div (click)="clickOnPieByIndex('Rheumatology, Bone and Inflammation')" class="category dpbluelight" *ngIf="therapeuticCategoryWiseCompanyInfoOdered[12].total_number_of_full_time_equivalents_ftes ? true : false">
+          <p title="Rheumatology, Bone and Inflammation">Rheumatology, Bone ...</p>
+          <span>
+            Primary Care FTES: {{therapeuticCategoryWiseCompanyInfoOdered[12].primary_care_full_time_equivalents_ftes | numberFormat}}
+            <br>
+            Specialty FTES: {{therapeuticCategoryWiseCompanyInfoOdered[12].specialty_full_time_equivalents_ftes | numberFormat}} <br>
+            Total FTEs: {{therapeuticCategoryWiseCompanyInfoOdered[12].total_number_of_full_time_equivalents_ftes | numberFormat}}
+          </span>
+        </div>
+        <div (click)="clickOnPieByIndex('Urology')" class="category dpyellowlight" *ngIf="therapeuticCategoryWiseCompanyInfoOdered[13].total_number_of_full_time_equivalents_ftes ? true : false">
+          <p>Urology</p>
+          <span>
+            Primary Care FTES: {{therapeuticCategoryWiseCompanyInfoOdered[13].primary_care_full_time_equivalents_ftes | numberFormat}}
+            <br>
+            Specialty FTES: {{therapeuticCategoryWiseCompanyInfoOdered[13].specialty_full_time_equivalents_ftes | numberFormat}} <br>
+            Total FTEs: {{therapeuticCategoryWiseCompanyInfoOdered[13].total_number_of_full_time_equivalents_ftes | numberFormat}}
+          </span>
+        </div>
+        <div (click)="clickOnPieByIndex('Vaccines')" class="category dpbluelight" *ngIf="therapeuticCategoryWiseCompanyInfoOdered[14].total_number_of_full_time_equivalents_ftes ? true : false">
+          <p>Vaccines</p>
+          <span>
+            Primary Care FTES: {{therapeuticCategoryWiseCompanyInfoOdered[14].primary_care_full_time_equivalents_ftes | numberFormat}}
+            <br>
+            Specialty FTES: {{therapeuticCategoryWiseCompanyInfoOdered[14].specialty_full_time_equivalents_ftes | numberFormat}} <br>
+            Total FTEs: {{therapeuticCategoryWiseCompanyInfoOdered[14].total_number_of_full_time_equivalents_ftes | numberFormat}}
+          </span>
+        </div>
+        <div (click)="clickOnPieByIndex('Other')" class="category dpyellowlight" *ngIf="therapeuticCategoryWiseCompanyInfoOdered[15].total_number_of_full_time_equivalents_ftes ? true : false">
+          <p>Others</p>
+          <span>
+            Primary Care FTES: {{therapeuticCategoryWiseCompanyInfoOdered[15].primary_care_full_time_equivalents_ftes | numberFormat}}
+            <br>
+            Specialty FTES: {{therapeuticCategoryWiseCompanyInfoOdered[15].specialty_full_time_equivalents_ftes | numberFormat}} <br>
+            Total FTEs: {{therapeuticCategoryWiseCompanyInfoOdered[15].total_number_of_full_time_equivalents_ftes | numberFormat}}
+          </span>
+        </div>
+      </div>
+
+
+      <div class="chart-container">
+        <canvas id="MyChart" width="400" height="400">{{ chart }}</canvas>
+      </div>
+    </div>
+  </div>
+
+  <section class="example-container mat-elevation-z8" tabindex="0">
+    <div style="margin-bottom: 10px;" class="row">
+      <div class="col-12 d-flex justify-content-end" *ngIf="dataSource">
+        <button id="btnGo" mat-raised-button class="btn btn-primary" (click)="exportGridtoExcel()">
+          Export to Excel
+        </button>
+      </div>
+    </div>
+    <div class="table-container">
+
+      <table mat-table [dataSource]="dataSource" matSort disableClear>
+
+        <!--<ng-container matColumnDef="region_Name">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Region</th>
+          <td mat-cell *matCellDef="let element">{{element.region_Name}}</td>
+        </ng-container>-->
+
+        <ng-container matColumnDef="salesforce_Name">
+          <th mat-header-cell *matHeaderCellDef disableClear>
+            <div class="header-container">
+              <br>
+              <span mat-sort-header>Salesforce</span>
+              <div class="filter-container">
+                <input matInput placeholder="Search" class="search-input"
+                       (keyup)="applyFilter($any($event.target).value, 'salesforce_Name')">
+              </div>
+              <br>
+            </div>
+          </th>
+          <td [attr.rowspan]="rowSpan[i]" [style.display]="displayForSpan[i]?'':'none'" mat-cell *matCellDef="let element;let i = index" [matTooltip]="getCitationToolTipValue(element,'salesforce_name')">
+            {{element.salesforce_Name}}
+            <span *ngIf="element.hasAsterisk?.salesforce_name" style="color: red;">*</span>
+          </td>
+
+
+        </ng-container>
+
+        <ng-container matColumnDef="type_of_Salesforce">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Type of Salesforce</th>
+          <td mat-cell [attr.rowspan]="rowSpan[i]" [style.display]="displayForSpan[i]?'':'none'" *matCellDef="let element;let i = index" [matTooltip]="getCitationToolTipValue(element,'type_of_salesforce')">
+            {{element.type_of_Salesforce}}
+            <span *ngIf="element.hasAsterisk?.type_of_salesforce" style="color: red;">*</span>
+          </td>
+        </ng-container>
+
+        <ng-container  matColumnDef="country_Name">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Country</th>
+          <td [attr.rowspan]="rowSpan[i]" [style.display]="displayForSpan[i]?'':'none'" mat-cell *matCellDef="let element;let i = index">{{element.country_Name}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="company_Name">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Company</th>
+          <td mat-cell [attr.rowspan]="rowSpan[i]" [style.display]="displayForSpan[i]?'':'none'" *matCellDef="let element;let i = index">{{element.company_Name}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="period_Year">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Period Year</th>
+          <td mat-cell [attr.rowspan]="rowSpan[i]" [style.display]="displayForSpan[i]?'':'none'" *matCellDef="let element;let i = index">{{element.period_Year}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="period_Quarter">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Period Quarter</th>
+          <td mat-cell [attr.rowspan]="rowSpan[i]" [style.display]="displayForSpan[i]?'':'none'" *matCellDef="let element;let i = index">{{element.period_Quarter}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="number_Of_Sales_Representatives">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Sales Representatives</th>
+          <td mat-cell [attr.rowspan]="rowSpan[i]" [style.display]="displayForSpan[i]?'':'none'" *matCellDef="let element;let i = index" [matTooltip]="getCitationToolTipValue(element,'number_of_sales_representatives')">
+            {{element.number_Of_Sales_Representatives}}
+            <span *ngIf="element.hasAsterisk?.number_of_sales_representatives" style="color: red;">*</span>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="number_Of_District_Managers">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>District Managers</th>
+          <td mat-cell [attr.rowspan]="rowSpan[i]" [style.display]="displayForSpan[i]?'':'none'" *matCellDef="let element;let i = index" [matTooltip]="getCitationToolTipValue(element,'number_of_district_managers')">
+            {{element.number_Of_District_Managers}}
+            <span *ngIf="element.hasAsterisk?.number_of_district_managers" style="color: red;">*</span>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="number_Of_Regional_Managers">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Regional Managers</th>
+          <td mat-cell [attr.rowspan]="rowSpan[i]" [style.display]="displayForSpan[i]?'':'none'" *matCellDef="let element;let i = index" [matTooltip]="getCitationToolTipValue(element,'number_of_regional_managers')">
+            {{element.number_Of_Regional_Managers}}
+            <span *ngIf="element.hasAsterisk?.number_of_regional_managers" style="color: red;">*</span>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="salary_Low">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Salary Low</th>
+          <td mat-cell *matCellDef="let element" [matTooltip]="getCitationToolTipValue(element,'salary_low')">
+            {{element.salary_Low}}
+            <span *ngIf="element.hasAsterisk?.salary_low" style="color: red;">*</span>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="salary_High">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Salary High</th>
+          <td mat-cell *matCellDef="let element" [matTooltip]="getCitationToolTipValue(element,'salary_high')">
+            {{element.salary_High}}
+            <span *ngIf="element.hasAsterisk?.salary_high" style="color: red;">*</span>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="target_Bonus">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Target Bonus</th>
+          <td mat-cell *matCellDef="let element" [matTooltip]="getCitationToolTipValue(element,'target_bonus')">
+            {{element.target_Bonus}}
+            <span *ngIf="element.hasAsterisk?.target_bonus" style="color: red;">*</span>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="reach">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Reach</th>
+          <td mat-cell *matCellDef="let element" [matTooltip]="getCitationToolTipValue(element,'reach')">
+            {{element.reach}}
+            <span *ngIf="element.hasAsterisk?.reach" style="color: red;">*</span>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="frequency">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Frequency</th>
+          <td mat-cell *matCellDef="let element" [matTooltip]="getCitationToolTipValue(element,'frequency')">
+            {{element.frequency}}
+            <span *ngIf="element.hasAsterisk?.frequency" style="color: red;">*</span>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="additional_Notes_Salesforce">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Salesforce Notes</th>
+          <td mat-cell [attr.rowspan]="rowSpan[i]" [style.display]="displayForSpan[i]?'':'none'" *matCellDef="let element;let i = index" [matTooltip]="getCitationToolTipValue(element,'additional_notes')">
+            {{element.additional_Notes}}
+            <span *ngIf="element.hasAsterisk?.additional_notes" style="color: red;">*</span>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="pct_Split_Between_Primary_Care_And_Specialty">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>% Split PC and SP</th>
+          <td mat-cell *matCellDef="let element" [matTooltip]="getCitationToolTipValue(element,'pct_split_between_primary_care_and_specialty')">
+            {{element.pct_Split_Between_Primary_Care_And_Specialty}}
+            <span *ngIf="element.hasAsterisk?.pct_split_between_primary_care_and_specialty" style="color: red;">*</span>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="uS_Product_Name_Product_Promoted">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>US Brand Name</th>
+          <td mat-cell *matCellDef="let element" [matTooltip]="getCitationToolTipValue(element,'us_product_name_product_promoted')">
+            <a style="color: #044a98;"
+               [routerLink]="['/product-detail',element.product_id]">
+              {{element.uS_Product_Name_Product_Promoted}}
+              <span *ngIf="element.hasAsterisk?.us_product_name_product_promoted" style="color: red;">*</span>
+            </a>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="generic_Name">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Generic Name</th>
+          <td mat-cell *matCellDef="let element" [matTooltip]="getCitationToolTipValue(element,'generic_name')">
+            {{element.generic_Name}}
+            <span *ngIf="element.hasAsterisk?.generic_name" style="color: red;">*</span>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="country_Specific_Product_Name_Product_Promoted">
+          <th mat-header-cell *matHeaderCellDef disableClear>
+            <div class="header-container">
+              <br>
+              <span mat-sort-header>Product Promoted</span>
+              <div class="filter-container">
+                <input matInput placeholder="Search" class="search-input"
+                       (keyup)="applyFilter($any($event.target).value, 'country_Specific_Product_Name_Product_Promoted')">
+              </div>
+              <br>
+            </div>
+          </th>
+          <td mat-cell *matCellDef="let element" [matTooltip]="getCitationToolTipValue(element,'country_specific_product_name_product_promoted')">
+            {{element.country_Specific_Product_Name_Product_Promoted}}
+            <span *ngIf="element.hasAsterisk?.country_specific_product_name_product_promoted" style="color: red;">*</span>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="name_of_a_CSO_Contract_Sales_Organization">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Contract Sales Organization</th>
+          <td mat-cell *matCellDef="let element" [matTooltip]="getCitationToolTipValue(element,'name_of_a_cso_contract_sales_organization')">
+            {{element.name_of_a_CSO_Contract_Sales_Organization}}
+            <span *ngIf="element.hasAsterisk?.name_of_a_cso_contract_sales_organization" style="color: red;">*</span>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="physicians_Focus_Primary_Care_Physicians_Specialty_Physicians">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Physicians Focus</th>
+          <td mat-cell *matCellDef="let element" [matTooltip]="getCitationToolTipValue(element,'physicians_focus_primary_care_physicians_specialty_physicians')">
+            {{element.physicians_Focus_Primary_Care_Physicians_Specialty_Physicians}}
+            <span *ngIf="element.hasAsterisk?.physicians_focus_primary_care_physicians_specialty_physicians" style="color: red;">*</span>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="specialty_Full_Time_Equivalents_FTEs">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Specialty FTEs</th>
+          <td mat-cell *matCellDef="let element" [matTooltip]="getCitationToolTipValue(element,'specialty_full_time_equivalents_ftes')">
+            {{element.specialty_Full_Time_Equivalents_FTEs}}
+            <span *ngIf="element.hasAsterisk?.specialty_full_time_equivalents_ftes" style="color: red;">*</span>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="primary_Care_Full_Time_Equivalents_FTEs">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Primary Care FTEs</th>
+          <td mat-cell *matCellDef="let element" [matTooltip]="getCitationToolTipValue(element,'primary_care_full_time_equivalents_ftes')">
+            {{element.primary_Care_Full_Time_Equivalents_FTEs}}
+            <span *ngIf="element.hasAsterisk?.primary_care_full_time_equivalents_ftes" style="color: red;">*</span>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="total_Number_of_Full_Time_Equivalents_FTEs">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Total Number FTEs</th>
+          <td mat-cell *matCellDef="let element" [matTooltip]="getCitationToolTipValue(element,'total_number_of_full_time_equivalents_ftes')">
+            {{element.total_Number_of_Full_Time_Equivalents_FTEs}}
+            <span *ngIf="element.hasAsterisk?.total_number_of_full_time_equivalents_ftes" style="color: red;">*</span>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="product_Promotion_Priority_Order">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Product Promotion Priority Order</th>
+          <td mat-cell *matCellDef="let element" [matTooltip]="getCitationToolTipValue(element,'product_promotion_priority_order')">
+            {{element.product_Promotion_Priority_Order}}
+            <span *ngIf="element.hasAsterisk?.product_promotion_priority_order" style="color: red;">*</span>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="therapeutic_Category">
+          <th mat-header-cell *matHeaderCellDef disableClear>
+            <div class="header-container">
+              <br>
+              <span mat-sort-header>Therapeutic Category</span>
+              <div class="filter-container">
+                <input matInput placeholder="Search" class="search-input"
+                       (keyup)="applyFilter($any($event.target).value, 'therapeutic_Category')">
+              </div>
+              <br>
+            </div>
+          </th>
+          <td mat-cell *matCellDef="let element" [matTooltip]="getCitationToolTipValue(element,'therapeutic_category')">
+            {{element.therapeutic_Category}}
+            <span *ngIf="element.hasAsterisk?.therapeutic_category" style="color: red;">*</span>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="specialty_Physicians_Targeted">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Physicians Targeted</th>
+          <td mat-cell *matCellDef="let element" [matTooltip]="getCitationToolTipValue(element,'specialty_physicians_targeted')">
+            {{element.specialty_Physicians_Targeted}}
+            <span *ngIf="element.hasAsterisk?.specialty_physicians_targeted" style="color: red;">*</span>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="co_Promotion_YesNo">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Co-Promotion</th>
+          <td mat-cell *matCellDef="let element" [matTooltip]="getCitationToolTipValue(element,'co_promotion_yesno')">
+            @if(element.co_Promotion_YesNo)
+            {
+            {{'Yes'}}
+            }@else {
+            {{'No'}}
+            }
+            <span *ngIf="element.hasAsterisk?.co_promotion_yesno" style="color: red;">*</span>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="name_of_a_Partner_Company">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Partner Company</th>
+          <td mat-cell *matCellDef="let element" [matTooltip]="getCitationToolTipValue(element,'name_of_a_partner_company')">
+            {{element.name_of_a_Partner_Company}}
+            <span *ngIf="element.hasAsterisk?.name_of_a_partner_company" style="color: red;">*</span>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="contract_Sales_Force_YesNo">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Contract Salesforce</th>
+          <td mat-cell *matCellDef="let element" [matTooltip]="getCitationToolTipValue(element,'contract_sales_force_yesno')">
+            @if(element.contract_Sales_Force_YesNo)
+            {
+            {{'Yes'}}
+            }@else {
+            {{'No'}}
+            }
+            <span *ngIf="element.hasAsterisk?.contract_sales_force_yesno" style="color: red;">*</span>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="additional_Notes_Product">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Product Notes</th>
+          <td mat-cell *matCellDef="let element" [matTooltip]="getCitationToolTipValue(element,'additional_notes_product')">
+            {{element.additional_Notes_Product}}
+            <span *ngIf="element.hasAsterisk?.additional_notes_product" style="color: red;">*</span>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true;"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+
+    </div>
+
+  </section>
+  <div class="table-pagination">
+    <mat-paginator class="paginator" #paginator [pageSizeOptions]="[5, 10, 25, 50, 100]" [length]="totalRecords"
+                   showFirstLastButtons aria-label="Select page of Data Manager Items"></mat-paginator>
+  </div>
+  <div class="da-card uir-profile uir-note mt-16">
+    <div class="panel-title">Additional Notes</div>
+    <div class="notes" style="height:250px;overflow:auto;">
+      <div *ngFor="let note of additionalNotes; let i=index" class="note-item"><label>{{note.item}}</label></div>
+    </div>
+  </div>

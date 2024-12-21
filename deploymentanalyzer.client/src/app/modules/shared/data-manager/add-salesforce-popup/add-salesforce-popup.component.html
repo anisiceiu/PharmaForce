@@ -1,0 +1,542 @@
+<div class="page-body">
+  <aside class="da-sibedar da-sidebar-xxl {{isOpenEditDMSidebar ? 'da-sidebar-open' : ''}}">
+    <div class="sidebar-content">
+      <div class="sidebar-header">
+        <h6 class="sidebar-title">Add Salesforce</h6>
+        <div class="sidebar-action">
+          <button mat-raised-button color="primary" [mat-dialog-close]="dataManagerForm" [disabled]="!dataManagerForm.valid">Save</button>
+          <a class="link-pointer" (click)="onCloseClick()">
+            <mat-icon>close</mat-icon>
+          </a>
+        </div>
+      </div>
+      <div class="sidebar-body p-0">
+        <form [formGroup]="dataManagerForm" autocomplete="off">
+          <div class="content new-ui">
+            <div class="container-fluid">
+              <div class="row ">
+                <div class="col-lg-12">
+                  <div class="card border-0">
+                    <div class="card-body">
+                      <div class="form-group row">
+                        <label for="" class="col-sm-2 col-form-label">Country Name<i class="text-danger">*</i></label>
+                        <div class="col-sm-10 d-flex dm-action adjust-form-control-bottom">
+                          <mat-form-field appearance="outline">
+                            <mat-select (selectionChange)="onCountry_NameChange($event.value)" formControlName="country_Name">
+                              <mat-option *ngFor="let country of countries_Names" [value]="country.name">
+                                {{ country.name}}
+                              </mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                          <a class="text-secondary" (click)="openQcqNotesPopup('country_Name')"><mat-icon>edit_note</mat-icon></a>
+                          <a class="text-secondary" (click)="openCitationPopup('country_Name')"><mat-icon>format_quote</mat-icon></a>
+                          <a class="text-secondary" (click)="openNotesPopup('country_Name')"><mat-icon>notes</mat-icon></a>
+                        </div>
+                      </div>
+
+                      <div class="form-group row">
+                        <label for="" class="col-sm-2 col-form-label">Company Name<i class="text-danger">*</i></label>
+                        <div class="col-sm-10 d-flex dm-action adjust-form-control-bottom">
+                          <mat-form-field appearance="outline">
+                            <mat-select (selectionChange)="onCompany_NameChange($event.value)" formControlName="company_Name">
+                              <mat-option *ngFor="let company of companies_NamesNarrow" [value]="company.name">
+                                {{company.name}}
+                              </mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                          <a class="text-secondary" (click)="openQcqNotesPopup('company_Name')"><mat-icon>edit_note</mat-icon></a>
+                          <a class="text-secondary" (click)="openCitationPopup('company_Name')"><mat-icon>format_quote</mat-icon></a>
+                          <a class="text-secondary" (click)="openNotesPopup('company_Name')"><mat-icon>notes</mat-icon></a>
+                        </div>
+                      </div>
+
+                      <div class="form-group row">
+                        <label for="" class="col-sm-2 col-form-label">Period Year<i class="text-danger">*</i></label>
+                        <div class="col-sm-10 d-flex dm-action adjust-form-control-bottom">
+                          <mat-form-field appearance="outline">
+                            <mat-select formControlName="period_Year" (selectionChange)="onPeriod_YearChange($event.value)">
+                              <mat-option *ngFor="let period of period_YearsNarrow" [value]="period.name">
+                                {{period.name}}
+                              </mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                          <a class="text-secondary" (click)="openQcqNotesPopup('period_Year')"><mat-icon>edit_note</mat-icon></a>
+                          <a class="text-secondary" (click)="openCitationPopup('period_Year')"><mat-icon>format_quote</mat-icon></a>
+                          <a class="text-secondary" (click)="openNotesPopup('period_Year')"><mat-icon>notes</mat-icon></a>
+                        </div>
+                      </div>
+
+                      <div class="form-group row">
+                        <label for="" class="col-sm-2 col-form-label">Period Quarter<i class="text-danger">*</i></label>
+                        <div class="col-sm-10 d-flex dm-action adjust-form-control-bottom">
+                          <mat-form-field appearance="outline">
+                            <mat-select formControlName="period_Quarter" (selectionChange)="onPeriod_QuarterChange($event.value)">
+                              <mat-option *ngFor="let quarter of period_Quarters" [value]="quarter">{{ quarter }}</mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                          <a class="text-secondary" (click)="openQcqNotesPopup('period_Quarter')"><mat-icon>edit_note</mat-icon></a>
+                          <a class="text-secondary" (click)="openCitationPopup('period_Quarter')"><mat-icon>format_quote</mat-icon></a>
+                          <a class="text-secondary" (click)="openNotesPopup('period_Quarter')"><mat-icon>notes</mat-icon></a>
+                        </div>
+                      </div>
+
+                      <div class="form-group row">
+                        <label for="" class="col-sm-2 col-form-label">Salesforce Name<i class="text-danger">*</i></label>
+                        <div class="col-sm-10 d-flex dm-action adjust-form-control-bottom">
+                          <mat-form-field appearance="outline">
+                            <input type="text" placeholder="Pick one" aria-label="salesforcename" matInput
+                                   formControlName="salesforce_Name" [matAutocomplete]="autoSalesforce">
+                            <mat-autocomplete autoActiveFirstOption #autoSalesforce="matAutocomplete" (optionSelected)='onChangeSalesforce($event.option.value)'>
+                              @for (option of filteredSalesForceOptions | async; track option.id) {
+                              <mat-option [value]="option.name">{{option.name}}</mat-option>
+                              }
+                            </mat-autocomplete>
+                          </mat-form-field>
+                          <a class="text-secondary" (click)="openQcqNotesPopup('salesforce_Name')"><mat-icon>edit_note</mat-icon></a>
+                          <a class="text-secondary" (click)="openCitationPopup('salesforce_Name')"><mat-icon>format_quote</mat-icon></a>
+                          <a class="text-secondary" (click)="openNotesPopup('salesforce_Name')"><mat-icon>notes</mat-icon></a>
+                        </div>
+                      </div>
+
+                      <div class="form-group row">
+                        <label for="" class="col-sm-2 col-form-label">Type of Sales Force<i class="text-danger">*</i></label>
+                        <div class="col-sm-10 d-flex dm-action adjust-form-control-bottom">
+                          <mat-form-field appearance="outline">
+                            <mat-select formControlName="type_of_Salesforce">
+                              <mat-option *ngFor="let type of type_of_salesforce" [value]="type.name">
+                                {{type.name}}
+                              </mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                          <a class="text-secondary" (click)="openQcqNotesPopup('type_of_Salesforce')"><mat-icon>edit_note</mat-icon></a>
+                          <a class="text-secondary" (click)="openCitationPopup('type_of_Salesforce')"><mat-icon>format_quote</mat-icon></a>
+                          <a class="text-secondary" (click)="openNotesPopup('type_of_Salesforce')"><mat-icon>notes</mat-icon></a>
+                        </div>
+                      </div>
+
+                      <div class="table-responsive">
+                        <form [formGroup]="dataManagerForm" autocomplete="off">
+                          <table class="salesforce-record-table">
+                            <thead>
+                              <tr>
+                                <th><span>US Brand Name<i class="text-danger">*</i></span></th>
+                                <th><span>Country Specific Brand Name</span></th>
+                                <th><span>Generic Name<i class="text-danger">*</i></span></th>
+                                <th><span>Therapeutic Category<i class="text-danger">*</i></span></th>
+                                <th><span>Primary Care Full-Time Equivalents (FTEs)</span></th>
+                                <th><span>Specialty Full-Time Equivalents (FTEs)<i class="text-danger">*</i></span></th>
+                                <th><span>Specialty Physicians Targeted</span></th>
+                                <th><span>Co-Promotion (Yes/No)</span></th>
+                                <th><span>Contract Sales Force (Yes/No)</span></th>
+                                <th><span>Additional Notes</span></th>
+                                <th></th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <ng-container formArrayName="productItems" *ngFor="let product of getProductFormControls.controls; let i=index">
+                                <tr *ngIf="!getProductFormControls.controls[i].get('isEditable')?.value">
+                                  <td>{{getProductFormControls.controls[i].get('uS_Product_Name_Product_Promoted')!.value}}</td>
+                                  <td>{{getProductFormControls.controls[i].get('country_Specific_Product_Name_Product_Promoted')!.value}}</td>
+                                  <td>{{getProductFormControls.controls[i].get('generic_Name')!.value}}</td>
+                                  <td>{{getProductFormControls.controls[i].get('therapeutic_Category')!.value}}</td>
+                                  <td>{{getProductFormControls.controls[i].get('primary_Care_Full_Time_Equivalents_FTEs')!.value}}</td>
+                                  <td>{{getProductFormControls.controls[i].get('specialty_Full_Time_Equivalents_FTEs')!.value}}</td>
+                                  <td>{{getProductFormControls.controls[i].get('specialty_Physicians_Targeted')!.value}}</td>
+                                  <td>{{getProductFormControls.controls[i].get('co_Promotion_YesNo')!.value ? 'Yes' : 'No'}}</td>
+                                  <td>{{getProductFormControls.controls[i].get('contract_Sales_Force_YesNo')!.value ? 'Yes' : 'No'}}</td>
+                                  <td>{{getProductFormControls.controls[i].get('additional_Notes_Product')!.value}}</td>
+                                  <td>
+                                    <a (click)="productEdit(i)" class="edit-record"> <mat-icon>edit</mat-icon> </a>
+                                  </td>
+                                </tr>
+                                <tr *ngIf="getProductFormControls.controls[i].get('isEditable')?.value" [formGroupName]="i">
+                                  <td>
+                                    <div class="form-element-wrapper">
+
+                                      <input class="form-control" type="text"
+                                             placeholder="Pick one"
+                                             aria-label="productpromoted"
+                                             matInput
+                                             formControlName="uS_Product_Name_Product_Promoted"
+                                             [matAutocomplete]="autoproductpromoted">
+                                      <mat-autocomplete autoActiveFirstOption #autoproductpromoted="matAutocomplete" (optionSelected)='onChangeBrandName(i,$event.option.value)'>
+                                        @for (option of us_Brand_Name_Options[i] | async; track option.id) {
+                                        <mat-option [value]="option.uS_Name">{{option.uS_Name}}</mat-option>
+                                        }
+
+                                      </mat-autocomplete>
+                                      <div class="tooltip-wrapper">
+                                        <button [matMenuTriggerFor]="menu1" class="tooltip-btn-x" type="button">
+                                          <mat-icon>more_vert</mat-icon>
+                                        </button>
+                                        <mat-menu #menu1="matMenu">
+                                          <button (click)="openQcqNotesProductPopup(i,'uS_Product_Name_Product_Promoted')" mat-menu-item><mat-icon>edit_note</mat-icon> Add QCQ Note</button>
+                                          <button (click)="openCitationProductPopup(i,'uS_Product_Name_Product_Promoted')" mat-menu-item><mat-icon>format_quote</mat-icon> Add Citation</button>
+                                          <button (click)="openNotesProductPopup(i,'uS_Product_Name_Product_Promoted')" mat-menu-item><mat-icon>notes</mat-icon> Add Note</button>
+                                        </mat-menu>
+                                      </div>
+                                    </div>
+
+                                  </td>
+                                  <td>
+                                    <div class="form-element-wrapper">
+                                      <input type="text"
+                                             class="form-control"
+                                             placeholder="Pick one"
+                                             aria-label="countryspecificproductpromoted"
+                                             matInput
+                                             formControlName="country_Specific_Product_Name_Product_Promoted"
+                                             [matAutocomplete]="autocountryspecificproductpromoted">
+                                      <mat-autocomplete autoActiveFirstOption #autocountryspecificproductpromoted="matAutocomplete" (optionSelected)='onChangeCountrySpecificBrandName(i,$event.option.value)'>
+                                        @for (option of country_Specific_Product_Options[i] | async; track option.id) {
+                                        <mat-option [value]="option.name">{{option.name}}</mat-option>
+                                        }
+                                      </mat-autocomplete>
+                                      <div class="tooltip-wrapper">
+                                        <button [matMenuTriggerFor]="menu2" class="tooltip-btn-x" type="button">
+                                          <mat-icon>more_vert</mat-icon>
+                                        </button>
+                                        <mat-menu #menu2="matMenu">
+                                          <button (click)="openQcqNotesProductPopup(i,'country_Specific_Product_Name_Product_Promoted')" mat-menu-item><mat-icon>edit_note</mat-icon> Add QCQ Note</button>
+                                          <button mat-menu-item (click)="openCitationProductPopup(i,'country_Specific_Product_Name_Product_Promoted')"><mat-icon>format_quote</mat-icon> Add Citation</button>
+                                          <button mat-menu-item (click)="openNotesProductPopup(i,'country_Specific_Product_Name_Product_Promoted')"><mat-icon>notes</mat-icon> Add Note</button>
+                                        </mat-menu>
+                                      </div>
+                                    </div>
+                                  </td>
+                                  <td>
+                                    <div class="form-element-wrapper">
+                                      <input type="text"
+                                             class="form-control"
+                                             placeholder="Pick one"
+                                             aria-label="genericname"
+                                             matInput
+                                             formControlName="generic_Name"
+                                             [matAutocomplete]="autogenericname">
+                                      <mat-autocomplete autoActiveFirstOption #autogenericname="matAutocomplete">
+                                        @for (option of generic_Name_Options[i] | async; track option.id) {
+                                        <mat-option [value]="option.name">{{option.name}}</mat-option>
+                                        }
+                                      </mat-autocomplete>
+                                      <div class="tooltip-wrapper">
+                                        <button [matMenuTriggerFor]="menu3" class="tooltip-btn-x" type="button">
+                                          <mat-icon>more_vert</mat-icon>
+                                        </button>
+                                        <mat-menu #menu3="matMenu">
+                                          <button (click)="openQcqNotesProductPopup(i,'generic_Name')" mat-menu-item><mat-icon>edit_note</mat-icon> Add QCQ Note</button>
+                                          <button mat-menu-item (click)="openCitationProductPopup(i,'generic_Name')"><mat-icon>format_quote</mat-icon> Add Citation</button>
+                                          <button mat-menu-item (click)="openNotesProductPopup(i,'generic_Name')"><mat-icon>notes</mat-icon> Add Note</button>
+                                        </mat-menu>
+                                      </div>
+                                    </div>
+                                  </td>
+                                  <td>
+                                    <div class="form-element-wrapper">
+                                      <input type="text"
+                                             placeholder="Pick one"
+                                             class="form-control"
+                                             aria-label="therapeuticCategory"
+                                             matInput
+                                             formControlName="therapeutic_Category"
+                                             [matAutocomplete]="autotheraputiccategory">
+                                      <mat-autocomplete autoActiveFirstOption #autotheraputiccategory="matAutocomplete">
+                                        @for (option of therapeutic_Category_Options[i] | async; track option.id) {
+                                        <mat-option [value]="option.name">{{option.name}}</mat-option>
+                                        }
+                                      </mat-autocomplete>
+
+                                      <div class="tooltip-wrapper">
+                                        <button [matMenuTriggerFor]="menu4" class="tooltip-btn-x" type="button">
+                                          <mat-icon>more_vert</mat-icon>
+                                        </button>
+                                        <mat-menu #menu4="matMenu">
+                                          <button (click)="openQcqNotesProductPopup(i,'therapeutic_Category')" mat-menu-item><mat-icon>edit_note</mat-icon> Add QCQ Note</button>
+                                          <button mat-menu-item (click)="openCitationProductPopup(i,'therapeutic_Category')"><mat-icon>format_quote</mat-icon> Add Citation</button>
+                                          <button mat-menu-item (click)="openNotesProductPopup(i,'therapeutic_Category')"><mat-icon>notes</mat-icon> Add Note</button>
+                                        </mat-menu>
+                                      </div>
+                                    </div>
+                                  </td>
+                                  <td>
+
+                                    <div class="form-element-wrapper">
+                                      <input matInput type="number" class="form-control" name="primary_Care_Full_Time_Equivalents_FTEs"
+                                             formControlName="primary_Care_Full_Time_Equivalents_FTEs">
+                                      <div class="tooltip-wrapper">
+                                        <button [matMenuTriggerFor]="menu5" class="tooltip-btn-x" type="button">
+                                          <mat-icon>more_vert</mat-icon>
+                                        </button>
+                                        <mat-menu #menu5="matMenu">
+                                          <button (click)="openQcqNotesProductPopup(i,'primary_Care_Full_Time_Equivalents_FTEs')" mat-menu-item><mat-icon>edit_note</mat-icon> Add QCQ Note</button>
+                                          <button mat-menu-item (click)="openCitationProductPopup(i,'primary_Care_Full_Time_Equivalents_FTEs')"><mat-icon>format_quote</mat-icon> Add Citation</button>
+                                          <button mat-menu-item (click)="openNotesProductPopup(i,'primary_Care_Full_Time_Equivalents_FTEs')"><mat-icon>notes</mat-icon> Add Note</button>
+                                        </mat-menu>
+                                      </div>
+                                    </div>
+                                  </td>
+                                  <td>
+                                    <div class="form-element-wrapper">
+                                      <input matInput type="number" class="form-control" name="specialty_Full_Time_Equivalents_FTEs"
+                                             formControlName="specialty_Full_Time_Equivalents_FTEs">
+
+                                      <div class="tooltip-wrapper">
+                                        <button [matMenuTriggerFor]="menu6" class="tooltip-btn-x" type="button">
+                                          <mat-icon>more_vert</mat-icon>
+                                        </button>
+                                        <mat-menu #menu6="matMenu">
+                                          <button (click)="openQcqNotesProductPopup(i,'specialty_Full_Time_Equivalents_FTEs')" mat-menu-item><mat-icon>edit_note</mat-icon> Add QCQ Note</button>
+                                          <button mat-menu-item (click)="openCitationProductPopup(i,'specialty_Full_Time_Equivalents_FTEs')"><mat-icon>format_quote</mat-icon> Add Citation</button>
+                                          <button mat-menu-item (click)="openNotesProductPopup(i,'specialty_Full_Time_Equivalents_FTEs')"><mat-icon>notes</mat-icon> Add Note</button>
+                                        </mat-menu>
+                                      </div>
+                                    </div>
+                                  </td>
+                                  <td>
+
+                                    <div class="form-element-wrapper">
+                                      <mat-select class="form-control" formControlName="specialty_Physicians_Targeted" multiple>
+                                        @for (option of physician_Targeted; track option.id) {
+                                        <mat-option [value]="option.name">{{option.name}}</mat-option>
+                                        }
+                                      </mat-select>
+
+                                      <div class="tooltip-wrapper">
+                                        <button [matMenuTriggerFor]="menu7" class="tooltip-btn-x" type="button">
+                                          <mat-icon>more_vert</mat-icon>
+                                        </button>
+                                        <mat-menu #menu7="matMenu">
+                                          <button (click)="openQcqNotesProductPopup(i,'specialty_Physicians_Targeted')" mat-menu-item><mat-icon>edit_note</mat-icon> Add QCQ Note</button>
+                                          <button mat-menu-item (click)="openCitationProductPopup(i,'specialty_Physicians_Targeted')"><mat-icon>format_quote</mat-icon> Add Citation</button>
+                                          <button mat-menu-item (click)="openNotesProductPopup(i,'specialty_Physicians_Targeted')"><mat-icon>notes</mat-icon> Add Note</button>
+                                        </mat-menu>
+                                      </div>
+                                    </div>
+                                  </td>
+                                  <td>
+
+                                    <div class="form-element-wrapper">
+                                      <div class="position-relative w-100">
+
+                                        <input type="text"
+                                               class="form-control"
+                                               placeholder="Pick one"
+                                               aria-label="partner_company"
+                                               matInput
+                                               formControlName="name_of_a_Partner_Company"
+                                               [matAutocomplete]="autopartnercompany">
+                                        <mat-autocomplete autoActiveFirstOption #autopartnercompany="matAutocomplete">
+                                          @for (option of filteredCompaniesOptions[i] | async; track option.id) {
+                                          <mat-option [value]="option.name">{{option.name}}</mat-option>
+                                          }
+                                        </mat-autocomplete>
+
+
+                                        <span class="form-field-addon-switch">
+                                          <mat-slide-toggle formControlName="co_Promotion_YesNo"></mat-slide-toggle>
+                                        </span>
+                                        <mat-label></mat-label>
+                                      </div>
+                                      <div class="tooltip-wrapper">
+                                        <button [matMenuTriggerFor]="menu8" class="tooltip-btn-x" type="button">
+                                          <mat-icon>more_vert</mat-icon>
+                                        </button>
+                                        <mat-menu #menu8="matMenu">
+                                          <button (click)="openQcqNotesProductPopup(i,'name_of_a_Partner_Company')" mat-menu-item><mat-icon>edit_note</mat-icon> Add QCQ Note</button>
+                                          <button mat-menu-item (click)="openCitationProductPopup(i,'name_of_a_Partner_Company')"><mat-icon>format_quote</mat-icon> Add Citation</button>
+                                          <button mat-menu-item (click)="openNotesProductPopup(i,'name_of_a_Partner_Company')"><mat-icon>notes</mat-icon> Add Note</button>
+                                        </mat-menu>
+                                      </div>
+                                    </div>
+                                  </td>
+                                  <td>
+                                    <div class="form-element-wrapper">
+                                      <div class="position-relative w-100">
+                                        <div class="form-field-group addon-btn-switch">
+                                          <input type="text"
+                                                 class="form-control"
+                                                 placeholder="Pick one"
+                                                 aria-label="cso_name"
+                                                 matInput
+                                                 formControlName="name_of_a_CSO_Contract_Sales_Organization"
+                                                 [matAutocomplete]="autocsoname">
+                                          <mat-autocomplete autoActiveFirstOption #autocsoname="matAutocomplete">
+                                            @for (option of name_of_cso_Options[i] | async; track option.id) {
+                                            <mat-option [value]="option.name">{{option.name}}</mat-option>
+                                            }
+                                          </mat-autocomplete>
+
+
+                                          <span class="form-field-addon-switch">
+                                            <mat-slide-toggle formControlName="contract_Sales_Force_YesNo"></mat-slide-toggle>
+                                          </span>
+                                        </div>
+                                      </div>
+                                      <div class="tooltip-wrapper">
+                                        <button [matMenuTriggerFor]="menu9" class="tooltip-btn-x" type="button">
+                                          <mat-icon>more_vert</mat-icon>
+                                        </button>
+                                        <mat-menu #menu9="matMenu">
+                                          <button (click)="openQcqNotesProductPopup(i,'name_of_a_CSO_Contract_Sales_Organization')" mat-menu-item><mat-icon>edit_note</mat-icon> Add QCQ Note</button>
+                                          <button mat-menu-item (click)="openCitationProductPopup(i,'name_of_a_CSO_Contract_Sales_Organization')"><mat-icon>format_quote</mat-icon> Add Citation</button>
+                                          <button mat-menu-item (click)="openNotesProductPopup(i,'name_of_a_CSO_Contract_Sales_Organization')"><mat-icon>notes</mat-icon> Add Note</button>
+                                        </mat-menu>
+                                      </div>
+                                    </div>
+                                  </td>
+                                  <td>
+                                    <div class="form-element-wrapper">
+                                      <input matInput type="text" class="form-control" name="additional_Notes_Product"
+                                             formControlName="additional_Notes_Product">
+                                    </div>
+                                  </td>
+                                  <td>
+                                    <div class="action-btn">
+                                      <button [disabled]="!product.valid" mat-raised-button class="text-success" (click)="saveProduct(i)"><mat-icon>done</mat-icon></button>
+                                      <button (click)="deleteProduct(i)" mat-raised-button class="text-danger"><mat-icon>delete</mat-icon></button>
+                                    </div>
+                                  </td>
+                                </tr>
+
+                              </ng-container>
+                                <tr>
+                                  <td>
+                                    <button (click)="addNewProduct()" mat-raised-button class="btn btn-primary">
+                                      <mat-icon>add</mat-icon>
+                                      Add New Product
+                                    </button>
+                                  </td>
+                                </tr>
+                            </tbody>
+                          </table>
+                        </form>
+                      </div>
+
+
+
+                      <div class="form-group row">
+                        <label for="" class="col-sm-2 col-form-label">No. of Sales Representatives<i class="text-danger">*</i></label>
+                        <div class="col-sm-10 d-flex dm-action adjust-form-control-bottom">
+                          <mat-form-field appearance="outline">
+                            <input readonly matInput type="number" name="number_Of_Sales_Representatives"
+                                   formControlName="number_Of_Sales_Representatives">
+                          </mat-form-field>
+                          <a class="text-secondary" (click)="openQcqNotesPopup('number_Of_Sales_Representatives')"><mat-icon>edit_note</mat-icon></a>
+                          <a class="text-secondary" (click)="openCitationPopup('number_Of_Sales_Representatives')"><mat-icon>format_quote</mat-icon></a>
+                          <a class="text-secondary" (click)="openNotesPopup('number_Of_Sales_Representatives')"><mat-icon>notes</mat-icon></a>
+                        </div>
+                      </div>
+                      <div class="form-group row">
+                        <label for="" class="col-sm-2 col-form-label">No. of District Managers</label>
+                        <div class="col-sm-10 d-flex dm-action adjust-form-control-bottom">
+                          <mat-form-field appearance="outline">
+                            <input matInput type="number" name="number_Of_District_Managers"
+                                   formControlName="number_Of_District_Managers">
+                          </mat-form-field>
+                          <a class="text-secondary" (click)="openQcqNotesPopup('number_Of_District_Managers')"><mat-icon>edit_note</mat-icon></a>
+                          <a class="text-secondary" (click)="openCitationPopup('number_Of_District_Managers')"><mat-icon>format_quote</mat-icon></a>
+                          <a class="text-secondary" (click)="openNotesPopup('number_Of_District_Managers')"><mat-icon>notes</mat-icon></a>
+                        </div>
+                      </div>
+                      <div class="form-group row">
+                        <label for="" class="col-sm-2 col-form-label">No. of Regional Managers</label>
+                        <div class="col-sm-10 d-flex dm-action adjust-form-control-bottom">
+                          <mat-form-field appearance="outline">
+                            <input matInput type="number" name="number_Of_Regional_Managers"
+                                   formControlName="number_Of_Regional_Managers">
+                          </mat-form-field>
+                          <a class="text-secondary" (click)="openQcqNotesPopup('number_Of_Regional_Managers')"><mat-icon>edit_note</mat-icon></a>
+                          <a class="text-secondary" (click)="openCitationPopup('number_Of_Regional_Managers')"><mat-icon>format_quote</mat-icon></a>
+                          <a class="text-secondary" (click)="openNotesPopup('number_Of_Regional_Managers')"><mat-icon>notes</mat-icon></a>
+                        </div>
+                      </div>
+                      <div class="form-group row">
+                        <label for="" class="col-sm-2 col-form-label">Salary Low <span *ngIf="currency_symbol">({{currency_symbol}})</span></label>
+                        <div class="col-sm-10 d-flex dm-action adjust-form-control-bottom">
+                          <mat-form-field appearance="outline">
+                            <input matInput type="number" name="salary_Low" formControlName="salary_Low">
+                          </mat-form-field>
+                          <a class="text-secondary" (click)="openQcqNotesPopup('salary_Low')"><mat-icon>edit_note</mat-icon></a>
+                          <a class="text-secondary" (click)="openCitationPopup('salary_Low')"><mat-icon>format_quote</mat-icon></a>
+                          <a class="text-secondary" (click)="openNotesPopup('salary_Low')"><mat-icon>notes</mat-icon></a>
+                        </div>
+                      </div>
+                      <div class="form-group row">
+                        <label for="" class="col-sm-2 col-form-label">Salary High <span *ngIf="currency_symbol">({{currency_symbol}})</span></label>
+                        <div class="col-sm-10 d-flex dm-action adjust-form-control-bottom">
+                          <mat-form-field appearance="outline">
+                            <input matInput type="number" name="salary_High" formControlName="salary_High">
+                          </mat-form-field>
+                          <a class="text-secondary" (click)="openQcqNotesPopup('salary_High')"><mat-icon>edit_note</mat-icon></a>
+                          <a class="text-secondary" (click)="openCitationPopup('salary_High')"><mat-icon>format_quote</mat-icon></a>
+                          <a class="text-secondary" (click)="openNotesPopup('salary_High')"><mat-icon>notes</mat-icon></a>
+                        </div>
+                      </div>
+                      <div class="form-group row">
+                        <label for="" class="col-sm-2 col-form-label">Target Bonus <span *ngIf="currency_symbol">({{currency_symbol}})</span></label>
+                        <div class="col-sm-10 d-flex dm-action adjust-form-control-bottom">
+                          <mat-form-field appearance="outline">
+                            <input matInput type="number" name="target_Bonus" formControlName="target_Bonus">
+                          </mat-form-field>
+                          <a class="text-secondary" (click)="openQcqNotesPopup('target_Bonus')"><mat-icon>edit_note</mat-icon></a>
+                          <a class="text-secondary" (click)="openCitationPopup('target_Bonus')"><mat-icon>format_quote</mat-icon></a>
+                          <a class="text-secondary" (click)="openNotesPopup('target_Bonus')"><mat-icon>notes</mat-icon></a>
+                        </div>
+                      </div>
+                      <div class="form-group row">
+                        <label for="" class="col-sm-2 col-form-label">Reach</label>
+                        <div class="col-sm-10 d-flex dm-action adjust-form-control-bottom">
+                          <mat-form-field appearance="outline">
+                            <input matInput type="number" name="reach" formControlName="reach">
+                          </mat-form-field>
+                          <a class="text-secondary" (click)="openQcqNotesPopup('reach')"><mat-icon>edit_note</mat-icon></a>
+                          <a class="text-secondary" (click)="openCitationPopup('reach')"><mat-icon>format_quote</mat-icon></a>
+                          <a class="text-secondary" (click)="openNotesPopup('reach')"><mat-icon>notes</mat-icon></a>
+                        </div>
+                      </div>
+                      <div class="form-group row">
+                        <label for="" class="col-sm-2 col-form-label">Frequency</label>
+                        <div class="col-sm-10 d-flex dm-action adjust-form-control-bottom">
+                          <mat-form-field appearance="outline">
+                            <input matInput type="number" name="frequency" formControlName="frequency">
+                          </mat-form-field>
+                          <a class="text-secondary" (click)="openQcqNotesPopup('frequency')"><mat-icon>edit_note</mat-icon></a>
+                          <a class="text-secondary" (click)="openCitationPopup('frequency')"><mat-icon>format_quote</mat-icon></a>
+                          <a class="text-secondary" (click)="openNotesPopup('frequency')"><mat-icon>notes</mat-icon></a>
+                        </div>
+                      </div>
+                      <div class="form-group row">
+                        <label for="" class="col-sm-2 col-form-label">Additional Notes</label>
+                        <div class="col-sm-10 d-flex dm-action adjust-form-control-bottom">
+                          <mat-form-field appearance="outline">
+                            <textarea matInput name="additional_Notes" formControlName="additional_Notes"></textarea>
+                          </mat-form-field>
+                        </div>
+                      </div>
+
+                      <div class="form-group row add-to-qcq ">
+                        <div class="col-lg-12 form-switch-wrapper">
+                          <div class="form-field-group addon-btn">
+                            <mat-slide-toggle [(ngModel)]="isAddToQCQ" (change)="onAddToQCQChange()" [ngModelOptions]="{standalone:true}">Add To QCQ</mat-slide-toggle>
+                          </div>
+                        </div>
+
+                      </div>
+                      <div class="row">
+                        <div class="col-lg-12">
+                          <p>allow/disable adding the entire record to the Queue (QCQ)</p>
+                        </div>
+                      </div>
+
+
+                    </div> <!-- end card-body-->
+                  </div> <!-- end card-->
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </aside>
+</div>

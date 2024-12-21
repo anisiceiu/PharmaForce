@@ -1,0 +1,200 @@
+<!--<div class="page-header">
+  <span class="page-title">Manage User Access Rights</span>
+</div>-->
+
+<div class="page-header">
+  <span class="page-title">Manage User Access Rights</span>
+</div>
+
+<!--<div class="advance-filter-card">
+  <div class="filter-header">
+    <div class="search-field">
+      <button *ngIf="isEditMode" (click)="SaveUserRights()" mat-raised-button class="btn btn-primary">
+        <mat-icon>save</mat-icon>
+        Save
+      </button>
+      <button *ngIf="!isEditMode" (click)="onEditClick();" mat-raised-button class="btn btn-primary">
+        <mat-icon>edit</mat-icon>
+        Edit
+      </button>
+    </div>
+    <div class="divider"></div>
+    <div class="form-field ml-auto">
+      <mat-form-field appearance="outline">
+        <mat-label>Users</mat-label>
+        <mat-select [(value)]="selectedUser" [disabled]="isEditMode" (selectionChange)="loadUserAccessRights($event.value)">
+          <mat-option *ngFor="let user of userList" [value]="user">{{ user.name }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
+</div>-->
+
+<div class="page-body da-card">
+  <div class="form-card">
+    <div class="row">
+    
+      <div class="col-4">
+        <mat-form-field appearance="outline">
+          <mat-label>Select User</mat-label>
+          <mat-select [(value)]="selectedUser"
+                      (selectionChange)="loadUserAccessRights($event.value)">
+            <mat-option *ngFor="let user of userList" [value]="user">
+              {{user.name}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div class="col-8">
+        <div class="d-flex align-items-center justify-content-end">
+          <button mat-raised-button class="btn btn-primary" (click)="SaveUserRights()">
+            <mat-icon>save</mat-icon>
+            Save
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--<div *ngIf="isEditMode">
+  <mat-stepper orientation="horizontal" >
+    <mat-step>
+      <form>
+        <ng-template matStepLabel>Select Country(s)</ng-template>
+        <dual-list-box [sort]="keepSorted" [source]="sourceCountry" [key]="keyCountry" [display]="displayCountry" [filter]="filter"
+                       [(destination)]="confirmedCountry" height="150px" addLabel="Select Country(s)" removeLabel="Selections" [format]="format" [disabled]="disabled"></dual-list-box>
+        
+      </form>
+    </mat-step>
+    <mat-step>
+      <form>
+        <ng-template matStepLabel>Select Therapeutic Categories</ng-template>
+        <dual-list-box [sort]="keepSorted" [source]="sourceTherapeuticCategory" [key]="keyTherapeuticCategory" [display]="displayTherapeuticCategory" [filter]="filter"
+                       [(destination)]="confirmedTherapeuticCategory" height="150px" addLabel="Select Therapeutic Category(s)" removeLabel="Selections" [format]="format" [disabled]="disabled"></dual-list-box>
+        
+      </form>
+    </mat-step>
+    <mat-step>
+      <form>
+        <ng-template matStepLabel>Select Company(s)</ng-template>
+        <dual-list-box [sort]="keepSorted" [source]="sourceCompany" [key]="keyCompany" [display]="displayCompany" [filter]="filter"
+                       [(destination)]="confirmedCompany" height="150px" addLabel="Select Company(s)" [format]="format" removeLabel="Selections" [disabled]="disabled"></dual-list-box>
+        
+      </form>
+    </mat-step>
+    <mat-step>
+      <form>
+        <ng-template matStepLabel>Select Period(s)</ng-template>
+        <dual-list-box [sort]="keepSorted" [source]="sourcePeriod" [key]="keyPeriod" [display]="displayPeriod" [filter]="filter"
+                       [(destination)]="confirmedPeriod" height="150px" addLabel="Select Period(s)" [format]="format" removeLabel="Selections" [disabled]="disabled"></dual-list-box>
+        
+      </form>
+    </mat-step>
+  </mat-stepper>
+</div>-->
+<div class="selection-panel">
+  <section class="example-section">
+    <mat-checkbox class="example-margin" [ngModelOptions]="{standalone: true}" [(ngModel)]="userRights.reportAccess">Report Access</mat-checkbox>
+    <mat-checkbox class="example-margin" [ngModelOptions]="{standalone: true}" [(ngModel)]="userRights.saveSearchAccess">Save Search</mat-checkbox>
+    <mat-checkbox class="example-margin" [ngModelOptions]="{standalone: true}" [(ngModel)]="userRights.excelDownloadRights">Excel Download</mat-checkbox>
+  </section>
+</div>
+<div class="selection-panel">
+      <div class="chk-list-card da-card country-card">
+        <p class="card-title">Country</p>
+        <div class="advance-filter-card">
+          <div class="filter-header">
+            <div class="search-field">
+              <mat-icon>search</mat-icon>
+              <input type="search" class="form-control" (search)="onSearchCountry($event)" (keyup)="filterCountries($event)" [(ngModel)]="searchTextFieldCountry"
+                     id="searchCountry" placeholder="Search..">
+            </div>
+          </div>
+        </div>
+        <ul class="chk-list">
+          <li>
+            <mat-checkbox [(ngModel)]="selectAllCountryChecked" [checked]="selectAllCountryChecked" (change)="onCountrySelectAllChange($event)">Select All</mat-checkbox>
+          </li>
+          <li *ngFor="let country of countryListFiltered">
+            <mat-checkbox [checked]="selectedCountryIds.includes(country.country_Id)"
+                          (change)="onCountryChange($event, country.country_Id)">
+              {{ country.country_Name }}
+            </mat-checkbox>
+          </li>
+        </ul>
+      </div>
+
+      <div class="chk-list-card da-card company-card">
+        <p class="card-title">Company</p>
+        <div class="advance-filter-card">
+          <div class="filter-header">
+            <div class="search-field">
+              <mat-icon>search</mat-icon>
+              <input type="search" class="form-control" (search)="onSearchCompany($event)" (keyup)="filterCompanies($event)" [(ngModel)]="searchTextFieldCompany"
+                     id="searchCompany" placeholder="Search..">
+            </div>
+          </div>
+        </div>
+        <ul class="chk-list">
+          <li>
+            <mat-checkbox [(ngModel)]="selectAllCompanyChecked" [checked]="selectAllCompanyChecked" (change)="onCompanySelectAllChange($event)">Select All</mat-checkbox>
+          </li>
+          <li *ngFor="let company of companyListFiltered">
+            <mat-checkbox [checked]="selectedCompanyIds.includes(company.company_Id)"
+                          (change)="onCompanyChange($event, company.company_Id)">
+              {{ company.company_Name }}
+            </mat-checkbox>
+          </li>
+        </ul>
+      </div>
+
+      <div class="chk-list-card da-card function-card">
+        <p class="card-title">Therapeutic Categories</p>
+        <div class="advance-filter-card">
+          <div class="filter-header">
+            <div class="search-field">
+              <mat-icon>search</mat-icon>
+              <input type="search" class="form-control" (search)="onSearchTherapeuticCategory($event)" (keyup)="filterTherapeuticCategorys($event)" [(ngModel)]="searchTextFieldTherapeuticCategory"
+                     id="searchTherapeuticCategory" placeholder="Search..">
+            </div>
+          </div>
+        </div>
+        <ul class="chk-list">
+          <li>
+            <mat-checkbox [(ngModel)]="selectAllTherapeuticCategoryChecked" [checked]="selectAllTherapeuticCategoryChecked" (change)="onTherapeuticCategorySelectAllChange($event)">Select All</mat-checkbox>
+          </li>
+          <li *ngFor="let category of therapeuticCategoryListFiltered">
+            <mat-checkbox [checked]="selectedTherapeuticCategoryIds.includes(category.therapeuticCategory_Id)"
+                          (change)="onTherapeuticCategoryChange($event, category.therapeuticCategory_Id)">
+              {{ category.therapeuticCategory_Name }}
+            </mat-checkbox>
+          </li>
+        </ul>
+      </div>
+
+      <div class="chk-list-card da-card function-card">
+        <p class="card-title">Period(s)</p>
+        <div class="advance-filter-card">
+          <div class="filter-header">
+            <div class="search-field">
+              <mat-icon>search</mat-icon>
+              <input type="search" class="form-control" (search)="onSearchPeriod($event)" (keyup)="filterPeriods($event)" [(ngModel)]="searchTextFieldPeriod"
+                     id="searchPeriod" placeholder="Search..">
+            </div>
+          </div>
+        </div>
+        <ul class="chk-list">
+          <li>
+            <mat-checkbox [(ngModel)]="selectAllPeriodChecked" [checked]="selectAllPeriodChecked" (change)="onPeriodSelectAllChange($event)">Select All</mat-checkbox>
+          </li>
+          <li *ngFor="let period of periodListFiltered">
+            <mat-checkbox [checked]="selectedPeriodIds.includes(period.period_Id)"
+                          (change)="onPeriodChange($event, period.period_Id)">
+              {{ period.displayed_Title }}
+            </mat-checkbox>
+          </li>
+        </ul>
+      </div>
+    </div>

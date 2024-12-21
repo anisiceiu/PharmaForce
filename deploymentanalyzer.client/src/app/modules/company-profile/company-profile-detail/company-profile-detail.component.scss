@@ -1,0 +1,447 @@
+.container {
+  background-color: white;
+  padding: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  margin: 0 auto;
+  border-radius: 10px;
+  box-sizing: border-box;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.header .country,
+.header .quarter {
+  background-color: #ffa500;
+  color: white;
+  padding: 10px;
+  border-radius: 5px;
+  font-weight: bold;
+}
+
+.company-name {
+  text-align: center;
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  color: #044a98;
+}
+
+.info {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  margin-bottom: 0px;
+}
+
+.info .info-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #166b7f;
+  color: white;
+  padding: 20px;
+  border-radius: 5px;
+  flex: 1 1 150px;
+  text-align: center;
+  margin: 5px;
+  box-sizing: border-box;
+  width: 200px;
+  /* height: 105px; */
+  border-radius: 20px;
+  p {
+    font-size: 14px;
+    font-weight: 300;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 0;
+    span {
+      font-size: 15px;
+      color: #e0e0ff;
+      font-weight: bold;
+    }
+    .info-detail {
+      font-size: 14px;
+      color: #cad6ea;
+      font-weight: 600;
+      margin-top: 5px;
+    }
+  }
+}
+
+.deployment {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+.deployment-item {
+  display: flex;
+  padding: 30px;
+  color: #044a98;
+  flex: 1 1 150px;
+  margin: 5px;
+  background-color: #ffffff;
+  box-sizing: border-box;
+  font-family: Inter;
+  font-size: 17px;
+  font-weight: 400;
+  line-height: 20.57px;
+  text-align: left;
+  width: 230px;
+  height: 130px;
+  border-radius: 10px;
+  opacity: 0px;
+  box-shadow: 2px 2px 4px 0px #cececc;
+  .outer-box {
+    width: 85px;
+    height: 70px;
+    max-width: 85px;
+    max-height: 70px;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 15px;
+    img {
+      width: 50px;
+      height: 50px;
+    }
+  }
+  p {
+    font-family: Inter;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 20.57px;
+    text-align: left;
+    span {
+      font-family: Inter;
+      font-size: 25px;
+      font-weight: 700;
+      line-height: 30.26px;
+      text-align: left;
+    }
+  }
+}
+
+
+
+.therapeutic-categories {
+  // display: grid;
+  // grid-template-columns: repeat(auto-fit, minmax(175px, 1fr));
+  // gap: 10px;
+  display: grid;
+  grid-template-columns: auto auto auto auto;
+  grid-gap: 10px;
+  padding: 10px;
+}
+
+.category {
+  cursor: pointer;
+  text-align: center;
+  padding: 15px 0;
+  font-size: 30px;
+  // padding: 10px;
+  // text-align: center;
+  color: white;
+  box-sizing: border-box;
+  width: 275px;
+  // height: 96px;
+  border-radius: 10px;
+  opacity: 0px;
+
+  p {
+    // font-family: Inter;
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 10px;
+    font-weight: bold;
+    margin-bottom: 5px;
+    text-decoration: underline;
+  }
+
+  span {
+    // font-family: Inter;
+    font-size: 12px;
+    line-height: 14.52px;
+    text-align: center;
+    font-weight: 400;
+  }
+}
+
+.orange {
+  background-color: #ff8c00;
+}
+
+.green {
+  background-color: #98fb98;
+}
+
+.header-opt {
+  display: flex;
+  .form-field .ml-2 {
+    margin-left: 2px;
+  }
+}
+
+.da-card {
+  margin-bottom: 20px;
+  box-shadow: 2px 2px 4px 0px #cececc;
+}
+
+.chart-container {
+  padding: 40px;
+}
+
+.dpblue {
+  background-color: #166b7f;
+}
+.dpYellow {
+  background-color: #6f8419;
+}
+.dpPurple {
+  background-color: #6d3274;
+}
+.dpPink {
+  background-color: #d65050;
+}
+::ng-deep .mat-form-field-underline {
+  display: none !important;
+}
+
+.custom-form-field .mat-select {
+  border: 2px solid #044a98;
+  border-radius: 4px;
+  padding: 2px 10px;
+}
+
+.custom-form-field .mat-select-trigger {
+  background-color: #fff;
+  padding: 2px;
+  border-radius: inherit;
+}
+
+.custom-form-field .mat-form-field-outline {
+  border: none;
+}
+
+.custom-form-field .mat-form-field-outline-start,
+.custom-form-field .mat-form-field-outline-end {
+  display: none;
+}
+.table-container {
+  width: 100% !important;
+  max-width: 100% !important;
+  overflow: scroll;
+  overflow-y: hidden;
+  border-top-left-radius: 5px;
+  background: transparent;
+  border-top-right-radius: 5px;
+}
+
+.example-container {
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+}
+
+.no-data-row {
+  height: 100%;
+}
+
+.no-data-cell {
+  text-align: left;
+  vertical-align: middle;
+  font-style: italic;
+  color: gray;
+  height: 100px;
+  padding-left: 40px;
+}
+
+.paginator {
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+
+/* scrollbar */
+.table-container::-webkit-scrollbar {
+  width: 5px !important;
+  height: 5px !important;
+}
+
+.table-container::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  -webkit-border-radius: 10px;
+  border-radius: 10px;
+}
+
+.table-container::-webkit-scrollbar-thumb {
+  -webkit-border-radius: 10px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.3);
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.5);
+}
+
+.table-container::-webkit-scrollbar-thumb:window-inactive {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.anti-infectives {
+  background-color: #8bc34a;
+}
+
+.dpbluelight {
+  background-color: #368699;
+}
+.dpyellowlight {
+  background-color: #6f8419;
+}
+
+.cardiovascular {
+  background-color: #23511e;
+}
+
+.cns-pain-and-anesthesia {
+  background-color: #00bcd4;
+}
+
+.dermatology {
+  background-color: #9c27b0;
+}
+.gastrointestinal {
+  background-color: #a30000;
+}
+.oncology-and-hematology {
+  background-color: #4caf50;
+}
+.respiratory-and-allergy {
+  background-color: #afb42b;
+}
+.urology {
+  background-color: #2f4b7c;
+}
+.vaccines {
+  background-color: #665191;
+}
+.ophthalmology {
+  background-color: #d45087;
+}
+.nephrology-and-transplantation {
+  background-color: #f95d6a;
+}
+.other {
+  background-color: #ff7c43;
+}
+
+::ng-deep .mat-mdc-form-field {
+  margin-bottom: 0 !important;
+}
+
+::ng-deep .mat-mdc-form-field {
+  flex-direction: row !important;
+}
+
+.uir-profile {
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 30px;
+
+  .buttons-value {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+    background: #044a98;
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 50px;
+    color: #fff;
+
+    .buttons-item {
+      display: flex;
+      flex-direction: column;
+
+      .btn-lbl {
+        color: #939299;
+        font-size: 12px;
+      }
+    }
+  }
+
+  .table-pagination {
+    width: 100%;
+    background: #fff;
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    border: 1px solid #eaecf0;
+    border-radius: 0 0 8px 8px;
+    margin-top: 0;
+    overflow: hidden;
+    padding: 16px;
+
+    .mdc-fab {
+      background: #e7883c;
+      border-radius: 8px;
+      border-color: #e7883c;
+      height: 44px;
+      color: #fff;
+      box-shadow: none;
+      font-weight: 500 !important;
+      font-family: "Poppins", sans-serif, system-ui, -apple-system !important;
+    }
+  }
+
+  .ui-table {
+    box-shadow: none;
+  }
+}
+
+.uir-note {
+  border: 1px solid #eaecf0;
+
+  .panel-title {
+    width: 100%;
+    padding: 10px;
+    font-size: 12px;
+    background: #eaecf0;
+    border-radius: 4px 4px 0 0;
+    font-weight: 500;
+    height: 44px;
+    line-height: 24px;
+    padding-left: 20px;
+  }
+
+  .notes {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    border: 1px solid #eaecf0;
+
+    .note-item {
+      font-size: 14px;
+      color: #091e42;
+      min-height: 53px;
+      padding: 15px 20px;
+      border-bottom: 1px solid #eaecf0;
+      line-height: 22px;
+    }
+  }
+}
+
+
+.mat-column-pct_Split_Between_Primary_Care_And_Specialty {
+  flex: none;
+  min-width: 110px;
+}
+
+.search-input {
+  width: 170px;
+  margin-top: 10px;
+  height: 28px;
+}

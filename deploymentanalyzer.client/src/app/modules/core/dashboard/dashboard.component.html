@@ -1,0 +1,132 @@
+<!--<div class="dm-field-card-list list-column-1 ui-card-hero">
+  <mat-card class="dm-field-card">
+    <mat-card-content>
+      <div class="intro-area">
+        <div class="intro-text">
+          <h1>Hello {{currentUser.name}}!</h1>
+          <p>
+            Have a nice day and don’t forget to take care<br />
+            of your health!
+          </p>
+        </div>
+        <div class="intro-img">
+          <img src="/images/ds-hero.svg" alt="" />
+        </div>
+        
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>-->
+
+<div class="dm-field-card-list list-column-3 ui-card">
+  <mat-card class="dm-field-card card-a">
+    <mat-card-header class="position-sticky">
+      <div class="card-title">
+        <img src="/images/ds-company.svg" alt="" />
+        <div>Favorite Companies</div>
+      </div>
+      
+    </mat-card-header>
+    <mat-card-content>
+      <div class="form-field-group addon-btn fav-card">
+        @defer(){
+        <mat-list>
+          
+          @for (company of favoriteCompanies; track company) {
+          <mat-list-item>
+            <!--<div class="company-list-img">-->
+              <!--<mat-icon class="favorite-item" matListItemIcon>star</mat-icon>-->
+              <!--<img src="/images/ds-fv-company.png" alt="" />-->
+            <div matListItemTitle>
+              <mat-icon *ngIf="company.alerts_enabled" matTooltip="Unsubscribe Now" (click)="subscribeCompany(company.company_Id,false)" class="favorite-item red-icon" matListItemIcon>subscriptions</mat-icon>
+              <mat-icon *ngIf="!company.alerts_enabled" matTooltip="Subscribe Now" (click)="subscribeCompany(company.company_Id,true)" class="grey-icon" matListItemIcon>unsubscribe</mat-icon>
+              &nbsp;<span style="cursor:pointer;" [routerLink]="['/company-detail',company.company_Id]">{{company.company_Name}}</span>
+            </div>
+              <!--</div>-->
+          </mat-list-item>
+          }
+          </mat-list>
+        }
+        </div>
+    </mat-card-content>
+  </mat-card>
+  
+
+  <mat-card class="dm-field-card card-b">
+    <mat-card-header class="position-sticky">
+      <div class="card-title">
+        <img src="/images/ds-product.svg" alt="" />
+       <div>Favorite Products </div>
+        </div>
+
+</mat-card-header>
+    <mat-card-content>
+      <div class="form-field-group addon-btn fav-card">
+        @defer(){
+        <mat-list>
+          
+          @for (product of favoriteProducts; track product) {
+          <mat-list-item>
+            <mat-icon *ngIf="product.alerts_enabled" matTooltip="Unsubscribe Now" (click)="subscribeProduct(product.product_Id,false)" class="favorite-item red-icon" matListItemIcon>subscriptions</mat-icon>
+            <mat-icon *ngIf="!product.alerts_enabled" matTooltip="Subscribe Now" (click)="subscribeProduct(product.product_Id,true)" class="favorite-item grey-icon" matListItemIcon>unsubscribe</mat-icon>
+            <div matListItemTitle><span style="cursor:pointer;" [routerLink]="['/product-detail',product.product_Id]">{{product.uS_Brand_Name}}</span></div>
+          </mat-list-item>
+          }
+          </mat-list>
+        }
+        </div>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card class="dm-field-card card-c section-title">
+    <mat-card-header [routerLink]="['/news-history']">
+      <div class="card-title">
+        <img src="/images/ds-news.svg" alt="" />
+        <div class="news-header">News Studio <a [routerLink]="['/news-history']"><mat-icon class="text-primary" matTooltip="More News">read_more</mat-icon></a></div>
+      </div>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="form-field-group addon-btn fav-card">
+      @defer(){
+        <mat-list>
+          
+          @for (news of newsmanagement; track news) {
+            <mat-list-item>
+              
+              <div matListItemTitle>{{news.short_Message}} <a class="text-primary" [routerLink]="['/news-detail',news.news_Id]" >Read More</a> </div>
+              <div matListItemLine style="font-style: italic !important; font-size: smaller !important;float:right;">{{news.news_Date | date}}</div>
+            </mat-list-item>
+          }
+          </mat-list>
+        }
+        </div>
+    </mat-card-content>
+  </mat-card>
+</div>
+
+<div class="dm-field-card-list list-column-1 ui-card-b">
+  <mat-card class="dm-field-card card-d section-title">
+    <mat-card-header [routerLink]="['/key-update-history']"  class="position-sticky ">
+      <div class="card-title">
+        <img src="/images/ds-key.svg" alt="" />
+        <div class="news-header">Key Updates <a [routerLink]="['/key-update-history']"><mat-icon class="text-primary" matTooltip="More Key Updates">read_more</mat-icon></a></div>
+      </div>
+
+</mat-card-header>
+    <mat-card-content>
+      <div class="form-field-group addon-btn fav-card-update">
+          @defer () {
+          <mat-list>
+            @for (update of keyUpdates; track update) {
+            <mat-list-item>
+              <!--<mat-icon class="favorite-item" matListItemIcon>lists</mat-icon>-->
+              <div matListItemTitle>{{update.note}}</div>
+
+            </mat-list-item>
+            }
+          </mat-list>
+          }
+      </div>
+    </mat-card-content>
+  </mat-card>
+  </div>

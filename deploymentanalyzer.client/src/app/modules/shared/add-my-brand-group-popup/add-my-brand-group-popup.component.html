@@ -1,0 +1,73 @@
+<div class="page-body">
+  <aside class="da-sibedar da-sidebar-xl {{isOpenManageBrandGroupSidebar ? 'da-sidebar-open' : ''}}">
+    <div class="sidebar-content">
+      <div class="sidebar-header">
+        <h6 class="sidebar-title">{{ data.myBrandGroup.id> 0 ? 'Edit Brand Group' : 'Add Brand Group' }}</h6>
+        <div class="sidebar-action">
+          <button mat-raised-button [mat-dialog-close]="brandGroupForm" [disabled]="!brandGroupForm.valid">
+
+            Save
+          </button>
+          <a class="link-pointer" (click)="onCloseClick()">
+            <mat-icon>close</mat-icon>
+          </a>
+        </div>
+      </div>
+      <div class="sidebar-body">
+        <form [formGroup]="brandGroupForm" autocomplete="off">
+          <mat-form-field appearance="outline">
+            <mat-label>Name</mat-label>
+            <input matInput placeholder="Enter name" name="name" formControlName="name">
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Company</mat-label>
+            <input matInput
+                   type="text"
+                   formControlName="company_NameAuto"
+                   [matAutocomplete]="autoCompany_Name" />
+            <mat-autocomplete autoActiveFirstOption #autoCompany_Name="matAutocomplete" (optionSelected)="onSelectedCompanyChange($event)" [displayWith]="displayFn">
+              <mat-option *ngFor="let company of filteredOptionsCompany_Name | async;" [value]="company">
+                {{ company.name }}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Therapeutic Category</mat-label>
+            <input matInput
+                   type="text"
+                   formControlName="therapticCategory_NameAuto"
+                   [matAutocomplete]="autoTherapticCategory_Name" />
+            <mat-autocomplete autoActiveFirstOption #autoTherapticCategory_Name="matAutocomplete" (optionSelected)="onSelectedTherapeuticCategoryChange($event)" [displayWith]="displayFn">
+              <mat-option *ngFor="let thcat of filteredOptionstherapticCategory_Name | async;" [value]="thcat">
+                {{ thcat.name }}
+              </mat-option>
+            </mat-autocomplete>
+
+
+          </mat-form-field>
+
+          <!--<div>
+            <span>
+              Is Chemical Group <mat-slide-toggle formControlName="isChemicalGroup"></mat-slide-toggle>
+            </span>
+          </div>-->
+          <br/>
+          
+
+          <div>
+            <mat-label>
+              Select Brands
+            </mat-label>
+            <dual-list-box-control (click)="onClickDualBox()" [sort]="keepSorted" [source]="sourceBrand" [key]="keyBrand" [display]="displayBrand" [filter]="filter"
+                                   [(destination)]="confirmedBrand" height="150px" [format]="format" [disabled]="disabled"></dual-list-box-control>
+
+          </div>
+        </form>
+      </div>
+    </div>
+  </aside>
+</div>
+
+

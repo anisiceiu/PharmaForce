@@ -1,0 +1,533 @@
+<div class="page-header">
+  <span class="page-title">QCQueues</span>
+  <div class="page-action">
+    <button mat-raised-button class="btn btn-primary-outline" (click)="viewHistory()">
+      <mat-icon>history</mat-icon>
+      View QCQ History
+    </button>
+  </div>
+</div>
+<div class="page-body da-card list-filter-card">
+  <div class="advance-filter-card">
+    <div class="row">
+      <div class="col-3">
+        <form [formGroup]="searchForm">
+
+          <mat-form-field appearance="outline" [subscriptSizing]="'dynamic'" class="m-0">
+            <mat-label>Search</mat-label>
+            <input matInput type="text" placeholder="Search salesforce,companies or products..."
+                   formControlName="search_NameAuto" [matAutocomplete]="autoSearch_Name" />
+            <mat-autocomplete autoActiveFirstOption #autoSearch_Name="matAutocomplete"
+                              (optionSelected)="onSearchTextChange($event)">
+              <mat-option *ngFor="let option of filteredOptionsSearchText" [value]="option">
+                {{ option }}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+
+        </form>
+      </div>
+      <div class="col-9 p-0">
+        <div class="new-ui table-icons">
+          <!-- <div class="col-2"> -->
+          <div class="btn-group">
+            <button type="button" class="btn btn-primary-outline small-button" (click)="filterDisplay()">
+              <!--<mat-icon>filter_alt</mat-icon>-->
+              Filter
+            </button>
+
+            <button type="button" class="btn btn-primary-outline small-button" (click)="resetAllFilters()">
+              <!--<mat-icon>restart_alt</mat-icon>-->
+              Reset
+            </button>
+          </div>
+          <!--<button type="button" class="toggle-advance-filter-btn" matTooltip="save filters" (click)="saveUserPreferences()">
+        <mat-icon>save</mat-icon>
+      </button>-->
+          <!-- </div> -->
+          <!-- <div class="col-7"> -->
+          @defer () {
+          <mat-chip-set aria-label="Applied Filters">
+            <div style="display: flex; overflow-x: auto; flex-flow: nowrap; width: 100%; margin-left: 10px; margin-right: 7px;">
+              <mat-chip removable="true"
+                        *ngIf="searchForm.get('country_Name')?.value && searchForm.get('country_Name')?.value.length > 0">
+                <span class="fw-700">country: </span>
+                <span>{{ searchForm.get('country_Name')?.value}}</span>
+                <button matChipRemove [attr.aria-label]="" (click)="removeToppings('country')">
+                  <mat-icon>close</mat-icon>
+                </button>
+              </mat-chip>
+              <mat-chip removable="true"
+                        *ngIf="searchForm.get('company_Name')?.value && searchForm.get('company_Name')?.value.length > 0">
+                <span class="fw-700">company: </span>
+                <span>{{ searchForm.get('company_Name')?.value }}</span>
+                <button matChipRemove [attr.aria-label]="" (click)="removeToppings('company')">
+                  <mat-icon>close</mat-icon>
+                </button>
+              </mat-chip>
+              <mat-chip removable="true"
+                        *ngIf="searchForm.get('salesForce_Name')?.value && searchForm.get('salesForce_Name')?.value.length > 0">
+                <span class="fw-700">salesForce: </span>
+                <span>{{ searchForm.get('salesForce_Name')?.value}}</span>
+                <button matChipRemove [attr.aria-label]="" (click)="removeToppings('salesforce')">
+                  <mat-icon>close</mat-icon>
+                </button>
+              </mat-chip>
+              <mat-chip removable="true" *ngIf="searchForm.get('period_Year')?.value && searchForm.get('period_Year')?.value.length > 0">
+                <span class="fw-700">period year: </span>
+                <span>{{ searchForm.get('period_Year')?.value }}</span>
+                <button matChipRemove [attr.aria-label]="" (click)="removeToppings('period_Year')">
+                  <mat-icon>close</mat-icon>
+                </button>
+              </mat-chip>
+              <mat-chip removable="true" *ngIf="searchForm.get('period_Quarter')?.value && searchForm.get('period_Quarter')?.value.length > 0">
+                <span class="fw-700">period quarter: </span>
+                <span>{{ searchForm.get('period_Quarter')?.value }}</span>
+                <button matChipRemove [attr.aria-label]="" (click)="removeToppings('period_Quarter')">
+                  <mat-icon>close</mat-icon>
+                </button>
+              </mat-chip>
+
+              <mat-chip removable="true" *ngIf="searchForm.get('has_citation')?.value">
+                <span class="fw-700">Has Citation: </span>
+                <span>{{ searchForm.get('has_citation')?.value}}</span>
+                <button matChipRemove [attr.aria-label]="" (click)="removeToppings('has_citation')">
+                  <mat-icon>close</mat-icon>
+                </button>
+              </mat-chip>
+            </div>
+          </mat-chip-set>
+          }
+
+        </div>
+      </div>
+      <!--<a (click)="resetAllFilters()">Reset</a>-->
+      <!-- </div> -->
+      <!--<div class="form-field ml-auto">
+    <button mat-raised-button (click)="onSearch()">
+      <mat-icon>search</mat-icon>
+      Search
+    </button>
+  </div>-->
+    </div>
+    <mat-accordion class="example-headers-align" multi>
+      <mat-expansion-panel>
+        <div class="filter-body">
+          <form [formGroup]="searchForm">
+            <div class="row">
+              <div class="col-4">
+
+                <mat-form-field appearance="outline">
+                  <mat-label>Country</mat-label>
+
+                  <input matInput
+                         type="text"
+                         formControlName="country_NameAuto"
+                         [matAutocomplete]="autoCountry_Name" />
+                  <mat-autocomplete autoActiveFirstOption #autoCountry_Name="matAutocomplete" (optionSelected)="onSelectedCountryChange($event)" [displayWith]="displayFn">
+                    <mat-option *ngFor="let country of filteredOptionsCountry_Name | async;" [value]="country">
+                      {{ country.name }}
+                    </mat-option>
+                  </mat-autocomplete>
+                </mat-form-field>
+              </div>
+              <div class="col-4">
+                <mat-form-field appearance="outline">
+                  <mat-label>Company</mat-label>
+
+                  <input matInput
+                         type="text"
+                         formControlName="company_NameAuto"
+                         [matAutocomplete]="autoCompany_Name" />
+                  <mat-autocomplete autoActiveFirstOption #autoCompany_Name="matAutocomplete" (optionSelected)="onSelectedCompanyChange($event)" [displayWith]="displayFn">
+                    <mat-option *ngFor="let company of filteredOptionsCompany_Name | async;" [value]="company">
+                      {{ company.name }}
+                    </mat-option>
+                  </mat-autocomplete>
+                </mat-form-field>
+              </div>
+              <div class="col-4">
+                <mat-form-field appearance="outline">
+                  <mat-label>Salesforce Name</mat-label>
+
+                  <input matInput
+                         type="text"
+                         formControlName="salesForce_NameAuto"
+                         [matAutocomplete]="autoSalesForce_Name" />
+                  <mat-autocomplete autoActiveFirstOption #autoSalesForce_Name="matAutocomplete" (optionSelected)="onSelectedSalesForceChange($event)" [displayWith]="displayFn">
+                    <mat-option *ngFor="let salesforce of filteredOptionsSalesForce_Name | async;" [value]="salesforce">
+                      {{ salesforce.name }}
+                    </mat-option>
+                  </mat-autocomplete>
+                </mat-form-field>
+              </div>
+
+              <div class="col-2">
+                <mat-form-field appearance="outline">
+                  <mat-label>Period Year</mat-label>
+                  <mat-select formControlName="period_Year">
+                    <mat-option *ngFor="let year of period_YearsNarrow" [value]="year.name">{{ year.name }}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+
+              <div class="col-2">
+                <mat-form-field appearance="outline">
+                  <mat-label>Period Quarter</mat-label>
+                  <mat-select formControlName="period_Quarter">
+                    <mat-option *ngFor="let quarter of period_Quarters" [value]="quarter.name">{{ quarter.name }}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+
+              <!--<div class="col-2">
+    <mat-form-field appearance="outline">
+      <mat-label>QCQ Status</mat-label>
+      <mat-select formControlName="qcq_status">
+        <mat-option *ngFor="let status of qcq_Status" [value]="status.id">{{ status.name }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>-->
+
+              <div class="col-2">
+                <section class="example-section">
+                  <p><mat-checkbox formControlName="has_citation">Has Citation</mat-checkbox></p>
+                </section>
+              </div>
+
+              <div class="col-4">
+                <mat-form-field appearance="outline">
+                  <mat-label>Salesforce ID or Product ID</mat-label>
+                  <input matInput
+                         type="text"
+                         formControlName="dadatabase_id" />
+                </mat-form-field>
+              </div>
+              <div class="row">
+                <div class="col-2">
+                  <button mat-raised-button class="btn btn-primary" (click)="onSearch()">
+                    Search
+                  </button>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </mat-expansion-panel>
+    </mat-accordion>
+
+  </div>
+  <div class="ui-table list-card table-container">
+    <!--@defer () {
+    @if(this.qcqueues.length > 0){-->
+
+    <table mat-table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)" multiTemplateDataRows disableClear>
+
+      <ng-container matColumnDef="select" sticky>
+        <th mat-header-cell *matHeaderCellDef>
+          Actions
+        </th>
+
+        <td mat-cell *matCellDef="let row">
+          <div class="grid-action-cell">
+            <a (click)="toggleRow1(row)" matTooltip="Expand" aria-label="Expand icon button" class="action-button">
+              <mat-icon color="primary">{{ isRowExpanded(row) ? 'remove_circle' : 'add_circle' }}</mat-icon>
+            </a>
+
+            <a (click)="approveQCQ(row)" matTooltip="Approve" aria-label="Disabled icon button" class="action-button disable">
+              <mat-icon color="primary">check</mat-icon>
+            </a>
+
+            <a (click)="rejectQCQ(row)" matTooltip="Reject" aria-label="Remove icon button"
+               class="action-button remove">
+              <mat-icon color="warn">cancel</mat-icon>
+            </a>
+          </div>
+        </td>
+
+      </ng-container>
+      <ng-container matColumnDef="daDatabase_Salesforce_id">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Salesforce ID</th>
+        <td mat-cell *matCellDef="let element">{{element.daDatabase_Salesforce_id}}</td>
+      </ng-container>
+      <ng-container matColumnDef="qcq_status" sticky>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>QCQ Status</th>
+        <td mat-cell *matCellDef="let element">
+          @if(element.qcQ_Status && element.qcQ_Status == 1){
+          {{'Pending'}}
+          }
+          @else if(element.qcQ_Status && element.qcQ_Status == 2){
+          {{'Approved'}}
+          }
+          @else if(element.qcQ_Status && element.qcQ_Status == 3){
+          {{'Rejected'}}
+          }@else if(element.qcQ_Status && element.qcQ_Status == 5){
+          {{'Published'}}
+          }@else {
+          {{'N/A'}}
+          }
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="has_citation" sticky>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Has Citation</th>
+        <td mat-cell *matCellDef="let element">
+          @if(element.has_Citation){
+          <mat-icon class="icon-primary">toggle_on</mat-icon>
+          }@else{
+          <mat-icon class="icon-disabled">toggle_off</mat-icon>
+          }
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="salesforce_Name" sticky>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Salesforce</th>
+        <td mat-cell [ngClass]="{'is-column-changed': hasChangedColumn(element,'salesforce_Name')}" *matCellDef="let element">{{element.salesforce_Name}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="type_of_Salesforce" sticky>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Type of Salesforce</th>
+        <td mat-cell [ngClass]="{'is-column-changed': hasChangedColumn(element,'type_of_Salesforce')}" *matCellDef="let element">{{element.type_of_Salesforce}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="country_Name" sticky>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Country</th>
+        <td mat-cell [ngClass]="{'is-column-changed': hasChangedColumn(element,'country_Name')}" *matCellDef="let element">{{element.country_Name}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="company_Name" sticky>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Company</th>
+        <td mat-cell [ngClass]="{'is-column-changed': hasChangedColumn(element,'company_Name')}" *matCellDef="let element">{{element.company_Name}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="period_Year" sticky>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Period Year</th>
+        <td mat-cell [ngClass]="{'is-column-changed': hasChangedColumn(element,'period_Year')}" *matCellDef="let element">{{element.period_Year}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="period_Quarter" sticky>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Period Quarter</th>
+        <td mat-cell [ngClass]="{'is-column-changed': hasChangedColumn(element,'period_Quarter')}" *matCellDef="let element">{{element.period_Quarter}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="number_Of_Sales_Representatives">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Sales Representatives</th>
+        <td mat-cell [ngClass]="{'is-column-changed': hasChangedColumn(element,'number_Of_Sales_Representatives')}" *matCellDef="let element">{{element.number_Of_Sales_Representatives}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="number_Of_District_Managers">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>District Managers</th>
+        <td mat-cell [ngClass]="{'is-column-changed': hasChangedColumn(element,'number_Of_District_Managers')}" *matCellDef="let element">{{element.number_Of_District_Managers}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="number_Of_Regional_Managers">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Regional Managers</th>
+        <td mat-cell [ngClass]="{'is-column-changed': hasChangedColumn(element,'number_Of_Regional_Managers')}" *matCellDef="let element">{{element.number_Of_Regional_Managers}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="salary_Low">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Salary Low</th>
+        <td mat-cell [ngClass]="{'is-column-changed': hasChangedColumn(element,'salary_Low')}" *matCellDef="let element">{{element.salary_Low}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="salary_High">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Salary High</th>
+        <td mat-cell [ngClass]="{'is-column-changed': hasChangedColumn(element,'salary_High')}" *matCellDef="let element">{{element.salary_High}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="target_Bonus">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Target Bonus</th>
+        <td mat-cell [ngClass]="{'is-column-changed': hasChangedColumn(element,'target_Bonus')}" *matCellDef="let element">{{element.target_Bonus}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="reach">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Reach</th>
+        <td mat-cell [ngClass]="{'is-column-changed': hasChangedColumn(element,'reach')}" *matCellDef="let element">{{element.reach}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="frequency">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Frequency</th>
+        <td mat-cell [ngClass]="{'is-column-changed': hasChangedColumn(element,'frequency')}" *matCellDef="let element">{{element.frequency}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="additional_Notes_Salesforce">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Salesforce Notes</th>
+        <td mat-cell [ngClass]="{'is-column-changed': hasChangedColumn(element,'additional_Notes')}" *matCellDef="let element">{{element.additional_Notes_Salesforce}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="pct_Split_Between_Primary_Care_And_Specialty">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>PCT</th>
+        <td mat-cell [ngClass]="{'is-column-changed': hasChangedColumn(element,'pct_Split_Between_Primary_Care_And_Specialty')}" *matCellDef="let element">{{element.pct_Split_Between_Primary_Care_And_Specialty}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="uS_Product_Name_Product_Promoted">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>US Product</th>
+        <td mat-cell [ngClass]="{'is-column-changed': hasChangedColumn(element,'uS_Product_Name_Product_Promoted')}" *matCellDef="let element">{{element.uS_Product_Name_Product_Promoted}}</td>
+      </ng-container>
+      <ng-container matColumnDef="country_Specific_Product_Name_Product_Promoted">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Country Specific Name</th>
+        <td mat-cell [ngClass]="{'is-column-changed': hasChangedColumn(element,'country_Specific_Product_Name_Product_Promoted')}" *matCellDef="let element">{{element.country_Specific_Product_Name_Product_Promoted}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="primary_Care_Full_Time_Equivalents_FTEs">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Primary Care FTEs</th>
+        <td mat-cell [ngClass]="{'is-column-changed': hasChangedColumn(element,'primary_Care_Full_Time_Equivalents_FTEs')}" *matCellDef="let element">{{element.primary_Care_Full_Time_Equivalents_FTEs}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="specialty_Full_Time_Equivalents_FTEs">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Specialty FTEs</th>
+        <td mat-cell [ngClass]="{'is-column-changed': hasChangedColumn(element,'specialty_Full_Time_Equivalents_FTEs')}" *matCellDef="let element">{{element.specialty_Full_Time_Equivalents_FTEs}}</td>
+      </ng-container>
+      <ng-container matColumnDef="physicians_Focus_Primary_Care_Physicians_Specialty_Physicians">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Physician Focus</th>
+        <td mat-cell [ngClass]="{'is-column-changed': hasChangedColumn(element,'physicians_Focus_Primary_Care_Physicians_Specialty_Physicians')}" *matCellDef="let element">{{element.physicians_Focus_Primary_Care_Physicians_Specialty_Physicians}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="total_Number_of_Full_Time_Equivalents_FTEs">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Total Number FTEs</th>
+        <td mat-cell [ngClass]="{'is-column-changed': hasChangedColumn(element,'total_Number_of_Full_Time_Equivalents_FTEs')}" *matCellDef="let element">{{element.total_Number_of_Full_Time_Equivalents_FTEs}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="product_promoted" sticky>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Product Promoted</th>
+        <td mat-cell [ngClass]="{'is-column-changed': hasChangedColumn(element,'product_promoted')}" *matCellDef="let element">{{element.product_promoted}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="generic_Name">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Generic Name</th>
+        <td mat-cell [ngClass]="{'is-column-changed': hasChangedColumn(element,'generic_Name')}" *matCellDef="let element">{{element.generic_Name}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="therapeutic_Category">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Therapeutic Category</th>
+        <td mat-cell [ngClass]="{'is-column-changed': hasChangedColumn(element,'therapeutic_Category')}" *matCellDef="let element">{{element.therapeutic_Category}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="product_Promotion_Priority_Order">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Product Promotion Priority Order</th>
+        <td mat-cell [ngClass]="{'is-column-changed': hasChangedColumn(element,'product_Promotion_Priority_Order')}" *matCellDef="let element">{{element.product_Promotion_Priority_Order}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="specialty_Physicians_Targeted">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Physicians Targeted</th>
+        <td mat-cell [ngClass]="{'is-column-changed': hasChangedColumn(element,'specialty_Physicians_Targeted')}" *matCellDef="let element">{{element.specialty_Physicians_Targeted}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="co_Promotion_YesNo">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Co-Promotion</th>
+        <td mat-cell [ngClass]="{'is-column-changed': hasChangedColumn(element,'co_Promotion_YesNo')}" *matCellDef="let element">
+          @if(element.co_Promotion_YesNo)
+          {
+          {{'Yes'}}
+          }@else {
+          {{'No'}}
+          }
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="name_of_a_Partner_Company">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Partner Company</th>
+        <td mat-cell [ngClass]="{'is-column-changed': hasChangedColumn(element,'name_of_a_Partner_Company')}" *matCellDef="let element">{{element.name_of_a_Partner_Company}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="contract_Sales_Force_YesNo">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Contract Salesforce</th>
+        <td mat-cell [ngClass]="{'is-column-changed': hasChangedColumn(element,'contract_Sales_Force_YesNo')}" *matCellDef="let element">
+          @if(element.contract_Sales_Force_YesNo)
+          {
+          {{'Yes'}}
+          }@else {
+          {{'No'}}
+          }
+        </td>
+        <ng-container matColumnDef="name_of_a_CSO_Contract_Sales_Organization">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Contract Sales Organization</th>
+          <td mat-cell [ngClass]="{'is-column-changed': hasChangedColumn(element,'name_of_a_CSO_Contract_Sales_Organization')}" *matCellDef="let element">{{element.name_of_a_CSO_Contract_Sales_Organization}}</td>
+        </ng-container>
+      </ng-container>
+
+      <ng-container matColumnDef="additional_Notes_Product">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Product Notes</th>
+        <td mat-cell [ngClass]="{'is-column-changed': hasChangedColumn(element,'additional_Notes_Product')}" *matCellDef="let element">{{element.additional_Notes_Product}}</td>
+      </ng-container>
+      <ng-container matColumnDef="date_Added">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Added Date</th>
+        <td mat-cell *matCellDef="let element">{{element.date_Added | date:'short'}}</td>
+      </ng-container>
+      <ng-container matColumnDef="added_by_name">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Added By</th>
+        <td mat-cell *matCellDef="let element">{{element.added_by_name}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="modified_date">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Modified Date</th>
+        <td mat-cell *matCellDef="let element">{{element.modified_date | date:'short'}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="modified_by_name">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Modified By</th>
+        <td mat-cell *matCellDef="let element">{{element.modified_by_name}}</td>
+      </ng-container>
+
+
+      <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
+      <ng-container matColumnDef="expandedDetail">
+        <td mat-cell *matCellDef="let element" [attr.colspan]="displayedColumns.length">
+          <div class="example-element-detail" *ngIf="element.childRecords?.data.length" [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
+            <div class="inner-table mat-elevation-z8" *ngIf="expandedElement">
+              <table #innerTables mat-table #innerSort="matSort" [dataSource]="element.childRecords" matSort>
+                <ng-container matColumnDef="daDatabase_Product_id">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Product Id</th>
+                  <td mat-cell *matCellDef="let element">{{element.daDatabase_Product_id}}</td>
+                </ng-container>
+                <ng-container matColumnDef="column_Name">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Column Name</th>
+                  <td mat-cell *matCellDef="let element">{{element.column_Name}}</td>
+                </ng-container>
+                <ng-container matColumnDef="message">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>New Value</th>
+                  <td mat-cell *matCellDef="let element">{{element.message}}</td>
+                </ng-container>
+                <ng-container matColumnDef="previous_value">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Previous Value</th>
+                  <td mat-cell *matCellDef="let element">{{element.previous_value}}</td>
+                </ng-container>
+                <ng-container matColumnDef="date_added">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Date Added</th>
+                  <td mat-cell *matCellDef="let element">{{element.date_Added | date:'medium'}}</td>
+                </ng-container>
+                <ng-container matColumnDef="added_by">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Added By</th>
+                  <td mat-cell *matCellDef="let element">{{element.added_by}}</td>
+                </ng-container>
+                <ng-container matColumnDef="qcq_note">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>QCQ Note</th>
+                  <td mat-cell *matCellDef="let element">{{element.qcq_note}}</td>
+                </ng-container>
+                <tr mat-header-row *matHeaderRowDef="innerDisplayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: innerDisplayedColumns;"></tr>
+              </table>
+            </div>
+          </div>
+        </td>
+      </ng-container>
+
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let element; columns: displayedColumns;" [class.example-element-row]="element.childRecords?.data.length"
+          [class.example-expanded-row]="expandedElement === element">
+      </tr>
+      <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
+    </table>
+
+    <!--}
+
+
+    }-->
+  </div>
+  <div class="table-pagination">
+    <mat-paginator [pageSizeOptions]="[15,30,50,100]" showFirstLastButtons aria-label="Select page of qcqueues">
+    </mat-paginator>
+  </div>
+
+</div>

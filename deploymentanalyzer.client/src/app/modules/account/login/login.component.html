@@ -1,0 +1,34 @@
+<div class="lg-section">
+<div class="wrapper">
+  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+    <h2>Client Login</h2>
+
+    <div class="input-field">
+      <input type="text" formControlName="username" required>
+      <label>Enter Company Username</label>
+    </div>
+
+    <div class="input-field">
+      <input type="password" formControlName="password" required>
+      <label>Enter Company Password </label>
+    </div>
+
+    <div class="input-field">
+      <input type="email" formControlName="email" required>
+      <label>Enter Client Email</label>
+    </div>
+
+    <div class="forget">
+      <label style="text-align:center;" *ngIf="showMessage" for="remember">
+        Please accept terms and conditions
+      </label>
+      <mat-checkbox (change)="onTCCheckChange($event)" [ngModelOptions]="{standalone: true}" [(ngModel)]="isAcceptTermCondition">I agree to the </mat-checkbox>&nbsp;&nbsp;<a (click)="openTermsConditionDialog()" style="color:orange;font-weight:bold;cursor:pointer;">terms and conditions</a>
+    </div>
+    <button class="btnLogin" type="submit">Login</button>
+    <div class="register">
+      <!--<p>Don't have an account? <a href="#">Register</a></p>-->
+      <!--<p>Administrator? <a [routerLink]="['/admin-login']">Administrator Login</a></p>-->
+    </div>
+  </form>
+</div>
+</div>

@@ -1,0 +1,86 @@
+<div class="page-body">
+    <aside class="da-sibedar da-sidebar-sm {{isOpenManageUserSidebar ? 'da-sidebar-open' : ''}}">
+      <div class="sidebar-content">
+        <div class="sidebar-header">
+          @if(showOption){
+          <h6 class="sidebar-title">{{ data.user.id > 0 ? 'Edit User' : 'Add User' }}</h6>
+          }
+          @else{
+            <h6 class="sidebar-title">{{ data.user.id > 0 ? 'Edit User' : 'Add User' }}</h6>
+          }
+          
+          <div class="sidebar-action">
+            <button mat-raised-button [mat-dialog-close]="userForm" [disabled]="!userForm.valid">
+              <!--{{ data.user.id > 0 ? 'Save' : 'Add' }}-->
+              Save
+            </button>
+            <a class="link-pointer" (click)="onCloseClick()">
+              <mat-icon>close</mat-icon>
+            </a>
+          </div>
+        </div>
+        <div class="sidebar-body">
+          <form [formGroup]="userForm" autocomplete="off">
+            <mat-form-field appearance="outline">
+              <mat-label>Name</mat-label>
+              <input matInput placeholder="Enter name" name="name" formControlName="name">
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>User Name</mat-label>
+              <input matInput placeholder="Enter User Name" autocomplete="off" name="userName" formControlName="userName">
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>Password</mat-label>
+              <input matInput placeholder="Enter Password" autocomplete="new-password" [type]="showPassword ? 'text' : 'password'"  name="password" formControlName="password">
+              <!--<mat-icon matSuffix (click)="togglePasswordVisibility()">
+                {{showPassword?'visibility_off':'visibility'}}
+              </mat-icon>-->
+            </mat-form-field>
+            <p style="margin-top: -4%;"> Suggested Password: <strong style="cursor: text; user-select: text;">
+                {{generatedPassword}}</strong>
+            </p>
+           
+          <mat-form-field appearance="outline">
+              <mat-label>Expires</mat-label>
+              <input matInput formControlName="expires" [matDatepicker]="expires">
+              <mat-datepicker-toggle matIconSuffix [for]="expires"></mat-datepicker-toggle>
+              <mat-datepicker #expires></mat-datepicker>
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>User Type</mat-label>
+            <mat-select formControlName="userType">
+              @if(showOption)
+              {
+              <mat-option value="U">U</mat-option>
+              }@else{
+              <mat-option value="SA">SA</mat-option>
+              <mat-option value="A">A</mat-option>}
+            </mat-select>
+          </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>Email</mat-label>
+              <input matInput placeholder="Enter Email" type="email" name="email" formControlName="email">
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>Logo</mat-label>
+              <div class="input-container">
+                <input matInput [value]="userForm.get('logo')?.value" name="logo" formControlName="logo" class="left-input">
+                <input type="file" (change)="onFileSelected($event)" class="file right-input inputfile"  id="file">
+                <label for="file">Choose a file</label> 
+              </div>
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+                <mat-label>Client Limit</mat-label>
+                <input matInput placeholder="Enter Client Limit" type="number" min="0" name="clientLimit" formControlName="clientLimit">
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>Description</mat-label>
+              <input matInput placeholder="Description" name="description" formControlName="description">
+            </mat-form-field>
+            <mat-slide-toggle formControlName="enabled">Enable</mat-slide-toggle>
+          </form>
+        </div>
+      </div>
+    </aside>
+</div>
+    

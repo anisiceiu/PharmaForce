@@ -1,0 +1,113 @@
+<div class="page-body">
+<aside class="da-sibedar da-sidebar-md {{isOpenManageDMNotesSidebar ? 'da-sidebar-open' : ''}}">
+  <div class="sidebar-content">
+    <div class="sidebar-header">
+      <h6 class="sidebar-title">Notes</h6>
+      <div class="sidebar-action">
+        <button mat-raised-button color="primary" [mat-dialog-close]="notesForm" [disabled]="!notesForm.valid">Save</button>
+        <a class="link-pointer" (click)="onCloseClick()">
+          <mat-icon>close</mat-icon>
+        </a>
+      </div>
+    </div>
+    <div class="sidebar-body p-0">
+      <div class="p-1">
+        <form [formGroup]="notesForm" autocomplete="off">
+          <div class="row">
+            <div class="col-12">
+              <mat-form-field appearance="outline">
+                <mat-label>Message</mat-label>
+                <textarea class="form-control" matInput formControlName="description" cols="20" rows="10"></textarea>
+              </mat-form-field>
+            </div>
+
+          </div>
+        </form>
+        </div>
+
+        <div class="p-1">
+          <div class="row">
+            <div class="col-12">
+              <mat-accordion>
+                <mat-expansion-panel hideToggle [expanded]="isExpandedNoteListExpansionPanel">
+                  <mat-expansion-panel-header class="pr-0">
+                    <mat-panel-title class="text-black fw-500" (click)="toggleNoteListExpansionPanel()">
+                      Note List
+                    </mat-panel-title>
+                    <mat-panel-description class="justify-content-end m-0">
+                      <button mat-icon-button color="primary" (click)="toggleNoteListExpansionPanel()">
+                        <mat-icon>
+                          {{isExpandedNoteListExpansionPanel ? "keyboard_arrow_up" :"keyboard_arrow_down" }}
+                        </mat-icon>
+                      </button>
+                    </mat-panel-description>
+                  </mat-expansion-panel-header>
+                  <section class="example-container mat-elevation-z8" tabindex="0">
+                    <div class="table-container">
+
+                      <table mat-table [dataSource]="notesdataSource" #noteSort="matSort" class="mat-elevation-z8 demo-table" matSort>
+
+                        <ng-container matColumnDef="column_name">
+                          <th mat-header-cell *matHeaderCellDef mat-sort-header sticky>Column Name</th>
+                          <td mat-cell *matCellDef="let element">{{element.column_name}}</td>
+                        </ng-container>
+                        <ng-container matColumnDef="description">
+                          <th mat-header-cell *matHeaderCellDef mat-sort-header>Description</th>
+                          <td mat-cell *matCellDef="let element" style="width: 100% !important;">{{element.description}}</td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="full_Name">
+                          <th mat-header-cell *matHeaderCellDef mat-sort-header>Full Name</th>
+                          <td mat-cell *matCellDef="let element">{{element.full_Name}}</td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="company_Name">
+                          <th mat-header-cell *matHeaderCellDef mat-sort-header>Company Name</th>
+                          <td mat-cell *matCellDef="let element">{{element.company_Name}}</td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="country_Name">
+                          <th mat-header-cell *matHeaderCellDef mat-sort-header>Country Name</th>
+                          <td mat-cell *matCellDef="let element">{{element.country_Name}}</td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="salesforce_Name">
+                          <th mat-header-cell *matHeaderCellDef mat-sort-header>Salesforce Name</th>
+                          <td mat-cell *matCellDef="let element">{{element.salesforce_Name}}</td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="period_Year">
+                          <th mat-header-cell *matHeaderCellDef mat-sort-header>Year</th>
+                          <td mat-cell *matCellDef="let element">{{element.period_Year}}</td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="period_Quarter">
+                          <th mat-header-cell *matHeaderCellDef mat-sort-header>Quarter</th>
+                          <td mat-cell *matCellDef="let element">{{element.period_Quarter}}</td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="added_Dt">
+                          <th mat-header-cell *matHeaderCellDef mat-sort-header>Added Date</th>
+                          <td mat-cell *matCellDef="let element"> {{element.added_Dt | date}} </td>
+                        </ng-container>
+
+
+                        <tr mat-header-row *matHeaderRowDef="displayedNotesColumns; sticky: true;"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedNotesColumns;"></tr>
+                      </table>
+                      <mat-paginator #notePaginator [pageSizeOptions]="[5,10,25,50,100]" showFirstLastButtons
+                                     aria-label="Select page of notes">
+                      </mat-paginator>
+
+                    </div>
+                  </section>
+                </mat-expansion-panel>
+              </mat-accordion>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+</aside>
+</div>

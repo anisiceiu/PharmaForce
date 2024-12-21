@@ -1,0 +1,362 @@
+<div class="page-body">
+  <aside class="da-sibedar da-sidebar-xxl {{isOpenManageProductSidebar ? 'da-sidebar-open' : ''}}">
+    <div class="sidebar-content">
+      <div class="sidebar-header">
+        <h6 class="sidebar-title">Add Product</h6>
+        <div class="sidebar-action">
+          <button mat-raised-button [mat-dialog-close]="productForm" [disabled]="!productForm.valid">
+            Save
+          </button>
+          <a class="link-pointer" (click)="onCloseClick()">
+            <mat-icon>close</mat-icon>
+          </a>
+        </div>
+      </div>
+      <div class="sidebar-body">
+        <mat-tab-group dynamicHeight>
+          <mat-tab label="Product Summary">
+            <form [formGroup]="productForm" autocomplete="off">
+              <input type="hidden" name="daDatabase_Product_Id" formControlName="daDatabase_Product_Id">
+              <input type="hidden" name="daDatabase_Salesforce_Id" formControlName="daDatabase_Salesforce_Id">
+
+
+              <div class="dm-field-card-list list-column-3">
+                <mat-card class="dm-field-card">
+                  <mat-card-header>
+                    <div class="card-title">
+                      US Brand Name Product Promoted
+                    </div>
+                    <div class="card-action">
+                      <button mat-icon-button aria-label="Citation" (click)="openCitationPopup('uS_Product_Name_Product_Promoted')">
+                        <mat-icon>format_quote</mat-icon>
+                      </button>
+                      <button mat-icon-button aria-label="Notes" (click)="openNotesPopup('uS_Product_Name_Product_Promoted')">
+                        <mat-icon>notes</mat-icon>
+                      </button>
+                    </div>
+                  </mat-card-header>
+                  <mat-card-content>
+                    <div class="form-field-group addon-btn">
+
+                      <mat-form-field appearance="outline">
+                        <mat-label>US Product Name Promoted</mat-label>
+                        <input type="text"
+                               placeholder="Pick one"
+                               aria-label="productpromoted"
+                               matInput
+                               formControlName="uS_Product_Name_Product_Promoted"
+                               [matAutocomplete]="autoproductpromoted">
+                        <mat-autocomplete autoActiveFirstOption #autoproductpromoted="matAutocomplete">
+                          @for (option of us_Brand_Name_Options | async; track option.id) {
+                          <mat-option [value]="option.name">{{option.name}}</mat-option>
+                          }
+                        </mat-autocomplete>
+                      </mat-form-field>
+                      </div>
+                  </mat-card-content>
+                </mat-card>
+
+                <mat-card class="dm-field-card">
+                  <mat-card-header>
+                    <div class="card-title">
+                      Country Specific Brand Name Product Promoted
+                    </div>
+                    <div class="card-action">
+                      <button mat-icon-button aria-label="Citation" (click)="openCitationPopup('')">
+                        <mat-icon>format_quote</mat-icon>
+                      </button>
+                      <button mat-icon-button aria-label="Notes" (click)="openNotesPopup('country_Specific_Product_Name_Product_Promoted')">
+                        <mat-icon>notes</mat-icon>
+                      </button>
+                    </div>
+                  </mat-card-header>
+                  <mat-card-content>
+
+                    <div class="form-field-group addon-btn">
+
+                      <mat-form-field appearance="outline">
+                        <mat-label>Country-Specific Product Name</mat-label>
+                        <input type="text"
+                               placeholder="Pick one"
+                               aria-label="countryspecificproductpromoted"
+                               matInput
+                               formControlName="country_Specific_Product_Name_Product_Promoted"
+                               [matAutocomplete]="autocountryspecificproductpromoted">
+                        <mat-autocomplete autoActiveFirstOption #autocountryspecificproductpromoted="matAutocomplete">
+                          @for (option of country_Specific_Product_Options | async; track option.id) {
+                          <mat-option [value]="option.name">{{option.name}}</mat-option>
+                          }
+                        </mat-autocomplete>
+                      </mat-form-field>
+                    </div>
+                  </mat-card-content>
+                </mat-card>
+
+                <mat-card class="dm-field-card">
+                  <mat-card-header>
+                    <div class="card-title">
+                      Generic Name
+                    </div>
+                    <div class="card-action">
+                      <button mat-icon-button aria-label="Citation" (click)="openCitationPopup('generic_Name')">
+                        <mat-icon>format_quote</mat-icon>
+                      </button>
+                      <button mat-icon-button aria-label="Notes" (click)="openNotesPopup('generic_Name')">
+                        <mat-icon>notes</mat-icon>
+                      </button>
+                    </div>
+                  </mat-card-header>
+                  <mat-card-content>
+
+                    <div class="form-field-group addon-btn">
+
+                      <mat-form-field appearance="outline">
+                        <mat-label>Generic Name</mat-label>
+                        <input type="text"
+                               placeholder="Pick one"
+                               aria-label="genericname"
+                               matInput
+                               formControlName="generic_Name"
+                               [matAutocomplete]="autogenericname">
+                        <mat-autocomplete autoActiveFirstOption #autogenericname="matAutocomplete">
+                          @for (option of generic_Name_Options | async; track option.id) {
+                          <mat-option [value]="option.name">{{option.name}}</mat-option>
+                          }
+                        </mat-autocomplete>
+                      </mat-form-field>
+                    </div>                  
+                  </mat-card-content>
+                </mat-card>
+
+                <mat-card class="dm-field-card">
+                  <mat-card-header>
+                    <div class="card-title">
+                      Therapeutic Category
+                    </div>
+                    <div class="card-action">
+                      <button mat-icon-button aria-label="Citation" (click)="openCitationPopup('therapeutic_Category')">
+                        <mat-icon>format_quote</mat-icon>
+                      </button>
+                      <button mat-icon-button aria-label="Notes" (click)="openNotesPopup('therapeutic_Category')">
+                        <mat-icon>notes</mat-icon>
+                      </button>
+                    </div>
+                  </mat-card-header>
+                  <mat-card-content>
+
+                    <div class="form-field-group addon-btn">
+
+                      <mat-form-field appearance="outline">
+                        <mat-label>Therapeutic Category</mat-label>
+                        <input type="text"
+                               placeholder="Pick one"
+                               aria-label="therapeuticCategory"
+                               matInput
+                               formControlName="therapeutic_Category"
+                               [matAutocomplete]="autotheraputiccategory">
+                        <mat-autocomplete autoActiveFirstOption #autotheraputiccategory="matAutocomplete">
+                          @for (option of therapeutic_Category_Options | async; track option.id) {
+                          <mat-option [value]="option.name">{{option.name}}</mat-option>
+                          }
+                        </mat-autocomplete>
+                      </mat-form-field>
+                    </div>
+                  </mat-card-content>
+                </mat-card>
+
+               
+                <mat-card class="dm-field-card">
+                  <mat-card-header>
+                    <div class="card-title">
+                      Primary Care Full-Time Equivalents (FTEs)
+                    </div>
+                    <div class="card-action">
+                      <button mat-icon-button aria-label="Citation" (click)="openCitationPopup('primary_Care_Full_Time_Equivalents_FTEs')">
+                        <mat-icon>format_quote</mat-icon>
+                      </button>
+                      <button mat-icon-button aria-label="Notes" (click)="openNotesPopup('primary_Care_Full_Time_Equivalents_FTEs')">
+                        <mat-icon>notes</mat-icon>
+                      </button>
+                    </div>
+                  </mat-card-header>
+                  <mat-card-content>
+                    <mat-form-field appearance="outline">
+                      <mat-label>Primary Care Full-Time Equivalents (FTEs)</mat-label>
+                      <input matInput type="number" name="primary_Care_Full_Time_Equivalents_FTEs"
+                             formControlName="primary_Care_Full_Time_Equivalents_FTEs">
+                    </mat-form-field>
+                  </mat-card-content>
+                </mat-card>
+
+                <mat-card class="dm-field-card">
+                  <mat-card-header>
+                    <div class="card-title">
+                      Specialty Full-Time Equivalents (FTEs)
+                    </div>
+                    <div class="card-action">
+                      <button mat-icon-button aria-label="Citation" (click)="openCitationPopup('specialty_Full_Time_Equivalents_FTEs')">
+                        <mat-icon>format_quote</mat-icon>
+                      </button>
+                      <button mat-icon-button aria-label="Notes" (click)="openNotesPopup('specialty_Full_Time_Equivalents_FTEs')">
+                        <mat-icon>notes</mat-icon>
+                      </button>
+                    </div>
+                  </mat-card-header>
+                  <mat-card-content>
+
+                    <mat-form-field appearance="outline">
+                      <mat-label>Specialty Full-Time Equivalents (FTEs)</mat-label>
+                      <input matInput type="number" name="specialty_Full_Time_Equivalents_FTEs"
+                             formControlName="specialty_Full_Time_Equivalents_FTEs">
+                    </mat-form-field>
+                  </mat-card-content>
+                </mat-card>
+
+                <!--<mat-card class="dm-field-card">
+                  <mat-card-header>
+                    <div class="card-title">
+                      Physicians Focus
+                    </div>
+                    <div class="card-action">
+                      <button mat-icon-button aria-label="Citation" (click)="openCitationPopup('physicians_Focus_Primary_Care_Physicians_Specialty_Physicians')">
+                        <mat-icon>format_quote</mat-icon>
+                      </button>
+                      <button mat-icon-button aria-label="Notes" (click)="openNotesPopup('physicians_Focus_Primary_Care_Physicians_Specialty_Physicians')">
+                        <mat-icon>notes</mat-icon>
+                      </button>
+                    </div>
+                  </mat-card-header>-->
+                  <!--<mat-card-content>
+
+                    <mat-form-field appearance="outline">
+                      <mat-label>Physicians Focus</mat-label>
+                      <input type="text"
+                             placeholder="Pick one"
+                             aria-label="physician_focus"
+                             matInput
+                             formControlName="physicians_Focus_Primary_Care_Physicians_Specialty_Physicians"
+                             [matAutocomplete]="autophysicianfocus">
+                      <mat-autocomplete autoActiveFirstOption #autophysicianfocus="matAutocomplete">
+                        @for (option of physician_Focus_Options | async; track option.id) {
+                        <mat-option [value]="option.name">{{option.name}}</mat-option>
+                        }
+                      </mat-autocomplete>
+                    </mat-form-field>
+                  </mat-card-content>-->
+                <!--</mat-card>-->
+
+                <mat-card class="dm-field-card">
+                  <mat-card-header>
+                    <div class="card-title">
+                      Specialty Physicians Targeted
+                    </div>
+                    <div class="card-action">
+                      <button mat-icon-button aria-label="Citation" (click)="openCitationPopup('specialty_Physicians_Targeted')">
+                        <mat-icon>format_quote</mat-icon>
+                      </button>
+                      <button mat-icon-button aria-label="Notes" (click)="openNotesPopup('specialty_Physicians_Targeted')">
+                        <mat-icon>notes</mat-icon>
+                      </button>
+                    </div>
+                  </mat-card-header>
+                  <mat-card-content>
+
+                    <mat-form-field appearance="outline">
+                      <mat-label>Specialty Physicians Targeted</mat-label>
+                      <mat-select formControlName="specialty_Physicians_Targeted" multiple>
+                        @for (option of physician_Targeted; track option.id) {
+                        <mat-option [value]="option.name">{{option.name}}</mat-option>
+                        }
+                      </mat-select>
+                    </mat-form-field>
+                  </mat-card-content>
+                </mat-card>
+
+                <mat-card class="dm-field-card">
+                  <mat-card-header>
+                    <div class="card-title">
+                      Co-Promotion (Yes/No)
+                    </div>
+                    <div class="card-action">
+                      <button mat-icon-button aria-label="Citation" (click)="openCitationPopup('name_of_a_Partner_Company')">
+                        <mat-icon>format_quote</mat-icon>
+                      </button>
+                      <button mat-icon-button aria-label="Notes" (click)="openNotesPopup('name_of_a_Partner_Company')">
+                        <mat-icon>notes</mat-icon>
+                      </button>
+                    </div>
+                  </mat-card-header>
+                  <mat-card-content>
+                    <div class="position-relative w-100">
+                      <mat-form-field appearance="outline">
+                        <mat-label>Name of Partner Company</mat-label>
+                        <input type="text"
+                               placeholder="Pick one"
+                               aria-label="partner_company"
+                               matInput
+                               formControlName="name_of_a_Partner_Company"
+                               [matAutocomplete]="autopartnercompany">
+                        <mat-autocomplete autoActiveFirstOption #autopartnercompany="matAutocomplete">
+                          @for (option of filteredCompaniesOptions | async; track option.id) {
+                          <mat-option [value]="option.name">{{option.name}}</mat-option>
+                          }
+                        </mat-autocomplete>
+                      </mat-form-field>
+
+                      <span class="form-field-addon-switch">
+                        <mat-slide-toggle formControlName="co_Promotion_YesNo"></mat-slide-toggle>
+                      </span>
+                      <mat-label></mat-label>
+                    </div>
+                  </mat-card-content>
+                </mat-card>
+
+                <mat-card class="dm-field-card">
+                  <mat-card-header>
+                    <div class="card-title">
+                      Contract Sales Force (Yes/No)
+                    </div>
+                    <div class="card-action">
+                      <button mat-icon-button aria-label="Citation" (click)="openCitationPopup('name_of_a_CSO_Contract_Sales_Organization')">
+                        <mat-icon>format_quote</mat-icon>
+                      </button>
+                      <button mat-icon-button aria-label="Notes" (click)="openNotesPopup('name_of_a_CSO_Contract_Sales_Organization')">
+                        <mat-icon>notes</mat-icon>
+                      </button>
+                    </div>
+                  </mat-card-header>
+                  <mat-card-content>
+                    <div class="position-relative w-100">
+                      <div class="form-field-group addon-btn-switch">
+
+
+                        <mat-form-field appearance="outline">
+                          <mat-label>{{contact_Sales}}</mat-label>
+                          <input type="text"
+                                 placeholder="Pick one"
+                                 aria-label="cso_name"
+                                 matInput
+                                 formControlName="name_of_a_CSO_Contract_Sales_Organization"
+                                 [matAutocomplete]="autocsoname">
+                          <mat-autocomplete autoActiveFirstOption #autocsoname="matAutocomplete">
+                            @for (option of name_of_cso_Options | async; track option.id) {
+                            <mat-option [value]="option.name">{{option.name}}</mat-option>
+                            }
+                          </mat-autocomplete>
+                        </mat-form-field>
+
+                        <span class="form-field-addon-switch">
+                          <mat-slide-toggle formControlName="contract_Sales_Force_YesNo"></mat-slide-toggle>
+                        </span>
+                      </div>
+                    </div>
+                  </mat-card-content>
+                </mat-card>
+              </div>
+            </form>
+          </mat-tab>
+        </mat-tab-group>
+      </div>
+    </div>
+  </aside>
+</div>

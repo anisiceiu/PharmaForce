@@ -1,0 +1,27 @@
+<div class="page-body">
+  <aside class="da-sibedar da-sidebar-sm {{isOpenManageGeneric_NameSidebar ? 'da-sidebar-open' : ''}}">
+    <div class="sidebar-content">
+      <div class="sidebar-header">
+        <h6 class="sidebar-title">{{ data.mastercode.id > 0 ? 'Edit Generic Name' : 'Add Generic Name' }}</h6>
+        <div class="sidebar-action">
+          <button mat-raised-button [mat-dialog-close]="masterCodeForm" [disabled]="!masterCodeForm.valid">
+            Save
+          </button>
+          <a class="link-pointer" (click)="onCloseClick()">
+            <mat-icon>close</mat-icon>
+          </a>
+        </div>
+      </div>
+      <div class="sidebar-body">
+        <form [formGroup]="masterCodeForm" autocomplete="off">
+          <mat-form-field appearance="outline">
+            <mat-label>Generic Name</mat-label>
+            <input matInput placeholder="Enter Generic Name" name="name" formControlName="name">
+          </mat-form-field>
+
+        </form>
+      </div>
+    </div>
+  </aside>
+</div>
+

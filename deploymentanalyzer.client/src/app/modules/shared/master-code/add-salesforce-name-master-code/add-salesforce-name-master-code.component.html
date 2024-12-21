@@ -1,0 +1,64 @@
+<div class="page-body">
+  <aside class="da-sibedar da-sidebar-sm {{isOpenManageSalesforceNameSidebar ? 'da-sidebar-open' : ''}}">
+    <div class="sidebar-content">
+      <div class="sidebar-header">
+        <h6 class="sidebar-title">{{ data.mastercode.id > 0 ? 'Edit Salesforce Name' : 'Add Salesforce Name' }}</h6>
+        <div class="sidebar-action">
+          <button mat-raised-button [mat-dialog-close]="masterCodeForm" [disabled]="!masterCodeForm.valid">
+            Save
+          </button>
+          <a class="link-pointer" (click)="onCloseClick()">
+            <mat-icon>close</mat-icon>
+          </a>
+        </div>
+      </div>
+      <div class="sidebar-body">
+        <form [formGroup]="masterCodeForm" autocomplete="off">
+
+          <mat-form-field appearance="outline">
+            <mat-label>Country</mat-label>
+
+            <input type="text" placeholder="Pick one" aria-label="autoCountry" matInput
+                   formControlName="country" [matAutocomplete]="autoCountry">
+            <mat-autocomplete (optionSelected)="onCountry_NameChange($event)" #autoCountry="matAutocomplete">
+              @for (option of filteredCountryOptions | async; track option.id) {
+              <mat-option [value]="option.name">{{option.name}}</mat-option>
+              }
+            </mat-autocomplete>
+
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Company</mat-label>
+
+            <input type="text" placeholder="Pick one" aria-label="autoCompany" matInput
+                   formControlName="company" [matAutocomplete]="autoCompany">
+            <mat-autocomplete #autoCompany="matAutocomplete">
+              @for (option of filteredCompanyOptions | async; track option.id) {
+              <mat-option [value]="option.name">{{option.name}}</mat-option>
+              }
+            </mat-autocomplete>
+
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Salesforce Type</mat-label>
+            <mat-select formControlName="type_of_salesforce">
+              @for (salesforceType of salesForceTypes; track salesforceType) {
+              <mat-option [value]="salesforceType.name">{{salesforceType.name}}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Salesforce Name</mat-label>
+            <input matInput placeholder="Enter salesforce name" name="name" formControlName="name">
+          </mat-form-field>
+
+
+        </form>
+      </div>
+    </div>
+  </aside>
+</div>
+

@@ -1,0 +1,12 @@
+<div class="lg-section">
+<div class="wrapper">
+  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+    <h2>Verify OTP</h2>
+    <div class="input-field">
+      <input type="text" maxlength="5" formControlName="otp" required>
+      <label>Enter OTP</label>
+    </div>
+    <button class="btnLogin" type="submit">Login</button>
+  </form>
+</div>
+</div>

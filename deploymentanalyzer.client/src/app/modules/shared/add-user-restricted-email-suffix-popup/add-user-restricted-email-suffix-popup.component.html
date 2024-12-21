@@ -1,0 +1,36 @@
+<div class="page-body">
+  <aside class="da-sibedar da-sidebar-sm {{isOpenManageUserEmailSuffixSidebar ? 'da-sidebar-open' : ''}}">
+    <div class="sidebar-content">
+      <div class="sidebar-header">
+        <h6 class="sidebar-title">Add Email Suffix</h6>
+        <div class="sidebar-action">
+          <button mat-raised-button [mat-dialog-close]="userEmailSuffixForm" [disabled]="!userEmailSuffixForm.valid">
+            Save
+          </button>
+          <a class="link-pointer" (click)="onCloseClick()">
+            <mat-icon>close</mat-icon>
+          </a>
+        </div>
+      </div>
+      <div class="sidebar-body">
+        <form [formGroup]="userEmailSuffixForm" autocomplete="off">
+
+          <mat-form-field appearance="outline">
+            <mat-label>User</mat-label>
+            <mat-select formControlName="userID">
+              <mat-option *ngFor="let user of userList" [value]="user.id">{{ user.name }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Email Suffix</mat-label>
+            <input matInput placeholder="Enter Email Suffix" name="emailSuffix" formControlName="emailSuffix">
+
+          </mat-form-field>
+
+        </form>
+      </div>
+    </div>
+  </aside>
+</div>
+

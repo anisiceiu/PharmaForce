@@ -1,0 +1,41 @@
+<div class="page-body">
+  <aside class="da-sibedar da-sidebar-sm {{isOpenManageCountrySidebar ? 'da-sidebar-open' : ''}}">
+    <div class="sidebar-content">
+      <div class="sidebar-header">
+        <h6 class="sidebar-title">{{ data.mastercode.id > 0 ? 'Edit Country' : 'Add Country' }}</h6>
+        <div class="sidebar-action">
+          <button mat-raised-button [mat-dialog-close]="masterCodeForm" [disabled]="!masterCodeForm.valid">
+            Save
+          </button>
+          <a class="link-pointer" (click)="onCloseClick()">
+            <mat-icon>close</mat-icon>
+          </a>
+        </div>
+      </div>
+      <div class="sidebar-body">
+        <form [formGroup]="masterCodeForm" autocomplete="off">
+          <mat-form-field appearance="outline">
+            <mat-label>Country Name</mat-label>
+            <input matInput placeholder="Enter country name" name="name" formControlName="name">
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Region</mat-label>
+            <mat-select formControlName="region">
+              <mat-option *ngFor="let region of region_Names" [value]="region.name">{{ region.name }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Currency Symbol</mat-label>
+            <input *ngIf="isNewCurrencySymbol" matInput placeholder="Enter currency symbol" maxlength="5" name="name" formControlName="currency_symbol">
+            <mat-select *ngIf="!isNewCurrencySymbol" (selectionChange)="onCurrencySelectionChange($event.value)" formControlName="currency_symbol">
+              <mat-option *ngFor="let currency of currencySymbol_Names" [value]="currency.name">{{ currency.name }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </form>
+      </div>
+    </div>
+  </aside>
+</div>
+

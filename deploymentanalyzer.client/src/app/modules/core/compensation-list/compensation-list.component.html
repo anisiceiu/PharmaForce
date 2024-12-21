@@ -1,0 +1,278 @@
+<div class="page-header">
+  <span class="page-title">Compensations</span>
+</div>
+<div class="page-body da-card list-filter-card">
+  <div class="advance-filter-card">
+    <div class="row">
+      <div class="table-icons new-ui">
+        <div class="btn-group">
+          <button type="button" class="btn btn-primary-outline small-button" (click)="filterDisplay()">
+            <!--<mat-icon>filter_alt</mat-icon>-->
+            Filter
+          </button>
+          @if(userPermission.canSaveSearch){
+          <button type="button" class="btn btn-primary-outline small-button" (click)="saveUserPreferences()">
+            <!--<mat-icon>save</mat-icon>-->
+            Save
+          </button>
+          }
+          <button type="button" class="btn btn-primary-outline small-button" (click)="resetAllFilters()">
+            <!--<mat-icon>restart_alt</mat-icon>-->
+            Reset
+          </button>
+          @if(userPermission.canExportExcel){
+          <button type="button" class="btn btn-primary-outline small-button" (click)="exportToexcel()">
+            Export
+          </button>
+          }
+        </div>
+          <!-- </div> -->
+          <!-- <div class="col-7"> -->
+          @defer () {
+          <mat-chip-set aria-label="Applied Filters">
+            <div class="applied-filter">
+              <mat-chip removable="true"
+                        *ngIf="searchForm.get('region_id')?.value && searchForm.get('region_id')?.value">
+                <span class="fw-700">region: </span>
+                <span>{{ getFilterName('region')}}</span>
+                <button matChipRemove [attr.aria-label]="" (click)="removeToppings('region')">
+                  <mat-icon>close</mat-icon>
+                </button>
+              </mat-chip>
+              <mat-chip removable="true"
+                        *ngIf="searchForm.get('country_id')?.value && searchForm.get('country_id')?.value">
+                <span class="fw-700">country: </span>
+                <span>{{ getFilterName('country')}}</span>
+                <button matChipRemove [attr.aria-label]="" (click)="removeToppings('country')">
+                  <mat-icon>close</mat-icon>
+                </button>
+              </mat-chip>
+              <mat-chip removable="true"
+                        *ngIf="searchForm.get('company_id')?.value && searchForm.get('company_id')?.value">
+                <span class="fw-700">company: </span>
+                <span>{{ getFilterName('company') }}</span>
+                <button matChipRemove [attr.aria-label]="" (click)="removeToppings('company')">
+                  <mat-icon>close</mat-icon>
+                </button>
+              </mat-chip>
+              <mat-chip removable="true"
+                        *ngIf="searchForm.get('salesforce_id')?.value && searchForm.get('salesforce_id')?.value">
+                <span class="fw-700">salesForce: </span>
+                <span>{{ getFilterName('salesforce')}}</span>
+                <button matChipRemove [attr.aria-label]="" (click)="removeToppings('salesforce')">
+                  <mat-icon>close</mat-icon>
+                </button>
+              </mat-chip>
+              <mat-chip removable="true" *ngIf="searchForm.get('period_id')?.value && searchForm.get('period_id')?.value">
+                <span class="fw-700">period: </span>
+                <span>{{ getFilterName('period') }}</span>
+                <button matChipRemove [attr.aria-label]="" (click)="removeToppings('period')">
+                  <mat-icon>close</mat-icon>
+                </button>
+              </mat-chip>
+              <mat-chip removable="true" *ngIf="searchForm.get('theraptic_category_id')?.value && searchForm.get('theraptic_category_id')?.value">
+                <span class="fw-700">theraptic category: </span>
+                <span>{{ getFilterName('theraptic_category') }}</span>
+                <button matChipRemove [attr.aria-label]="" (click)="removeToppings('theraptic_category')">
+                  <mat-icon>close</mat-icon>
+                </button>
+              </mat-chip>
+
+              <mat-chip removable="true" *ngIf="searchForm.get('product_id')?.value && searchForm.get('product_id')?.value">
+                <span class="fw-700">product: </span>
+                <span>{{ getFilterName('product') }}</span>
+                <button matChipRemove [attr.aria-label]="" (click)="removeToppings('product')">
+                  <mat-icon>close</mat-icon>
+                </button>
+              </mat-chip>
+
+
+            </div>
+          </mat-chip-set>
+          }
+
+          <!--<a (click)="resetAllFilters()">Reset</a>-->
+        </div>
+      <!--<div class="form-field ml-auto">
+  <button mat-raised-button (click)="onSearch()">-->
+      <!--<mat-icon>search</mat-icon>-->
+      <!--Search
+    </button>
+  </div>-->
+    </div>
+    <mat-accordion class="example-headers-align" multi>
+      <mat-expansion-panel>
+        <div class="filter-body">
+          <form [formGroup]="searchForm">
+            <div class="row">
+    
+              <div class="col-3">
+                <mat-form-field appearance="outline">
+                  <mat-label>Region</mat-label>
+                  <mat-select formControlName="region_id" (selectionChange)="onSelectedRegionChange($event.value)">
+                    <mat-option *ngFor="let region of region_Names" [value]="region.id">{{ region.name }}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+    
+              <div class="col-3">
+    
+                <mat-form-field appearance="outline">
+                  <mat-label>Country</mat-label>
+    
+                  <input matInput type="text" formControlName="country_NameAuto" [matAutocomplete]="autoCountry_Name" />
+                  <mat-autocomplete autoActiveFirstOption #autoCountry_Name="matAutocomplete"
+                    (optionSelected)="onSelectedCountryChange($event)" [displayWith]="displayFn">
+                    <mat-option *ngFor="let country of filteredOptionsCountry_Name | async;" [value]="country">
+                      {{ country.name }}
+                    </mat-option>
+                  </mat-autocomplete>
+                </mat-form-field>
+              </div>
+              <div class="col-3">
+                <mat-form-field appearance="outline">
+                  <mat-label>Company</mat-label>
+    
+                  <input matInput type="text" formControlName="company_NameAuto" [matAutocomplete]="autoCompany_Name" />
+                  <mat-autocomplete autoActiveFirstOption #autoCompany_Name="matAutocomplete"
+                    (optionSelected)="onSelectedCompanyChange($event)" [displayWith]="displayFn">
+                    <mat-option *ngFor="let company of filteredOptionsCompany_Name | async;" [value]="company">
+                      {{ company.name }}
+                    </mat-option>
+                  </mat-autocomplete>
+                </mat-form-field>
+              </div>
+    
+    
+              <div class="col-3">
+                <mat-form-field appearance="outline">
+                  <mat-label>Period</mat-label>
+    
+                  <input matInput type="text" formControlName="period_NameAuto" [matAutocomplete]="autoPeriod_Name" />
+                  <mat-autocomplete autoActiveFirstOption #autoPeriod_Name="matAutocomplete"
+                    (optionSelected)="onSelectedPeriodChange($event)" [displayWith]="displayFn">
+                    <mat-option *ngFor="let period of filteredOptionsPeriod_Name | async;" [value]="period">
+                      {{ period.name }}
+                    </mat-option>
+                  </mat-autocomplete>
+                </mat-form-field>
+              </div>
+    
+    
+    
+              <div class="col-4">
+                <mat-form-field appearance="outline">
+                  <mat-label>Theraptic Category</mat-label>
+    
+                  <input matInput type="text" formControlName="therapticCategory_NameAuto"
+                    [matAutocomplete]="autoTherapticCategory_Name" />
+                  <mat-autocomplete autoActiveFirstOption #autoTherapticCategory_Name="matAutocomplete"
+                    (optionSelected)="onSelectedTherapeuticCategoryChange($event)" [displayWith]="displayFn">
+                    <mat-option *ngFor="let thcat of filteredOptionstherapticCategory_Name | async;" [value]="thcat">
+                      {{ thcat.name }}
+                    </mat-option>
+                  </mat-autocomplete>
+                </mat-form-field>
+              </div>
+    
+              <div class="col-4">
+                <mat-form-field appearance="outline">
+                  <mat-label>Salesforce Name</mat-label>
+    
+                  <input matInput type="text" formControlName="salesForce_NameAuto"
+                    [matAutocomplete]="autoSalesForce_Name" />
+                  <mat-autocomplete autoActiveFirstOption #autoSalesForce_Name="matAutocomplete"
+                    (optionSelected)="onSelectedSalesForceChange($event)" [displayWith]="displayFn">
+                    <mat-option *ngFor="let salesforce of filteredOptionsSalesForce_Name | async;" [value]="salesforce">
+                      {{ salesforce.name }}
+                    </mat-option>
+                  </mat-autocomplete>
+                </mat-form-field>
+              </div>
+    
+    
+              <div class="col-4">
+                <mat-form-field appearance="outline">
+                  <mat-label>Product</mat-label>
+    
+                  <input matInput type="text" formControlName="product_NameAuto" [matAutocomplete]="autoProduct_Name" />
+                  <mat-autocomplete autoActiveFirstOption #autoProduct_Name="matAutocomplete"
+                    (optionSelected)="onSelectedProductChange($event)" [displayWith]="displayFn">
+                    <mat-option *ngFor="let product of filteredOptionsProduct_Name | async;" [value]="product">
+                      {{ product.name }}
+                    </mat-option>
+                  </mat-autocomplete>
+                </mat-form-field>
+              </div>
+    
+    
+              <div class="col-2">
+                <button mat-raised-button class="btn btn-primary" (click)="onSearch()">
+                  Search
+                </button>
+              </div>
+    
+              <br />
+    
+            </div>
+          </form>
+        </div>
+      </mat-expansion-panel>
+    </mat-accordion>
+
+  </div>
+
+    <div class="ui-table list-card table-container">
+      <table id="tblCallCompensation" mat-table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)" class="styled-table" [multiTemplateDataRows]="true">
+        
+        <ng-container matColumnDef="company_Name">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Company</th>
+          <td mat-cell *matCellDef="let element">{{element.company_Name}}</td>
+        </ng-container>
+    
+        <ng-container matColumnDef="country_Name">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Country</th>
+          <td mat-cell *matCellDef="let element">{{element.country_Name}}</td>
+        </ng-container>
+    
+        <ng-container matColumnDef="salesforce_Name">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Sales Force Name</th>
+          <td mat-cell *matCellDef="let element">{{element.salesforce_Name}}</td>
+        </ng-container>
+    
+        <ng-container matColumnDef="type_of_Salesforce">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Employee Type</th>
+          <td mat-cell *matCellDef="let element" [attr.colspan]="4">Sales Representatives</td>
+        </ng-container>
+
+        <ng-container matColumnDef="salary_Low">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Low Salary</th>
+          <td mat-cell *matCellDef="let element" class="border-bottom">{{element.salary_Low}}</td>
+        </ng-container>
+    
+        <ng-container matColumnDef="salary_High">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>High Salary</th>
+          <td mat-cell *matCellDef="let element" class="border-bottom">{{element.salary_High}}</td>
+        </ng-container>
+    
+        <ng-container matColumnDef="target_Bonus">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Target Bonus</th>
+          <td mat-cell *matCellDef="let element" class="border-bottom">{{element.target_Bonus}}</td>
+        </ng-container>
+    
+        <ng-container matColumnDef="period_Year">
+          <td mat-cell *matCellDef="let element" [attr.colspan]="4" class="font-weight-700 border-bottom">{{element.period_Year}} Q{{element.period_Quarter}}</td>
+        </ng-container>
+    
+        <tr mat-header-row *matHeaderRowDef="displayedColumns" sticky></tr>
+    
+        <tr mat-row *matRowDef="let row; columns: ['company_Name', 'country_Name', 'salesforce_Name', 'type_of_Salesforce'];"></tr>
+        <tr mat-row *matRowDef="let row; columns: ['period_Year', 'salary_Low', 'salary_High', 'target_Bonus'];"></tr>
+      </table>
+    </div>
+        
+    <div class="table-pagination">
+      <mat-paginator #paginator [pageSizeOptions]="[15, 30, 50, 100]" [length]="totalRecords" showFirstLastButtons
+        aria-label="Select page of Compensation Items"></mat-paginator>
+    </div>
+</div>

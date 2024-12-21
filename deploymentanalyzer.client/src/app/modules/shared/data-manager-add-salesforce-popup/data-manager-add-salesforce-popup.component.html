@@ -1,0 +1,576 @@
+<div class="page-body">
+  <aside class="da-sibedar da-sidebar-xxl {{isOpenEditDMSidebar ? 'da-sidebar-open' : ''}}">
+    <div class="sidebar-content">
+      <div class="sidebar-header">
+        <h6 class="sidebar-title">Add Salesforce</h6>
+        <div class="sidebar-action">
+          <button mat-raised-button color="primary" [mat-dialog-close]="dataManagerForm" [disabled]="!dataManagerForm.valid">Save</button>
+          <a class="link-pointer" (click)="onCloseClick()">
+            <mat-icon>close</mat-icon>
+          </a>
+        </div>
+      </div>
+      <div class="sidebar-body p-0">
+        <form [formGroup]="dataManagerForm" autocomplete="off">
+          <mat-tab-group dynamicHeight>
+            <mat-tab label="Sales Force Summary">
+              <div class="dm-field-card-list list-column-3">
+
+                <mat-card class="dm-field-card">
+                  <mat-card-header>
+                    <div class="card-title">
+                      Country Name
+                    </div>
+                    <div class="card-action">
+                      <button mat-icon-button aria-label="Citation" (click)="openCitationPopup('country_Name')">
+                        <mat-icon>format_quote</mat-icon>
+                      </button>
+                      <button mat-icon-button aria-label="Notes" (click)="openNotesPopup('country_Name')">
+                        <mat-icon>notes</mat-icon>
+                      </button>
+                    </div>
+                  </mat-card-header>
+                  <mat-card-content>
+
+                    <mat-form-field appearance="outline">
+
+                      <mat-select (selectionChange)="onCountry_NameChange($event.value)" formControlName="country_Name">
+                        <mat-option *ngFor="let country of countries_Names" [value]="country.name">
+                          {{ country.name}}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+
+                  </mat-card-content>
+                </mat-card>
+
+                <mat-card class="dm-field-card">
+                  <mat-card-header>
+                    <div class="card-title">
+                      Company Name
+
+                    </div>
+                    <div class="card-action">
+                      <button mat-icon-button aria-label="Citation" (click)="openCitationPopup('company_Name')">
+                        <mat-icon>format_quote</mat-icon>
+                      </button>
+                      <button mat-icon-button aria-label="Notes" (click)="openNotesPopup('company_Name')">
+                        <mat-icon>notes</mat-icon>
+                      </button>
+                    </div>
+                  </mat-card-header>
+                  <mat-card-content>
+
+                    <mat-form-field appearance="outline">
+
+                      <mat-select (selectionChange)="onCompany_NameChange($event.value)" formControlName="company_Name">
+                        <mat-option *ngFor="let company of companies_NamesNarrow" [value]="company.name">
+                          {{company.name}}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+
+                  </mat-card-content>
+                </mat-card>
+
+                <mat-card class="dm-field-card">
+                  <mat-card-header>
+                    <div class="card-title">
+                      Period Year
+                    </div>
+                    <div class="card-action">
+                      <button mat-icon-button aria-label="Citation" (click)="openCitationPopup('period_Year')">
+                        <mat-icon>format_quote</mat-icon>
+                      </button>
+                      <button mat-icon-button aria-label="Notes" (click)="openNotesPopup('period_Year')">
+                        <mat-icon>notes</mat-icon>
+                      </button>
+                    </div>
+                  </mat-card-header>
+                  <mat-card-content>
+
+                    <div class="form-field-group addon-btn">
+
+                      <mat-form-field appearance="outline">
+                        <mat-select formControlName="period_Year" (selectionChange)="onPeriod_YearChange($event.value)">
+                          <mat-option *ngFor="let period of period_YearsNarrow" [value]="period.name">
+                            {{period.name}}
+                          </mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                    </div>
+                  </mat-card-content>
+                </mat-card>
+
+                <mat-card class="dm-field-card">
+                  <mat-card-header>
+                    <div class="card-title">
+                      Period Quarter
+                    </div>
+                    <div class="card-action">
+                      <button mat-icon-button aria-label="Citation" (click)="openCitationPopup('period_Quarter')">
+                        <mat-icon>format_quote</mat-icon>
+                      </button>
+                      <button mat-icon-button aria-label="Notes" (click)="openNotesPopup('period_Quarter')">
+                        <mat-icon>notes</mat-icon>
+                      </button>
+                    </div>
+                  </mat-card-header>
+                  <mat-card-content>
+
+                    <mat-form-field appearance="outline">
+
+                      <mat-select formControlName="period_Quarter" (selectionChange)="onPeriod_QuarterChange($event.value)">
+                        <mat-option *ngFor="let quarter of period_Quarters" [value]="quarter">{{ quarter }}</mat-option>
+                      </mat-select>
+                    </mat-form-field>
+
+                  </mat-card-content>
+                </mat-card>
+
+                <mat-card class="dm-field-card">
+                  <mat-card-header>
+                    <div class="card-title">
+                      Salesforce Name
+
+                    </div>
+                    <div class="card-action">
+                      <button mat-icon-button aria-label="Citation" (click)="openCitationPopup('salesforce_Name')">
+                        <mat-icon>format_quote</mat-icon>
+                      </button>
+                      <button mat-icon-button aria-label="Notes" (click)="openNotesPopup('salesforce_Name')">
+                        <mat-icon>notes</mat-icon>
+                      </button>
+                    </div>
+                  </mat-card-header>
+                  <mat-card-content>
+
+
+                    <div class="form-field-group addon-btn">
+
+                      <mat-form-field appearance="outline">
+
+                        <input type="text" placeholder="Pick one" aria-label="salesforcename" matInput
+                               formControlName="salesforce_Name" [matAutocomplete]="autoSalesforce">
+                        <mat-autocomplete autoActiveFirstOption #autoSalesforce="matAutocomplete">
+                          @for (option of filteredSalesForceOptions | async; track option.id) {
+                          <mat-option [value]="option.name">{{option.name}}</mat-option>
+                          }
+                        </mat-autocomplete>
+                      </mat-form-field>
+                    </div>
+                  </mat-card-content>
+                </mat-card>
+
+                <mat-card class="dm-field-card">
+                  <mat-card-header>
+                    <div class="card-title">
+                      Type of Sales Force
+
+                    </div>
+                    <div class="card-action">
+                      <button mat-icon-button aria-label="Citation" (click)="openCitationPopup('type_of_Salesforce')">
+                        <mat-icon>format_quote</mat-icon>
+                      </button>
+                      <button mat-icon-button aria-label="Notes" (click)="openNotesPopup('type_of_Salesforce')">
+                        <mat-icon>notes</mat-icon>
+                      </button>
+                    </div>
+                  </mat-card-header>
+                  <mat-card-content>
+
+                    <mat-form-field appearance="outline">
+
+                      <mat-select formControlName="type_of_Salesforce">
+                        <mat-option *ngFor="let type of type_of_salesforce" [value]="type.name">
+                          {{type.name}}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+
+                  </mat-card-content>
+                </mat-card>
+
+                <mat-card class="dm-field-card">
+                  <mat-card-header>
+                    <div class="card-title">
+                      Number of Sales Representatives
+
+                    </div>
+                    <div class="card-action">
+                      <button mat-icon-button aria-label="Citation"
+                              (click)="openCitationPopup('number_Of_Sales_Representatives')">
+                        <mat-icon>format_quote</mat-icon>
+                      </button>
+                      <button mat-icon-button aria-label="Notes"
+                              (click)="openNotesPopup('number_Of_Sales_Representatives')">
+                        <mat-icon>notes</mat-icon>
+                      </button>
+                    </div>
+                  </mat-card-header>
+                  <mat-card-content>
+
+                    <mat-form-field appearance="outline">
+
+                      <input matInput type="number" name="number_Of_Sales_Representatives"
+                             formControlName="number_Of_Sales_Representatives">
+                    </mat-form-field>
+
+                  </mat-card-content>
+                </mat-card>
+
+                <mat-card class="dm-field-card">
+                  <mat-card-header>
+                    <div class="card-title">
+                      Number of District Managers
+                    </div>
+                    <div class="card-action">
+                      <button mat-icon-button aria-label="Citation"
+                              (click)="openCitationPopup('number_Of_District_Managers')">
+                        <mat-icon>format_quote</mat-icon>
+                      </button>
+                      <button mat-icon-button aria-label="Notes"
+                              (click)="openNotesPopup('number_Of_District_Managers')">
+                        <mat-icon>notes</mat-icon>
+                      </button>
+                    </div>
+                  </mat-card-header>
+                  <mat-card-content>
+
+                    <mat-form-field appearance="outline">
+
+                      <input matInput type="number" name="number_Of_District_Managers"
+                             formControlName="number_Of_District_Managers">
+                    </mat-form-field>
+
+                  </mat-card-content>
+                </mat-card>
+
+                <mat-card class="dm-field-card">
+                  <mat-card-header>
+                    <div class="card-title">
+                      Number of Regional Managers
+                    </div>
+                    <div class="card-action">
+                      <button mat-icon-button aria-label="Citation"
+                              (click)="openCitationPopup('number_Of_Regional_Managers')">
+                        <mat-icon>format_quote</mat-icon>
+                      </button>
+                      <button mat-icon-button aria-label="Notes"
+                              (click)="openNotesPopup('number_Of_Regional_Managers')">
+                        <mat-icon>notes</mat-icon>
+                      </button>
+                    </div>
+                  </mat-card-header>
+                  <mat-card-content>
+
+                    <mat-form-field appearance="outline">
+
+                      <input matInput type="number" name="number_Of_Regional_Managers"
+                             formControlName="number_Of_Regional_Managers">
+                    </mat-form-field>
+
+                  </mat-card-content>
+                </mat-card>
+
+                <mat-card class="dm-field-card">
+                  <mat-card-header>
+                    <div class="card-title">
+                      Salary Low <span *ngIf="currency_symbol">({{currency_symbol}})</span>
+
+                    </div>
+                    <div class="card-action">
+                      <button mat-icon-button aria-label="Citation" (click)="openCitationPopup('salary_Low')">
+                        <mat-icon>format_quote</mat-icon>
+                      </button>
+                      <button mat-icon-button aria-label="Notes" (click)="openNotesPopup('salary_Low')">
+                        <mat-icon>notes</mat-icon>
+                      </button>
+                    </div>
+                  </mat-card-header>
+                  <mat-card-content>
+
+                    <mat-form-field appearance="outline">
+
+                      <input matInput type="number" name="salary_Low" formControlName="salary_Low">
+                    </mat-form-field>
+
+                  </mat-card-content>
+                </mat-card>
+
+                <mat-card class="dm-field-card">
+                  <mat-card-header>
+                    <div class="card-title">
+                      Salary High <span *ngIf="currency_symbol">({{currency_symbol}})</span>
+                    </div>
+                    <div class="card-action">
+                      <button mat-icon-button aria-label="Citation" (click)="openCitationPopup('salary_High')">
+                        <mat-icon>format_quote</mat-icon>
+                      </button>
+                      <button mat-icon-button aria-label="Notes" (click)="openNotesPopup('salary_High')">
+                        <mat-icon>notes</mat-icon>
+                      </button>
+                    </div>
+                  </mat-card-header>
+                  <mat-card-content>
+
+                    <mat-form-field appearance="outline">
+
+                      <input matInput type="number" name="salary_High" formControlName="salary_High">
+                    </mat-form-field>
+
+                  </mat-card-content>
+                </mat-card>
+
+
+                <mat-card class="dm-field-card">
+                  <mat-card-header>
+                    <div class="card-title">
+                      Target Bonus <span *ngIf="currency_symbol">({{currency_symbol}})</span>
+                    </div>
+                    <div class="card-action">
+                      <button mat-icon-button aria-label="Citation" (click)="openCitationPopup('target_Bonus')">
+                        <mat-icon>format_quote</mat-icon>
+                      </button>
+                      <button mat-icon-button aria-label="Notes" (click)="openNotesPopup('target_Bonus')">
+                        <mat-icon>notes</mat-icon>
+                      </button>
+                    </div>
+                  </mat-card-header>
+                  <mat-card-content>
+
+                    <mat-form-field appearance="outline">
+
+                      <input matInput type="number" name="target_Bonus" formControlName="target_Bonus">
+                    </mat-form-field>
+
+                  </mat-card-content>
+                </mat-card>
+
+                <mat-card class="dm-field-card">
+                  <mat-card-header>
+                    <div class="card-title">
+                      Reach
+                    </div>
+                    <div class="card-action">
+                      <button mat-icon-button aria-label="Citation" (click)="openCitationPopup('reach')">
+                        <mat-icon>format_quote</mat-icon>
+                      </button>
+                      <button mat-icon-button aria-label="Notes" (click)="openNotesPopup('reach')">
+                        <mat-icon>notes</mat-icon>
+                      </button>
+                    </div>
+                  </mat-card-header>
+                  <mat-card-content>
+
+                    <mat-form-field appearance="outline">
+
+                      <input matInput type="number" name="reach" formControlName="reach">
+                    </mat-form-field>
+
+                  </mat-card-content>
+                </mat-card>
+
+                <mat-card class="dm-field-card">
+                  <mat-card-header>
+                    <div class="card-title">
+                      Frequency
+
+                    </div>
+                    <div class="card-action">
+                      <button mat-icon-button aria-label="Citation" (click)="openCitationPopup('frequency')">
+                        <mat-icon>format_quote</mat-icon>
+                      </button>
+                      <button mat-icon-button aria-label="Notes" (click)="openNotesPopup('frequency')">
+                        <mat-icon>notes</mat-icon>
+                      </button>
+                    </div>
+                  </mat-card-header>
+                  <mat-card-content>
+
+                    <mat-form-field appearance="outline">
+
+                      <input matInput type="number" name="frequency" formControlName="frequency">
+                    </mat-form-field>
+
+                  </mat-card-content>
+                </mat-card>
+
+                <mat-card class="dm-field-card">
+                  <mat-card-header>
+                    <div class="card-title">
+                      Additional Notes
+                    </div>
+                    <div class="card-action">
+                      <button mat-icon-button aria-label="Citation" (click)="openCitationPopup('additional_Notes')">
+                        <mat-icon>format_quote</mat-icon>
+                      </button>
+                      <button mat-icon-button aria-label="Notes" (click)="openNotesPopup('additional_Notes')">
+                        <mat-icon>notes</mat-icon>
+                      </button>
+                    </div>
+                  </mat-card-header>
+                  <mat-card-content>
+
+                    <mat-form-field appearance="outline">
+
+                      <textarea matInput name="additional_Notes" formControlName="additional_Notes"></textarea>
+                    </mat-form-field>
+
+                  </mat-card-content>
+                </mat-card>
+                <div class="form-field-group addon-btn">
+                  <mat-slide-toggle [(ngModel)]="isAddToQCQ" (change)="onAddToQCQChange()"  [ngModelOptions]="{standalone:true}">Add To QCQ</mat-slide-toggle>
+                </div>
+
+                </div>
+
+              </mat-tab>
+
+            <mat-tab label="Product Summary">
+              <div class="p-1">
+                <div class="row">
+                  <div class="col-12">
+                    <mat-accordion>
+                      <mat-expansion-panel hideToggle [disabled]="true"
+                                           [expanded]="isExpandedProductListExpansionPanel">
+                        <mat-expansion-panel-header class="pr-0">
+                          <mat-panel-title class="text-black fw-500" (click)="toggleProductListExpansionPanel()">
+                            Products
+                          </mat-panel-title>
+                          <mat-panel-description class="justify-content-end m-0">
+                            <button mat-button (click)="openAddEditPopup()">Add Product</button>
+                            <button mat-icon-button color="primary" (click)="toggleProductListExpansionPanel()">
+                              <mat-icon>
+                                {{isExpandedProductListExpansionPanel ? "keyboard_arrow_up" : "keyboard_arrow_down"}}
+                              </mat-icon>
+                            </button>
+                          </mat-panel-description>
+                        </mat-expansion-panel-header>
+                        @if(productItems.length > 0)
+                        {
+                        <section class="example-container mat-elevation-z8" tabindex="0">
+                          <div class="table-container">
+
+                            <table mat-table [dataSource]="productdataSource" matSort>
+
+                              <ng-container matColumnDef="select">
+                                <th mat-header-cell *matHeaderCellDef> Actions </th>
+                                <td mat-cell *matCellDef="let row">
+                                  <button mat-icon-button matTooltip="Basic" [matMenuTriggerFor]="menu"
+                                          aria-label="Example icon-button with a heart icon">
+                                    <mat-icon>more_vert</mat-icon>
+                                  </button>
+                                  <mat-menu #menu="matMenu">
+                                    <button (click)="openEditProductDialog(row)" mat-mini-fab aria-label="Edit icon button" class="action-button edit">
+                                      <mat-icon>edit</mat-icon>
+                                    </button>
+                                    <button (click)="deleteProduct(row)" mat-mini-fab aria-label="Delete icon button" color="warn"
+                                            class="action-button delete">
+                                      <mat-icon>delete</mat-icon>
+                                    </button>
+
+                                  </mat-menu>
+                                </td>
+                              </ng-container>
+
+                              <ng-container matColumnDef="daDatabase_Product_Id">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Product ID</th>
+                                <td mat-cell *matCellDef="let element">{{element.daDatabase_Product_Id}}</td>
+                              </ng-container>
+                              <ng-container matColumnDef="uS_Product_Name_Product_Promoted">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
+                                <td mat-cell *matCellDef="let element">{{element.uS_Product_Name_Product_Promoted}}</td>
+                              </ng-container>
+
+                              <ng-container matColumnDef="country_Specific_Product_Name_Product_Promoted">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Country Specific Name</th>
+                                <td mat-cell *matCellDef="let element">{{element.country_Specific_Product_Name_Product_Promoted}}</td>
+                              </ng-container>
+
+                              <ng-container matColumnDef="generic_Name">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Generic Name</th>
+                                <td mat-cell *matCellDef="let element">{{element.generic_Name}}</td>
+                              </ng-container>
+
+                              <ng-container matColumnDef="therapeutic_Category">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Therapeutic Category</th>
+                                <td mat-cell *matCellDef="let element">{{element.therapeutic_Category}}</td>
+                              </ng-container>
+
+                              <ng-container matColumnDef="primary_Care_Full_Time_Equivalents_FTEs">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Primary Care FTEs</th>
+                                <td mat-cell *matCellDef="let element">{{element.primary_Care_Full_Time_Equivalents_FTEs}}</td>
+                              </ng-container>
+
+                              <ng-container matColumnDef="specialty_Full_Time_Equivalents_FTEs">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Specialty FTEs</th>
+                                <td mat-cell *matCellDef="let element">{{element.specialty_Full_Time_Equivalents_FTEs}}</td>
+                              </ng-container>
+
+                              <ng-container matColumnDef="total_Number_of_Full_Time_Equivalents_FTEs">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Total Number FTEs</th>
+                                <td mat-cell *matCellDef="let element">{{element.total_Number_of_Full_Time_Equivalents_FTEs}}</td>
+                              </ng-container>
+
+                              <ng-container matColumnDef="physicians_Focus_Primary_Care_Physicians_Specialty_Physicians">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Physician Focus</th>
+                                <td mat-cell *matCellDef="let element">{{element.physicians_Focus_Primary_Care_Physicians_Specialty_Physicians}}</td>
+                              </ng-container>
+
+                              <ng-container matColumnDef="specialty_Physicians_Targeted">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Specialty Physicians Targeted</th>
+                                <td mat-cell *matCellDef="let element">{{element.specialty_Physicians_Targeted}}</td>
+                              </ng-container>
+
+                              <ng-container matColumnDef="co_Promotion_YesNo">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Co-Promotion</th>
+                                <td mat-cell *matCellDef="let element">{{element.co_Promotion_YesNo ? 'Yes' : 'No'}}</td>
+                              </ng-container>
+
+                              <ng-container matColumnDef="name_of_a_Partner_Company">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Partner Company</th>
+                                <td mat-cell *matCellDef="let element">{{element.name_of_a_Partner_Company}}</td>
+                              </ng-container>
+
+                              <ng-container matColumnDef="contract_Sales_Force_YesNo">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Contract Sales Force</th>
+                                <td mat-cell *matCellDef="let element">{{element.contract_Sales_Force_YesNo ? 'Yes' : 'No'}}</td>
+                              </ng-container>
+
+                              <ng-container matColumnDef="name_of_a_CSO_Contract_Sales_Organization">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header>CSO</th>
+                                <td mat-cell *matCellDef="let element">{{element.name_of_a_CSO_Contract_Sales_Organization}}</td>
+                              </ng-container>
+
+                              <ng-container matColumnDef="additional_Notes_Product">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Notes</th>
+                                <td mat-cell *matCellDef="let element">{{element.additional_Notes_Product}}</td>
+                              </ng-container>
+
+                              <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true;"></tr>
+                              <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                            </table>
+
+
+                          </div>
+                        </section>
+                        }@else{
+                        <p>Add Products here to display.</p>
+                        }
+                      </mat-expansion-panel>
+                    </mat-accordion>
+                    <br />
+                  </div>
+                </div>
+
+
+              </div>
+            </mat-tab>
+
+          </mat-tab-group>
+        </form>
+      </div>
+    </div>
+  </aside>
+</div>

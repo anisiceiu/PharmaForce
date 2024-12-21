@@ -1,0 +1,89 @@
+<div class="main-sidebar-menu collapsed_">
+  <div [ngStyle]="{'background-color': isToggleMenu ? 'transparent' : 'white'}"
+    style="background-color: white; height: 55px;" class="logo-details">
+    <ng-container *ngIf="isToggleMenu; else fullLogo">
+      <span class="logo_name">DA</span>
+    </ng-container>
+    <ng-template #fullLogo>
+      <img style="width: 270px;" src="/images/logo.png" alt="Logo Here" />
+    </ng-template>
+  </div>
+    <ul class="main-menu-links">
+      <li class="main-menu-item active">
+        <a class="main-menu-link" [routerLink]="['/administrator']">
+          <i class="material-icons link-icon">dashboard</i>
+          <span class="link-label">Admin Panel</span>
+        </a>
+        <ul class="sub-menu-links blank">
+          <li class="sub-menu-item sub-menu-title">
+            <a class="sub-menu-link sub-menu-title-link" [routerLink]="['/administrator']">Home</a>
+          </li>
+        </ul>
+      </li>
+     
+      <!-- <li class="main-menu-item">
+        <a class="main-menu-link">
+          <i class="material-icons link-icon"></i>
+          <span class="link-label">Super Administrator</span>
+          <i class='material-icons link-icon-arrow link_icon_arrow'>keyboard_arrow_down</i>
+        </a>
+        <ul class="sub-menu-links">
+          <li class="sub-menu-item sub-menu-title">
+            <a class="sub-menu-link sub-menu-title-link" href="#">Super Adminstrator</a>
+          </li>
+          <li class="sub-menu-item"><a [routerLink]="['/administrator', 'user']" class="sub-menu-link">Manage Admin Accounts</a></li>
+          <li class="sub-menu-item"><a [routerLink]="['/administrator', 'manage-admin-access-rights']" class="sub-menu-link">Manage Admin Access Rights</a></li>
+        </ul>
+      </li> -->
+    </ul>
+  </div>
+  
+  <section class="main-container">
+    <div class="app-header">
+      <mat-icon (click)="toggleSidebar()">menu</mat-icon>
+  
+      <div class="user-menu" [matMenuTriggerFor]="userHeaderMenu">
+        <div class="user-thumbnail">
+          <span class="user-initials">JS</span>
+          <!-- <img src="" class="user-img" alt="User Profile Image" /> -->
+        </div>
+      </div>
+      <mat-menu #userHeaderMenu="matMenu" yPosition="below" xPosition="before" class="header-user-menu">
+        <div class="user-profile-summary p-1">
+          <div class="user-thumbnail">
+            <span class="user-initials">JS</span>
+            <!-- <img src="" class="user-img" alt="User Profile Image" /> -->
+          </div>
+          <h6 class="user-name m-0">John Smith</h6>
+          <p class="user-subtitle">SuperAdmin</p>
+        </div>
+        <!--<mat-divider></mat-divider>
+        <button mat-menu-item>
+          <mat-icon>person</mat-icon>
+          <span>Account</span>
+        </button>
+        <button mat-menu-item>
+          <mat-icon>settings</mat-icon>
+          <span>Setting</span>
+        </button>-->
+        <mat-divider></mat-divider>
+        <button mat-menu-item (click)="logout()">
+          <mat-icon>logout</mat-icon>
+          <span>Logout</span>
+        </button>
+      </mat-menu>
+    </div>
+    <section class="page-content">
+      <router-outlet></router-outlet>
+    </section>
+    <div class="footer">
+      <p class="footer-text">
+        © <span id="copyrightYear">{{year}}</span>&nbsp;<span class="fw-600">DeploymentAnalyzer</span>.
+      </p>
+      <div class="footer-links">
+        <a href="#">Terms of Use</a>
+        <span>|</span>
+        <a href="#">Privacy Policy</a>
+      </div>
+    </div>
+  </section>

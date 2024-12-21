@@ -1,0 +1,27 @@
+<div class="page-header">
+  <span class="page-title">News Details</span>
+</div>
+
+<div class="mt-3">
+  <mat-card class="example-card" appearance="outlined">
+    <mat-card-header>
+      <mat-card-subtitle class="card-title">{{news.short_Message}}</mat-card-subtitle>
+      <mat-card-title class="company-name">{{ news.company_Name }}</mat-card-title>
+      <mat-card-subtitle>
+        <p>{{news.country_Name}}</p>
+        <p>{{news.news_Date | date}}</p>
+      </mat-card-subtitle>
+    </mat-card-header>
+    
+    <mat-card-content>
+      <span class="news-message">
+        <p [innerHTML]="news.long_Message"></p>
+      </span>
+    </mat-card-content>
+    <mat-card-actions>
+      <span class="news-url">
+        <a href="{{ news.news_Url }}" target="_blank">{{ news.news_Url }}</a>
+      </span>
+    </mat-card-actions>
+  </mat-card>
+</div>

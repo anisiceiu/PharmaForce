@@ -1,0 +1,46 @@
+<div class="page-body">
+  <aside class="da-sibedar da-sidebar-sm {{isOpenManagePeriodSidebar ? 'da-sidebar-open' : ''}}">
+    <div class="sidebar-content">
+      <div class="sidebar-header">
+        <h6 class="sidebar-title">{{ data.mastercode.id > 0 ? 'Edit Period' : 'Add Period' }}</h6>
+        <div class="sidebar-action">
+          <button mat-raised-button [mat-dialog-close]="masterCodeForm" [disabled]="!masterCodeForm.valid">
+            Save
+          </button>
+          <a class="link-pointer" (click)="onCloseClick()">
+            <mat-icon>close</mat-icon>
+          </a>
+        </div>
+      </div>
+      <div class="sidebar-body">
+        <form [formGroup]="masterCodeForm" autocomplete="off">
+
+          <mat-form-field appearance="outline">
+            <mat-label>Period Year</mat-label>
+
+            <mat-select formControlName="year" (selectionChange)="onYearOrQarterChange()">
+              <mat-option *ngFor="let year of periodYear_Names" [value]="year.id">{{ year.name }}</mat-option>
+            </mat-select>
+
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Period Quarter</mat-label>
+
+            <mat-select formControlName="quarter" (selectionChange)="onYearOrQarterChange()">
+              <mat-option *ngFor="let quarter of periodQuarter_Names" [value]="quarter.id">{{ quarter.name }}</mat-option>
+            </mat-select>
+
+          </mat-form-field>
+
+          <!--<mat-form-field appearance="outline">
+            <mat-label>Period Name</mat-label>
+            <input matInput placeholder="Enter period name" name="name" formControlName="name">
+          </mat-form-field>-->
+
+        </form>
+      </div>
+    </div>
+  </aside>
+</div>
+

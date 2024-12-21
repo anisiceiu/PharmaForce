@@ -1,0 +1,7 @@
+
+<h2 mat-dialog-title>Session Timeout</h2>
+<mat-dialog-content>{{data.result.message}}?</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-flat-button color="primary" (click)="onStayClick()">Stay</button>
+  <button mat-flat-button color="warn" [mat-dialog-close]="data.result.id" (click)="onLogOutClick()">Logout</button>
+</mat-dialog-actions>

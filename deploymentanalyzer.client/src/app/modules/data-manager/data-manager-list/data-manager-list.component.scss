@@ -1,0 +1,167 @@
+
+.mat-raised-button.mat-success {
+  background-color: green;
+  color: #fff;
+}
+
+.mat-mdc-table {
+  width: 100%;
+  max-height: auto;
+  overflow: auto;
+}
+
+.example-container {
+  height: auto;
+  width: auto;
+  max-width: 100%;
+  overflow: auto;
+  // margin-top: 30px;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+}
+.list-filter-card {
+  display: flex;
+  flex-direction: column;
+  min-height: calc(85vh  - 150px) !important;
+  .list-card {
+    flex: 1;
+    overflow: auto;
+  }
+}
+/*
+.mat-column-salesforce_Name {
+  flex: none;
+  min-width: 300px;
+}
+
+.mat-column-generic_Name {
+  flex: none;
+  min-width: 300px;
+}
+
+.mat-column-company_Name {
+  flex: none;
+  min-width: 300px;
+}
+
+.mat-column-uS_Product_Name_Product_Promoted {
+  flex: none;
+  min-width: 300px;
+}
+
+.mat-column-therapeutic_Category {
+  flex: none;
+  min-width: 300px;
+}
+
+.mat-column-specialty_Physicians_Targeted {
+  flex: none;
+  min-width: 300px;
+}
+
+.mat-column-country_Name {
+  flex: none;
+  min-width: 180px;
+}
+
+table {
+  width: auto;
+}*/
+
+.mat-column-name {
+  height: 100px;
+}
+
+.has-citation {
+  background-color: #EBD7ED;
+}
+
+.advance-filter-card {
+  padding: 15px 15px 12px !important;
+}
+.advance-filter-card button.toggle-advance-filter-btn {
+  padding: 8px 10px 8px 0 !important;
+}
+
+  /* scrollbar */
+  .filter-sec::-webkit-scrollbar {
+    width: 5px !important;
+    height: 5px !important;
+  }
+  
+  .filter-sec::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+  }
+  
+  .filter-sec::-webkit-scrollbar-thumb {
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.3);
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.5);
+  }
+  
+  .filter-sec::-webkit-scrollbar-thumb:window-inactive {
+    background: rgba(255, 255, 255, 0.3);
+  }
+  
+  .paginator{
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+  }
+.no-data-message {
+  text-align: center;
+  font-weight: bold;
+  padding: 20px;
+  color: #666;
+  font-size: 16px;
+}
+
+.table-container {
+  display: flex;
+  flex-direction: column;
+  max-height: calc(100vh - 367px);
+  overflow: auto;
+  border-radius: 5px 5px 0 0;
+
+  table {
+    overflow-x: auto;
+  }
+}
+
+.table-pagination {
+  width: 100%;
+  background: #fff;
+  position: relative;
+  display: flex;
+  justify-content: flex-end;
+  border: 1px solid #e8edf6;
+  border-radius: 5px;
+  margin-top: 0;
+  overflow: hidden;
+  padding: 12px 16px;
+}
+
+.filters-panel {
+  padding-top: 12px;
+}
+
+.table-icons {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  padding: 0px 22px;
+}
+
+.filter-expansion-panel {
+  background-color: transparent;
+}
+
+.filter-body {
+  padding: 15px;
+  background-color: #fff;
+  border-radius: 5px;
+  border-bottom: 0;
+}

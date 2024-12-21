@@ -1,0 +1,36 @@
+.input-container {
+    display: flex;
+    align-items: center;
+    width: 100%;
+  }
+  
+  .left-input {
+    flex: 1;
+    margin-right: 8px;
+  }
+  
+  .right-input {
+    width: 100px;
+    margin-left: 8px;
+  }
+
+  .inputfile {
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
+  }
+
+  .inputfile + label {
+    font-size: 1em;
+    font-weight: 400;
+    color: black;
+    background-color: #e0e0e0;
+    display: inline-block;
+    padding: 3px 8px;
+    cursor: pointer;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}

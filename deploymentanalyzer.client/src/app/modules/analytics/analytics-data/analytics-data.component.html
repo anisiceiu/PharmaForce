@@ -1,0 +1,1438 @@
+<div class="page-body">
+  <div class="container da-card">
+    <div class="filter-body">
+      <div class="row">
+        <div class="col-7">
+          <mat-form-field appearance="outline" [subscriptSizing]="'dynamic'" class="m-0">
+            <mat-label>Data Analysis &amp; Visulization For</mat-label>
+            <mat-select [(ngModel)]="selectedReport" (selectionChange)="onReportTypeChange($event.value)">
+              <mat-option [value]=1>Total Company Deployment By Country/ Primary Care and Specialty FTEs</mat-option>
+              <mat-option [value]=2>Total Company Deployment By Country and Therapeutic Category</mat-option>
+              <mat-option [value]=3>Company Portfolio By Therapeutic Category and Sales Force</mat-option>
+              <mat-option [value]=4>Product FTEs By Therapeutic Category and Sales Force (Using Brand Name)</mat-option>
+              <mat-option [value]=5>Product FTEs By Therapeutic Category and Sales Force (Using Generic Name)</mat-option>
+              <mat-option [value]=6>Sales Representative's Compensation By Sales Force and Product</mat-option>
+              <mat-option [value]=7>Reach and Frequency By Sales Force and Product</mat-option>
+              <mat-option [value]=8>Company Country Analysis</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+        </div>
+        <div class="col-2">
+          <ng-container *ngIf="selectedReport==4">
+            <mat-checkbox [checked]="isUseBrandGroup"
+                          [(ngModel)]="isUseBrandGroup"
+                          (change)="onIsUseCheckChange($event.checked)">
+              Use Brand Group
+            </mat-checkbox>
+          </ng-container>
+        </div>
+        <div class="new-ui col-3 d-flex justify-content-center align-items-center">
+          <div class="btn-group">
+            <button type="button" class="btn btn-primary-outline small-button" (click)="filterDisplay()">
+              <!--<mat-icon>filter_alt</mat-icon>-->
+              Filter
+            </button>
+
+            <button type="button" class="btn btn-primary-outline small-button" (click)="resetFilters()">
+              <!--<mat-icon>save</mat-icon>-->
+              Reset
+            </button>
+            @if(userPermission.canSaveSearch){
+            <button type="button" class="btn btn-primary-outline small-button" (click)="saveAsUserFilters()">
+              <!--<mat-icon>save_as</mat-icon>-->
+              Save Search
+            </button>
+            }
+            <button type="button" class="btn btn-primary-outline small-button" (click)="openDialog()">
+              <!--<mat-icon>saved_search</mat-icon>-->
+              Search List
+            </button>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <mat-accordion class="example-headers-align" multi>
+      <mat-expansion-panel class="filter-expansion-panel">
+        <div class="company-name">Search Filters</div>
+        <div style="margin-bottom: 35px;">
+          <mat-chip-set aria-label="Filter selection">
+            <mat-chip *ngFor="let filterChip of filterChipList">{{filterChip.name}}</mat-chip>
+          </mat-chip-set>
+          <mat-divider></mat-divider>
+        </div>
+        
+        <div *ngIf="selectedReport==1">
+          <form [formGroup]="searchForm">
+            <div class="row">
+              <div class="col-3">
+                <div style="position: relative;">
+                  <div style="color: rgb(128, 44, 44); font-size: 12px; position: absolute; top: -24px; right: 148px;">
+                    limit : 6
+                  </div>
+                  <mat-form-field appearance="outline">
+                    <mat-label>Country</mat-label>
+                    <mat-select formControlName="country_id" (selectionChange)="onfilterChange('country'); onCountrySelectionChange(6)" multiple>
+                      <mat-option *ngFor="let country of countries" [value]="country.country_Id">
+                        {{ country.country_Name }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+              </div>
+
+              <div class="col-4">
+                <div style="position: relative;">
+                  <div style="color: rgb(128, 44, 44); font-size: 12px; position: absolute; top: -24px; right: 148px; ">
+                    limit : 3
+                  </div>
+                  <mat-form-field appearance="outline">
+                    <mat-label>Company</mat-label>
+                    <mat-select formControlName="company_id" (selectionChange)="onfilterChange('company'); onCompanySelectionChange(3)" multiple>
+                      <mat-option *ngFor="let company of companies" [value]="company.company_Id">
+                        {{ company.company_Name }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+              </div>
+
+              <div class="col-2">
+                <mat-form-field appearance="outline">
+                  <mat-label>Period</mat-label>
+                  <mat-select formControlName="period_id">
+                    <mat-option *ngFor="let period of periodList" [value]="period.period_Id">
+                      {{ period.displayed_Title }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+
+              <div class="row">
+                <div class="col-2">
+                  <button id="btnGo" mat-raised-button class="btn btn-primary" (click)="onGoClick()">
+                    Search
+                  </button>
+                </div>
+              </div>
+
+            </div>
+          </form>
+        </div>
+
+        <div *ngIf="selectedReport==2">
+          <form [formGroup]="searchForm">
+            <div class="info">
+              <div style="position: relative;">
+                <div style="color: rgb(128, 44, 44); font-size: 12px; position: absolute; top: -24px; right: 148px; ">
+                  limit : 6
+                </div>
+                <mat-form-field appearance="outline">
+                  <mat-label>Country</mat-label>
+                  <mat-select formControlName="country_id" (selectionChange)="onfilterChange('country'); onCountrySelectionChange(6)" multiple>
+                    <mat-option *ngFor="let country of countries" [value]="country.country_Id">
+                      {{ country.country_Name }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+
+              <div style="position: relative;">
+                <div style="color: rgb(128, 44, 44); font-size: 12px; position: absolute; top: -24px; right: 148px;">
+                  limit : 3
+                </div>
+                <mat-form-field appearance="outline">
+                  <mat-label>Company</mat-label>
+                  <mat-select formControlName="company_id" (selectionChange)="onfilterChange('company'); onCompanySelectionChange(3)" multiple>
+                    <mat-option *ngFor="let company of companies" [value]="company.company_Id">
+                      {{ company.company_Name }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+
+              <mat-form-field appearance="outline">
+                <mat-label>Therapeutic Category</mat-label>
+                <mat-select formControlName="therapeutic_category_id" (selectionChange)="onfilterChange('therapeuticCategory')">
+                  <mat-option *ngFor="let category of therapeuticCategories" [value]="category.therapeuticCategory_Id">
+                    {{ category.therapeuticCategory_Name }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline">
+                <mat-label>Period</mat-label>
+                <mat-select formControlName="period_id">
+                  <mat-option *ngFor="let period of periodList" [value]="period.period_Id">
+                    {{ period.displayed_Title }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+
+              <div class="row">
+                <div class="col-2">
+                  <button id="btnGo" mat-raised-button class="btn btn-primary" (click)="onGoClick()">
+                    Search
+                  </button>
+                </div>
+              </div>
+
+            </div>
+          </form>
+        </div>
+
+        <div *ngIf="selectedReport==3">
+          <form [formGroup]="searchForm">
+            <div class="info">
+
+
+              <mat-form-field appearance="outline">
+                <mat-label>Country</mat-label>
+                <mat-select formControlName="country_id" (selectionChange)="onfilterChange('country')">
+                  <mat-option *ngFor="let country of countries" [value]="country.country_Id">
+                    {{ country.country_Name }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+
+              <div style="position: relative;">
+                <div style="color: rgb(128, 44, 44); font-size: 12px; position: absolute; top: -24px; right: 148px;">
+                  limit : 5
+                </div>
+                <mat-form-field appearance="outline">
+                  <mat-label>Company</mat-label>
+                  <mat-select formControlName="company_id" (selectionChange)="onfilterChange('company'); onCompanySelectionChange(5)" multiple>
+                    <mat-option *ngFor="let company of companies" [value]="company.company_Id">
+                      {{ company.company_Name }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+
+              <mat-form-field appearance="outline">
+                <mat-label>Therapeutic Category</mat-label>
+                <mat-select formControlName="therapeutic_category_id" (selectionChange)="onfilterChange('therapeuticCategory')">
+                  <mat-option *ngFor="let category of therapeuticCategories" [value]="category.therapeuticCategory_Id">
+                    {{ category.therapeuticCategory_Name }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline">
+                <mat-label>Period</mat-label>
+                <mat-select formControlName="period_id">
+                  <mat-option *ngFor="let period of periodList" [value]="period.period_Id">
+                    {{ period.displayed_Title }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+
+              <div class="row">
+                <div class="col-2">
+                  <button id="btnGo" mat-raised-button class="btn btn-primary" (click)="onGoClick()">
+                    Search
+                  </button>
+                </div>
+              </div>
+
+            </div>
+          </form>
+        </div>
+
+        <div *ngIf="selectedReport==4 && isUseBrandGroup==false">
+          <form [formGroup]="searchForm">
+            <div class="info-x">
+
+              <div class="row">
+                <div class="col-4">
+                  <mat-form-field appearance="outline">
+                    <mat-label>Country</mat-label>
+                    <mat-select formControlName="country_id" (selectionChange)="onfilterChange('country')">
+                      <mat-option *ngFor="let country of countries" [value]="country.country_Id">
+                        {{ country.country_Name }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <div class="col-4">
+                  <mat-form-field appearance="outline">
+                    <mat-label>Therapeutic Category</mat-label>
+                    <mat-select formControlName="therapeutic_category_id" (selectionChange)="onfilterChange('therapeuticCategory')">
+                      <mat-option *ngFor="let category of therapeuticCategories" [value]="category.therapeuticCategory_Id">
+                        {{ category.therapeuticCategory_Name }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <div class="col-4">
+                  <mat-form-field appearance="outline">
+                    <mat-label>Period</mat-label>
+                    <mat-select formControlName="period_id" (selectionChange)="onfilterChange('period')">
+                      <mat-option *ngFor="let period of periodList" [value]="period.period_Id">
+                        {{ period.displayed_Title }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+
+              </div>
+              <div class="sub-filters">
+                <div class="row apply-margin">
+                  <div>
+                    <mat-form-field appearance="outline">
+                      <mat-label>Company</mat-label>
+                      <mat-select formControlName="company_id_1" (selectionChange)="onchangeCompany1Change($event.value)">
+                        <mat-option *ngFor="let company of companies" [value]="company.company_Id">
+                          {{ company.company_Name }}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                  <div>
+                    <mat-form-field appearance="outline">
+                      <mat-label>Company</mat-label>
+                      <mat-select formControlName="company_id_2" (selectionChange)="onchangeCompany2Change($event.value)">
+                        <mat-option *ngFor="let company of companies" [value]="company.company_Id">
+                          {{ company.company_Name }}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                  <div>
+                    <mat-form-field appearance="outline">
+                      <mat-label>Company</mat-label>
+                      <mat-select formControlName="company_id_3" (selectionChange)="onchangeCompany3Change($event.value)">
+                        <mat-option *ngFor="let company of companies" [value]="company.company_Id">
+                          {{ company.company_Name }}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                  <div>
+                    <mat-form-field appearance="outline">
+                      <mat-label>Company</mat-label>
+                      <mat-select formControlName="company_id_4" (selectionChange)="onchangeCompany4Change($event.value)">
+                        <mat-option *ngFor="let company of companies" [value]="company.company_Id">
+                          {{ company.company_Name }}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                  <div>
+                    <mat-form-field appearance="outline">
+                      <mat-label>Company</mat-label>
+                      <mat-select formControlName="company_id_5" (selectionChange)="onchangeCompany5Change($event.value)">
+                        <mat-option *ngFor="let company of companies" [value]="company.company_Id">
+                          {{ company.company_Name }}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+
+                </div>
+                <div class="row apply-margin">
+                  <div>
+                    <mat-form-field appearance="outline">
+                      <mat-label>Brand</mat-label>
+                      <mat-select formControlName="brand_id_1">
+                        <mat-option *ngFor="let brand of brandListCompany1" [value]="brand.id">
+                          {{ brand.name }}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                  <div>
+                    <mat-form-field appearance="outline">
+                      <mat-label>Brand</mat-label>
+                      <mat-select formControlName="brand_id_2">
+                        <mat-option *ngFor="let brand of brandListCompany2" [value]="brand.id">
+                          {{ brand.name }}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                  <div>
+                    <mat-form-field appearance="outline">
+                      <mat-label>Brand</mat-label>
+                      <mat-select formControlName="brand_id_3">
+                        <mat-option *ngFor="let brand of brandListCompany3" [value]="brand.id">
+                          {{ brand.name }}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                  <div>
+                    <mat-form-field appearance="outline">
+                      <mat-label>Brand</mat-label>
+                      <mat-select formControlName="brand_id_4">
+                        <mat-option *ngFor="let brand of brandListCompany4" [value]="brand.id">
+                          {{ brand.name }}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                  <div>
+                    <mat-form-field appearance="outline">
+                      <mat-label>Brand</mat-label>
+                      <mat-select formControlName="brand_id_5">
+                        <mat-option *ngFor="let brand of brandListCompany5" [value]="brand.id">
+                          {{ brand.name }}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                </div>
+              </div>
+              <div class="go-btn">
+                <div>
+                  <button id="btnGo" mat-raised-button class="btn btn-primary" (click)="onGoClick()">
+                    Search
+                  </button>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+
+        <div *ngIf="selectedReport==4 && isUseBrandGroup==true">
+          <form [formGroup]="searchForm">
+            <div class="info-x">
+
+              <div class="row">
+                <div class="col-4">
+                  <mat-form-field appearance="outline">
+                    <mat-label>Country</mat-label>
+                    <mat-select formControlName="country_id" (selectionChange)="onfilterChange('country')">
+                      <mat-option *ngFor="let country of countries" [value]="country.country_Id">
+                        {{ country.country_Name }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <div class="col-4">
+                  <mat-form-field appearance="outline">
+                    <mat-label>Therapeutic Category</mat-label>
+                    <mat-select formControlName="therapeutic_category_id" (selectionChange)="onfilterChange('therapeuticCategory')">
+                      <mat-option *ngFor="let category of therapeuticCategories" [value]="category.therapeuticCategory_Id">
+                        {{ category.therapeuticCategory_Name }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <div class="col-4">
+                  <mat-form-field appearance="outline">
+                    <mat-label>Period</mat-label>
+                    <mat-select formControlName="period_id" (selectionChange)="onfilterChange('period')">
+                      <mat-option *ngFor="let period of periodList" [value]="period.period_Id">
+                        {{ period.displayed_Title }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-4">
+                  <mat-form-field appearance="outline">
+                    <mat-label>Brand Group</mat-label>
+                    <mat-select formControlName="brandGroup" multiple>
+                      <mat-option *ngFor="let brandgroup of myBrandGroups" [value]="brandgroup.id">
+                        {{ brandgroup.name }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-2">
+                  <button id="btnGo" mat-raised-button class="btn btn-primary" (click)="onGoClick()">
+                    Search
+                  </button>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+
+        <div *ngIf="selectedReport==5">
+          <form [formGroup]="searchForm">
+            <div class="info-x">
+
+              <div class="row">
+
+
+                <div class="col-4">
+                  <mat-form-field appearance="outline">
+                    <mat-label>Country</mat-label>
+                    <mat-select formControlName="country_id" (selectionChange)="onfilterChange('country')">
+                      <mat-option *ngFor="let country of countries" [value]="country.country_Id">
+                        {{ country.country_Name }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <div class="col-4">
+                  <mat-form-field appearance="outline">
+                    <mat-label>Therapeutic Category</mat-label>
+                    <mat-select formControlName="therapeutic_category_id" (selectionChange)="onfilterChange('therapeuticCategory')">
+                      <mat-option *ngFor="let category of therapeuticCategories" [value]="category.therapeuticCategory_Id">
+                        {{ category.therapeuticCategory_Name }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <div class="col-4">
+                  <mat-form-field appearance="outline">
+                    <mat-label>Period</mat-label>
+                    <mat-select formControlName="period_id" (selectionChange)="onfilterChange('period')">
+                      <mat-option *ngFor="let period of periodList" [value]="period.period_Id">
+                        {{ period.displayed_Title }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+
+              </div>
+              <div class="sub-filters">
+                <div class="row apply-margin">
+
+                  <div>
+                    <mat-form-field appearance="outline">
+                      <mat-label>Company</mat-label>
+                      <mat-select formControlName="company_id_1" (selectionChange)="onchangeCompany1GenericChange($event.value)">
+                        <mat-option *ngFor="let company of companies" [value]="company.company_Id">
+                          {{ company.company_Name }}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                  <div>
+                    <mat-form-field appearance="outline">
+                      <mat-label>Company</mat-label>
+                      <mat-select formControlName="company_id_2" (selectionChange)="onchangeCompany2GenericChange($event.value)">
+                        <mat-option *ngFor="let company of companies" [value]="company.company_Id">
+                          {{ company.company_Name }}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                  <div>
+                    <mat-form-field appearance="outline">
+                      <mat-label>Company</mat-label>
+                      <mat-select formControlName="company_id_3" (selectionChange)="onchangeCompany3GenericChange($event.value)">
+                        <mat-option *ngFor="let company of companies" [value]="company.company_Id">
+                          {{ company.company_Name }}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                  <div>
+                    <mat-form-field appearance="outline">
+                      <mat-label>Company</mat-label>
+                      <mat-select formControlName="company_id_4" (selectionChange)="onchangeCompany4GenericChange($event.value)">
+                        <mat-option *ngFor="let company of companies" [value]="company.company_Id">
+                          {{ company.company_Name }}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                  <div>
+                    <mat-form-field appearance="outline">
+                      <mat-label>Company</mat-label>
+                      <mat-select formControlName="company_id_5" (selectionChange)="onchangeCompany5GenericChange($event.value)">
+                        <mat-option *ngFor="let company of companies" [value]="company.company_Id">
+                          {{ company.company_Name }}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+
+                </div>
+                <div class="row apply-margin">
+                  <div>
+                    <mat-form-field appearance="outline">
+                      <mat-label>Generic Name</mat-label>
+                      <mat-select formControlName="generic_id_1">
+                        <mat-option *ngFor="let generic of genericNameListCompany1" [value]="generic.genericName_Id">
+                          {{ generic.generic_Name }}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                  <div>
+                    <mat-form-field appearance="outline">
+                      <mat-label>Generic Name</mat-label>
+                      <mat-select formControlName="generic_id_2">
+                        <mat-option *ngFor="let generic of genericNameListCompany2" [value]="generic.genericName_Id">
+                          {{ generic.generic_Name }}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                  <div>
+                    <mat-form-field appearance="outline">
+                      <mat-label>Generic Name</mat-label>
+                      <mat-select formControlName="generic_id_3">
+                        <mat-option *ngFor="let generic of genericNameListCompany3" [value]="generic.genericName_Id">
+                          {{ generic.generic_Name }}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                  <div>
+                    <mat-form-field appearance="outline">
+                      <mat-label>Generic Name</mat-label>
+                      <mat-select formControlName="generic_id_4">
+                        <mat-option *ngFor="let generic of genericNameListCompany4" [value]="generic.genericName_Id">
+                          {{ generic.generic_Name }}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                  <div>
+                    <mat-form-field appearance="outline">
+                      <mat-label>Generic Name</mat-label>
+                      <mat-select formControlName="generic_id_5">
+                        <mat-option *ngFor="let generic of genericNameListCompany5" [value]="generic.genericName_Id">
+                          {{ generic.generic_Name }}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                </div>
+              </div>
+              <div class="go-btn">
+                <div>
+                  <button id="btnGo" mat-raised-button class="btn btn-primary" (click)="onGoClick()">
+                    Search
+                  </button>
+                </div>
+              </div>
+
+            </div>
+          </form>
+        </div>
+
+
+        <div *ngIf="selectedReport==6">
+          <form [formGroup]="searchForm">
+            <div class="info-x">
+              <div class="row">
+                <div class="col-4">
+                  <mat-form-field appearance="outline">
+                    <mat-label>Country</mat-label>
+                    <mat-select formControlName="country_id" (selectionChange)="onfilterChange('country')">
+                      <mat-option *ngFor="let country of countries" [value]="country.country_Id">
+                        {{ country.country_Name }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <div class="col-4">
+                  <mat-form-field appearance="outline">
+                    <mat-label>Therapeutic Category</mat-label>
+                    <mat-select formControlName="therapeutic_category_id" (selectionChange)="onfilterChange('therapeuticCategory')">
+                      <mat-option *ngFor="let category of therapeuticCategories" [value]="category.therapeuticCategory_Id">
+                        {{ category.therapeuticCategory_Name }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <div class="col-4">
+                  <mat-form-field appearance="outline">
+                    <mat-label>Period</mat-label>
+                    <mat-select formControlName="period_id" (selectionChange)="onfilterChange('period')">
+                      <mat-option *ngFor="let period of periodList" [value]="period.period_Id">
+                        {{ period.displayed_Title }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+
+              </div>
+              <div class="sub-filters">
+                <div class="row apply-margin">
+
+                  <div>
+                    <mat-form-field appearance="outline">
+                      <mat-label>Company</mat-label>
+                      <mat-select formControlName="company_id_1" (selectionChange)="onchangeCompany1SalesforceChange($event.value)">
+                        <mat-option *ngFor="let company of companies" [value]="company.company_Id">
+                          {{ company.company_Name }}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                  <div>
+                    <mat-form-field appearance="outline">
+                      <mat-label>Company</mat-label>
+                      <mat-select formControlName="company_id_2" (selectionChange)="onchangeCompany2SalesforceChange($event.value)">
+                        <mat-option *ngFor="let company of companies" [value]="company.company_Id">
+                          {{ company.company_Name }}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                  <div>
+                    <mat-form-field appearance="outline">
+                      <mat-label>Company</mat-label>
+                      <mat-select formControlName="company_id_3" (selectionChange)="onchangeCompany3SalesforceChange($event.value)">
+                        <mat-option *ngFor="let company of companies" [value]="company.company_Id">
+                          {{ company.company_Name }}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                  <div>
+                    <mat-form-field appearance="outline">
+                      <mat-label>Company</mat-label>
+                      <mat-select formControlName="company_id_4" (selectionChange)="onchangeCompany4SalesforceChange($event.value)">
+                        <mat-option *ngFor="let company of companies" [value]="company.company_Id">
+                          {{ company.company_Name }}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                  <div>
+                    <mat-form-field appearance="outline">
+                      <mat-label>Company</mat-label>
+                      <mat-select formControlName="company_id_5" (selectionChange)="onchangeCompany5SalesforceChange($event.value)">
+                        <mat-option *ngFor="let company of companies" [value]="company.company_Id">
+                          {{ company.company_Name }}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+
+                </div>
+                <div class="row apply-margin">
+                  <div>
+                    <mat-form-field appearance="outline">
+                      <mat-label>Brand</mat-label>
+                      <mat-select formControlName="brand_id_1" (selectionChange)="onfilterChange('brand',1)">
+                        <mat-option *ngFor="let brand of brandListCompany1" [value]="brand.id">
+                          {{ brand.name }}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                  <div>
+                    <mat-form-field appearance="outline">
+                      <mat-label>Brand</mat-label>
+                      <mat-select formControlName="brand_id_2" (selectionChange)="onfilterChange('brand',2)">
+                        <mat-option *ngFor="let brand of brandListCompany2" [value]="brand.id">
+                          {{ brand.name }}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                  <div>
+                    <mat-form-field appearance="outline">
+                      <mat-label>Brand</mat-label>
+                      <mat-select formControlName="brand_id_3" (selectionChange)="onfilterChange('brand',3)">
+                        <mat-option *ngFor="let brand of brandListCompany3" [value]="brand.id">
+                          {{ brand.name }}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                  <div>
+                    <mat-form-field appearance="outline">
+                      <mat-label>Brand</mat-label>
+                      <mat-select formControlName="brand_id_4" (selectionChange)="onfilterChange('brand',4)">
+                        <mat-option *ngFor="let brand of brandListCompany4" [value]="brand.id">
+                          {{ brand.name }}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                  <div>
+                    <mat-form-field appearance="outline">
+                      <mat-label>Brand</mat-label>
+                      <mat-select formControlName="brand_id_5" (selectionChange)="onfilterChange('brand',5)">
+                        <mat-option *ngFor="let brand of brandListCompany5" [value]="brand.id">
+                          {{ brand.name }}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                </div>
+                <div class="row apply-margin">
+                  <div>
+                    <mat-form-field appearance="outline">
+                      <mat-label>Salesforce</mat-label>
+                      <mat-select formControlName="salesForce_id_1">
+                        <mat-option *ngFor="let salesforce of salesforceListCompany1" [value]="salesforce.salesforce_Id">
+                          {{ salesforce.salesforceName_Name }}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                  <div>
+                    <mat-form-field appearance="outline">
+                      <mat-label>Salesforce</mat-label>
+                      <mat-select formControlName="salesForce_id_2">
+                        <mat-option *ngFor="let salesforce of salesforceListCompany2" [value]="salesforce.salesforce_Id">
+                          {{ salesforce.salesforceName_Name }}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                  <div>
+                    <mat-form-field appearance="outline">
+                      <mat-label>Salesforce</mat-label>
+                      <mat-select formControlName="salesForce_id_3">
+                        <mat-option *ngFor="let salesforce of salesforceListCompany3" [value]="salesforce.salesforce_Id">
+                          {{ salesforce.salesforceName_Name }}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                  <div>
+                    <mat-form-field appearance="outline">
+                      <mat-label>Salesforce</mat-label>
+                      <mat-select formControlName="salesForce_id_4">
+                        <mat-option *ngFor="let salesforce of salesforceListCompany4" [value]="salesforce.salesforce_Id">
+                          {{ salesforce.salesforceName_Name }}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                  <div>
+                    <mat-form-field appearance="outline">
+                      <mat-label>Salesforce</mat-label>
+                      <mat-select formControlName="salesForce_id_5">
+                        <mat-option *ngFor="let salesforce of salesforceListCompany5" [value]="salesforce.salesforce_Id">
+                          {{ salesforce.salesforceName_Name }}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                </div>
+              </div>
+
+              <div class="go-btn">
+                <div>
+                  <button id="btnGo" mat-raised-button class="btn btn-primary" (click)="onGoClick()">
+                    Search
+                  </button>
+                </div>
+              </div>
+
+            </div>
+          </form>
+        </div>
+
+        <div *ngIf="selectedReport==7">
+          <form [formGroup]="searchForm">
+            <div class="info-x">
+
+              <div class="row">
+
+
+                <div class="col-4">
+                  <mat-form-field appearance="outline">
+                    <mat-label>Country</mat-label>
+                    <mat-select formControlName="country_id" (selectionChange)="onfilterChange('country')">
+                      <mat-option *ngFor="let country of countries" [value]="country.country_Id">
+                        {{ country.country_Name }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <div class="col-4">
+                  <mat-form-field appearance="outline">
+                    <mat-label>Therapeutic Category</mat-label>
+                    <mat-select formControlName="therapeutic_category_id" (selectionChange)="onfilterChange('therapeuticCategory')">
+                      <mat-option *ngFor="let category of therapeuticCategories" [value]="category.therapeuticCategory_Id">
+                        {{ category.therapeuticCategory_Name }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <div class="col-4">
+                  <mat-form-field appearance="outline">
+                    <mat-label>Period</mat-label>
+                    <mat-select formControlName="period_id" (selectionChange)="onfilterChange('period')">
+                      <mat-option *ngFor="let period of periodList" [value]="period.period_Id">
+                        {{ period.displayed_Title }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+
+              </div>
+              <div class="sub-filters">
+                <div class="row apply-margin">
+
+                  <div>
+                    <mat-form-field appearance="outline">
+                      <mat-label>Company</mat-label>
+                      <mat-select formControlName="company_id_1" (selectionChange)="onchangeCompany1SalesforceChange($event.value)">
+                        <mat-option *ngFor="let company of companies" [value]="company.company_Id">
+                          {{ company.company_Name }}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                  <div>
+                    <mat-form-field appearance="outline">
+                      <mat-label>Company</mat-label>
+                      <mat-select formControlName="company_id_2" (selectionChange)="onchangeCompany2SalesforceChange($event.value)">
+                        <mat-option *ngFor="let company of companies" [value]="company.company_Id">
+                          {{ company.company_Name }}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                  <div>
+                    <mat-form-field appearance="outline">
+                      <mat-label>Company</mat-label>
+                      <mat-select formControlName="company_id_3" (selectionChange)="onchangeCompany3SalesforceChange($event.value)">
+                        <mat-option *ngFor="let company of companies" [value]="company.company_Id">
+                          {{ company.company_Name }}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                  <div>
+                    <mat-form-field appearance="outline">
+                      <mat-label>Company</mat-label>
+                      <mat-select formControlName="company_id_4" (selectionChange)="onchangeCompany4SalesforceChange($event.value)">
+                        <mat-option *ngFor="let company of companies" [value]="company.company_Id">
+                          {{ company.company_Name }}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                  <div>
+                    <mat-form-field appearance="outline">
+                      <mat-label>Company</mat-label>
+                      <mat-select formControlName="company_id_5" (selectionChange)="onchangeCompany5SalesforceChange($event.value)">
+                        <mat-option *ngFor="let company of companies" [value]="company.company_Id">
+                          {{ company.company_Name }}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+
+                </div>
+                <div class="row apply-margin">
+                  <div>
+                    <mat-form-field appearance="outline">
+                      <mat-label>Brand</mat-label>
+                      <mat-select formControlName="brand_id_1" (selectionChange)="onfilterChange('brand',1)">
+                        <mat-option *ngFor="let brand of brandListCompany1" [value]="brand.id">
+                          {{ brand.name }}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                  <div>
+                    <mat-form-field appearance="outline">
+                      <mat-label>Brand</mat-label>
+                      <mat-select formControlName="brand_id_2" (selectionChange)="onfilterChange('brand',2)">
+                        <mat-option *ngFor="let brand of brandListCompany2" [value]="brand.id">
+                          {{ brand.name }}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                  <div>
+                    <mat-form-field appearance="outline">
+                      <mat-label>Brand</mat-label>
+                      <mat-select formControlName="brand_id_3" (selectionChange)="onfilterChange('brand',3)">
+                        <mat-option *ngFor="let brand of brandListCompany3" [value]="brand.id">
+                          {{ brand.name }}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                  <div>
+                    <mat-form-field appearance="outline">
+                      <mat-label>Brand</mat-label>
+                      <mat-select formControlName="brand_id_4" (selectionChange)="onfilterChange('brand',4)">
+                        <mat-option *ngFor="let brand of brandListCompany4" [value]="brand.id">
+                          {{ brand.name }}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                  <div>
+                    <mat-form-field appearance="outline">
+                      <mat-label>Brand</mat-label>
+                      <mat-select formControlName="brand_id_5" (selectionChange)="onfilterChange('brand',5)">
+                        <mat-option *ngFor="let brand of brandListCompany5" [value]="brand.id">
+                          {{ brand.name }}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                </div>
+                <div class="row apply-margin">
+                  <div>
+                    <mat-form-field appearance="outline">
+                      <mat-label>Salesforce</mat-label>
+                      <mat-select formControlName="salesForce_id_1">
+                        <mat-option *ngFor="let salesforce of salesforceListCompany1" [value]="salesforce.salesforce_Id">
+                          {{ salesforce.salesforceName_Name }}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                  <div>
+                    <mat-form-field appearance="outline">
+                      <mat-label>Salesforce</mat-label>
+                      <mat-select formControlName="salesForce_id_2">
+                        <mat-option *ngFor="let salesforce of salesforceListCompany2" [value]="salesforce.salesforce_Id">
+                          {{ salesforce.salesforceName_Name }}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                  <div>
+                    <mat-form-field appearance="outline">
+                      <mat-label>Salesforce</mat-label>
+                      <mat-select formControlName="salesForce_id_3">
+                        <mat-option *ngFor="let salesforce of salesforceListCompany3" [value]="salesforce.salesforce_Id">
+                          {{ salesforce.salesforceName_Name }}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                  <div>
+                    <mat-form-field appearance="outline">
+                      <mat-label>Salesforce</mat-label>
+                      <mat-select formControlName="salesForce_id_4">
+                        <mat-option *ngFor="let salesforce of salesforceListCompany4" [value]="salesforce.salesforce_Id">
+                          {{ salesforce.salesforceName_Name }}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                  <div>
+                    <mat-form-field appearance="outline">
+                      <mat-label>Salesforce</mat-label>
+                      <mat-select formControlName="salesForce_id_5">
+                        <mat-option *ngFor="let salesforce of salesforceListCompany5" [value]="salesforce.salesforce_Id">
+                          {{ salesforce.salesforceName_Name }}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                </div>
+              </div>
+
+              <div class="go-btn">
+                <div>
+                  <button id="btnGo" mat-raised-button class="btn btn-primary" (click)="onGoClick()">
+                    Search
+                  </button>
+                </div>
+              </div>
+
+            </div>
+          </form>
+        </div>
+
+        <div *ngIf="selectedReport==8">
+          <form [formGroup]="searchForm">
+            <div class="info">
+
+              <mat-form-field appearance="outline">
+                <mat-label>Company</mat-label>
+                <mat-select formControlName="company_id" (selectionChange)="onfilterChange('company')">
+                  <mat-option *ngFor="let company of companies" [value]="company.company_Id">
+                    {{ company.company_Name }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+
+              <div style="position: relative;">
+                <div style="color: rgb(128, 44, 44); font-size: 12px; position: absolute; top: -24px; right: 136px;">
+                  limit : 6
+                </div>
+                <mat-form-field appearance="outline" style="width: 100%;">
+                  <mat-label>Country</mat-label>
+                  <mat-select formControlName="country_id" (selectionChange)="onfilterChange('country'); onCountrySelectionChange(6)"
+                              multiple>
+                    <mat-option *ngFor="let country of countries" [value]="country.country_Id">
+                      {{ country.country_Name }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+
+              <div style="position: relative;">
+                <div style="color: rgb(128, 44, 44); font-size: 12px; position: absolute; top: -24px; right: 136px;">
+                  limit : 4
+                </div>
+                <mat-form-field appearance="outline">
+                  <mat-label>Period</mat-label>
+                  <mat-select formControlName="period_id" (selectionChange)="onPeriodSelectionChange(4)" multiple>
+                    <mat-option *ngFor="let period of periodList" [value]="period.period_Id">
+                      {{ period.displayed_Title }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+
+              <div class="row">
+                <div class="col-2">
+                  <button id="btnGo" mat-raised-button class="btn btn-primary" (click)="onGoClick()">
+                    Search
+                  </button>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </mat-expansion-panel>
+    </mat-accordion>
+
+
+
+  </div>
+
+  <div class="da-card">
+    <div class="company-name p-15 ">{{chartName}}</div>
+   
+    <div class="chart-container p-15" *ngIf="!isShowPieChart && !isShowTriChart">
+      <div class="chart-wrapper">
+        <canvas id="MyChart" width="400" height="400">{{ chart }}</canvas>
+      </div>
+    </div>
+  </div>
+  
+      <div class="row chart-container p-15 da-card" *ngIf="isShowPieChart && !isShowTriChart">
+        <div class="chart-wrapper col-7">
+          <canvas id="MyChart" width="400" height="400">{{ chart }}</canvas>
+        </div>
+       
+        <div class="chart-wrapper col-5">
+          <canvas id="pieChart" width="400" height="400">{{ pieChart }}</canvas>
+        </div>
+      
+      </div>
+
+      <div class="row chart-container p-15" *ngIf="isShowTriChart && !isShowPieChart">
+        <div class="chart-wrapper col-12">
+          <canvas id="MyChart" width="400" height="400">{{ chart }}</canvas>
+        </div>
+       
+        <div class="chart-wrapper col-8 p-10">
+          <canvas id="pieChart" width="400" height="400">{{ pieChart }}</canvas>
+        </div>
+        <div class="chart-wrapper col-4">
+          <canvas id="triChart" width="400" height="400">{{ triChart }}</canvas>
+        </div>
+      
+      </div>
+  
+    <section class="container" tabindex="0">
+      <div class="new-ui table-responsive">
+        <div style="margin-bottom: 10px;" class="row">
+          <div class="col-12 d-flex justify-content-end" *ngIf="selectedReport">
+            @if(userPermission.canExportExcel){
+            <button id="btnGo" mat-raised-button class="btn btn-primary" (click)="exportData()">
+              Export to Excel
+            </button>
+            }
+          </div>
+        </div>
+        <table *ngIf="selectedReport==1" class="table table-bordered" role="table">
+          <thead role="rowgroup">
+            <tr role="row">
+              <th role="columnheader">Company/Country</th>
+              <th role="columnheader" colspan="2">SalesForce Group</th>
+              <th role="columnheader">Total Deployment</th>
+            </tr>
+          </thead>
+          <tbody *ngIf="companyDeploymentByCountryPCAndSpecialtyGridData.length" role="rowgroup">
+
+            <ng-container  *ngFor="let item of companyDeploymentByCountryPCAndSpecialtyGridData;trackBy:trackByIndex">
+              <tr class="primary-light-gray-bg">
+                <td [matTooltip]="getCitationToolTipValue(item,'country_name')">{{item.country_name}}<span *ngIf="item.hasAsterisk?.country_name" style="color: red;">*</span></td>
+                <td>PC Focused</td>
+                <td>SP Focused</td>
+                <td></td>
+              </tr>
+              <tr class="primary-light-bg">
+                <td [matTooltip]="getCitationToolTipValue(item,'company_name')" colspan="4" class="text-bold">
+                  {{item.company_name}}
+                  <span *ngIf="item.hasAsterisk?.company_name" style="color: red;">*</span>
+                </td>
+
+              </tr>
+              <tr class="last-row">
+                <td [matTooltip]="getCitationToolTipValue(item,'period')">
+                  {{item.period}}<span *ngIf="item.hasAsterisk?.period_year || item.hasAsterisk?.period_quarter" style="color: red;">*</span>
+                </td>
+                <td>{{item.pc}}</td>
+                <td>{{item.sp}}</td>
+                <td>{{item.total}}</td>
+              </tr>
+            </ng-container>
+
+
+          </tbody>
+        </table>
+        <table *ngIf="selectedReport==2" class="table table-bordered">
+          <thead>
+            <tr>
+              <th>Therapeutic Category</th>
+              <ng-container *ngFor="let country of selectedCountries">
+                <th>{{country?.country_Name}}</th>
+              </ng-container>
+            </tr>
+          </thead>
+          <tbody *ngIf="filteredTotalCompanyDeploymentByCountryAndTCGridData.length">
+
+            <ng-container  *ngFor="let item of filteredTotalCompanyDeploymentByCountryAndTCGridData;trackBy:trackByIndex">
+              <tr class="primary-light-bg text-bold">
+                <td [attr.colspan]="columnsLength" [matTooltip]="getCitationToolTipValue(item,'therapeutic_category')" class="text-bold">{{item?.therapeuticcategory_name}}<span *ngIf="item.hasAsterisk?.therapeutic_category" style="color: red;">*</span></td>
+              </tr>
+              <tr class="last-row">
+                <td [matTooltip]="getCitationToolTipValue(item,'period')">
+                  {{item?.period}}<span *ngIf="item.hasAsterisk?.period_year || item.hasAsterisk?.period_quarter" style="color: red;">*</span>
+                </td>
+                <ng-container *ngFor="let option of item?.data">
+                  <td>{{option || '*'}}</td>
+                </ng-container>
+              </tr>
+            </ng-container>
+
+
+          </tbody>
+        </table>
+        <table *ngIf="selectedReport==3" class="table table-bordered">
+          <thead>
+            <tr>
+              <th>Company</th>
+              <th>Therapeutic Category</th>
+              <th>Country</th>
+              <th>Period</th>
+              <th>Products Promoted</th>
+              <th>Sales Force Size(FTEs)</th>
+            </tr>
+          </thead>
+          <tbody *ngIf="companyPortfolioByTCAndSalesForceGridData.length">
+
+            <ng-container  *ngFor="let item of companyPortfolioByTCAndSalesForceGridData;;trackBy:trackByIndex; let isOdd = odd">
+              <tr class="last-row" [ngClass]="{'primary-light-bg-1': isOdd}">
+                <td [matTooltip]="getCitationToolTipValue(item,'company_name')">{{item.company_name}}<span *ngIf="item.hasAsterisk?.company_name" style="color: red;">*</span></td>
+                <td [matTooltip]="getCitationToolTipValue(item,'therapeutic_category')">{{item.therapeuticcategory_name}}<span *ngIf="item.hasAsterisk?.therapeutic_category" style="color: red;">*</span></td>
+                <td [matTooltip]="getCitationToolTipValue(item,'country_name')">{{item.country}}<span *ngIf="item.hasAsterisk?.country_name" style="color: red;">*</span></td>
+                <td [matTooltip]="getCitationToolTipValue(item,'period')">{{item.period}}<span *ngIf="item.hasAsterisk?.period_year || item.hasAsterisk?.period_quarter" style="color: red;">*</span></td>
+                <td>
+                  <ol>
+                    <li *ngFor="let p of item.products">{{p.name}}-{{p.total}}</li>
+                  </ol>
+                </td>
+                <td>
+                  <ul style="list-style:none;">
+                    <li>{{item.total}}</li>
+                    <li>(Primary Care - {{item.pc}})</li>
+                    <li>(Spec - {{item.sp}})</li>
+                  </ul>
+                </td>
+              </tr>
+
+            </ng-container>
+
+
+          </tbody>
+        </table>
+
+        <table *ngIf="selectedReport==6" class="table table-bordered">
+          <thead>
+            <tr>
+              <th>Company</th>
+              <th>Country</th>
+              <th>Sales Force Name</th>
+              <th>Employee Type</th>
+              <th>Low Salary</th>
+              <th>High Salary</th>
+              <th>Target Bonus</th>
+            </tr>
+          </thead>
+          <tbody *ngIf="salesRepresentativeCompensationBySalesForceAndProductGridData.length">
+
+            <ng-container  *ngFor="let item of salesRepresentativeCompensationBySalesForceAndProductGridData;trackBy:trackByIndex">
+              <tr class="primary-light-bg">
+                <td [matTooltip]="getCitationToolTipValue(item,'company_name')">{{item.company_name}}<span *ngIf="item.hasAsterisk?.company_name" style="color: red;">*</span></td>
+                <td [matTooltip]="getCitationToolTipValue(item,'country_name')">{{item.country}}<span *ngIf="item.hasAsterisk?.country_name" style="color: red;">*</span></td>
+                <td [matTooltip]="getCitationToolTipValue(item,'salesforce_name')">{{item.salesforcename_name}}<span *ngIf="item.hasAsterisk?.salesforce_name" style="color: red;">*</span></td>
+                <td colspan="3">{{item.employee_type}}</td>
+              </tr>
+              <tr class="last-row">
+                <td colspan="4" [matTooltip]="getCitationToolTipValue(item,'period')" class="text-bold">{{item.period}}<span *ngIf="item.hasAsterisk?.period_year || item.hasAsterisk?.period_quarter" style="color: red;">*</span></td>
+                <td [matTooltip]="getCitationToolTipValue(item,'salary_low')">{{item.salary_low}}<span *ngIf="item.hasAsterisk?.salary_low" style="color: red;">*</span></td>
+                <td [matTooltip]="getCitationToolTipValue(item,'salary_high')">{{item.salary_high}}<span *ngIf="item.hasAsterisk?.salary_high" style="color: red;">*</span></td>
+                <td [matTooltip]="getCitationToolTipValue(item,'target_bonus')">{{item.target_bonus}}<span *ngIf="item.hasAsterisk?.target_bonus" style="color: red;">*</span></td>
+              </tr>
+
+            </ng-container>
+
+
+          </tbody>
+        </table>
+        <table *ngIf="selectedReport==4" class="table table-bordered">
+          <thead>
+            <tr>
+              <th>Country</th>
+              <th>Company</th>
+              <th>Sales Force Name</th>
+              <th>Physician Focus</th>
+              <th>Sales Force Size</th>
+              <th>Product Promoted(FTEs)</th>
+            </tr>
+          </thead>
+          <tbody>
+
+            <ng-container *ngFor="let item of productFTEsByTCAndSalesForceUsingBrandNameGridData;trackBy:trackByIndex">
+              <tr class="primary-light-bg">
+                <td [matTooltip]="getCitationToolTipValue(item,'country_name')">{{item.country}}<span *ngIf="item.hasAsterisk?.country_name" style="color: red;">*</span></td>
+                <td [matTooltip]="getCitationToolTipValue(item,'company_name')">{{item.company_name}}<span *ngIf="item.hasAsterisk?.company_name" style="color: red;">*</span></td>
+                <td [matTooltip]="getCitationToolTipValue(item,'salesforce_name')">{{item.salesforcename_name}}<span *ngIf="item.hasAsterisk?.salesforce_name" style="color: red;">*</span></td>
+                <td colspan="3">{{item.focused}}</td>
+              </tr>
+              <tr class="last-row">
+                <td colspan="4" class="text-bold" [matTooltip]="getCitationToolTipValue(item,'period')">{{item.period}}<span *ngIf="item.hasAsterisk?.period_year || item.hasAsterisk?.period_quarter" style="color: red;">*</span></td>
+                <td>{{item.total}}</td>
+                <td>
+                  <ol>
+                    <li *ngFor="let p of item.products">{{p.name}}-{{p.total}}</li>
+                  </ol>
+                </td>
+              </tr>
+
+            </ng-container>
+
+
+          </tbody>
+        </table>
+
+        <table *ngIf="selectedReport==5" class="table table-bordered">
+          <thead>
+            <tr>
+              <th>Country</th>
+              <th>Company</th>
+              <th>Sales Force Name</th>
+              <th>Physician Focus</th>
+              <th>Sales Force Size</th>
+              <th>Product Promoted(FTEs)</th>
+            </tr>
+          </thead>
+          <tbody>
+
+            <ng-container *ngFor="let item of ProductFTEsByTCAndSalesForceUsingGenericNameGridData;trackBy:trackByIndex">
+              <tr class="primary-light-bg">
+                <td [matTooltip]="getCitationToolTipValue(item,'country_name')">{{item.country}}<span *ngIf="item.hasAsterisk?.country_name" style="color: red;">*</span></td>
+                <td [matTooltip]="getCitationToolTipValue(item,'company_name')">{{item.company_name}}<span *ngIf="item.hasAsterisk?.company_name" style="color: red;">*</span></td>
+                <td [matTooltip]="getCitationToolTipValue(item,'salesforce_name')">{{item.salesforcename_name}}<span *ngIf="item.hasAsterisk?.salesforce_name" style="color: red;">*</span></td>
+                <td colspan="3">{{item.focused}}</td>
+              </tr>
+              <tr class="last-row">
+                <td colspan="4" [matTooltip]="getCitationToolTipValue(item,'period')" class="text-bold">{{item.period}}<span *ngIf="item.hasAsterisk?.period_year || item.hasAsterisk?.period_quarter" style="color: red;">*</span></td>
+                <td>{{item.total}}</td>
+                <td>
+                  <ol>
+                    <li *ngFor="let p of item.products">{{p.name}}-{{p.total}}</li>
+                  </ol>
+                </td>
+              </tr>
+
+            </ng-container>
+          </tbody>
+        </table>
+
+        <table *ngIf="selectedReport==7" class="table table-bordered">
+          <thead>
+            <tr>
+              <th>Period</th>
+              <th>Company</th>
+              <th>Sales Force Name</th>
+              <th>Product Promoted(FTEs)</th>
+              <th colspan="2" style="text-align:center;">Reach</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td colspan="4" class="row-merge-bg"></td>
+              <td>
+                # of HCPs
+              </td>
+              <td>
+                % PC vs SP
+              </td>
+              <td colspan="2">Call Per Qtr</td>
+            </tr>
+            
+            <ng-container *ngFor="let item of reachAndFrequencyBySalesForceAndProductGridData;trackBy:trackByIndex; let isOdd = odd">
+              <tr class="last-row" [ngClass]="{'primary-light-bg-1': isOdd}">
+                <td [matTooltip]="getCitationToolTipValue(item,'period')">{{item.period}}<span *ngIf="item.hasAsterisk?.period_year || item.hasAsterisk?.period_quarter" style="color: red;">*</span></td>
+                <td [matTooltip]="getCitationToolTipValue(item,'company_name')">{{item.company_name}}<span *ngIf="item.hasAsterisk?.company_name" style="color: red;">*</span></td>
+                <td [matTooltip]="getCitationToolTipValue(item,'salesforce_name')">{{item.salesforcename_name}}<span *ngIf="item.hasAsterisk?.salesforce_name" style="color: red;">*</span></td>
+                <td>
+                  <ul style="list-style:none;">
+                    <li *ngFor="let p of item.products">{{p.name}}-{{p.total}}</li>
+                  </ul>
+                </td>
+                <td>{{item.hspc}}</td>
+                <td>{{item.pc_vs_sp}}</td>
+                <td>{{item.calls_per_quarter}}</td>
+              </tr>
+
+            </ng-container>
+
+
+          </tbody>
+        </table>
+        <table *ngIf="selectedReport==8" class="table table-bordered">
+          <thead>
+            <tr>
+              <th>Country</th>
+              <th>Company</th>
+              <th>Sales Force Name</th>
+              <th>Physician Focus</th>
+              <th>Sales Force Size</th>
+              <th>Product Promoted(FTEs)</th>
+            </tr>
+          </thead>
+          <tbody *ngIf="companyCountryAnalysisGridDataList.length">
+
+            <ng-container  *ngFor="let item of companyCountryAnalysisGridDataList;trackBy:trackByIndex">
+              <tr class="primary-light-bg">
+                <td [matTooltip]="getCitationToolTipValue(item,'country_name')">{{item.country_name}}<span *ngIf="item.hasAsterisk?.country_name" style="color: red;">*</span></td>
+                <td [matTooltip]="getCitationToolTipValue(item,'company_name')">{{item.company}}<span *ngIf="item.hasAsterisk?.company_name" style="color: red;">*</span></td>
+                <td [matTooltip]="getCitationToolTipValue(item,'salesforce_name')">{{item.salesforcename_name}}<span *ngIf="item.hasAsterisk?.salesforce_name" style="color: red;">*</span></td>
+                <td colspan="3">{{item.physicianfocus_name}}</td>
+              </tr>
+              <tr class="last-row">
+                <td colspan="4" [matTooltip]="getCitationToolTipValue(item,'period')" class="text-bold">{{item.period_name}}<span *ngIf="item.hasAsterisk?.period_year || item.hasAsterisk?.period_quarter" style="color: red;">*</span></td>
+                <td>{{item.salesforce_size}}</td>
+                <td>
+                  <ol>
+                    <li *ngFor="let p of item.products">{{p.name}}-{{p.total}}</li>
+                  </ol>
+                </td>
+              </tr>
+
+            </ng-container>
+
+
+          </tbody>
+        </table>
+
+        <div>
+
+        </div>
+      </div>
+  
+    </section>
+  
+  </div>

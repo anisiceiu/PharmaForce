@@ -1,0 +1,32 @@
+
+.input-field {
+    position: relative;
+    margin-bottom: 20px;
+  }
+  
+  input {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    outline: none;
+  }
+  
+  label {
+    position: absolute;
+    top: 10px;
+    transition: 0.2s;
+    pointer-events: none;
+  }
+  
+  input:focus + label,
+  input:not(:placeholder-shown) + label,
+  label.filled {
+    top: -8px;
+    font-size: 13px;
+  }
+  input:-webkit-autofill ~ label {
+    top: -9px;
+    font-size: 13px;
+  }
+  

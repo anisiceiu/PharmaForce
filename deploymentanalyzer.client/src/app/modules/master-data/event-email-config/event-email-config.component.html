@@ -1,0 +1,72 @@
+<div class="page-header">
+  <span class="page-title">Event Subscribers Configuration</span>
+</div>
+
+<div class="page-body da-card">
+  <div class="form-card">
+    <div class="row">
+      <div class="col-4">
+        <mat-form-field appearance="outline">
+          <mat-label>Select Event</mat-label>
+          <mat-select [(value)]="selectedEventConfig"
+                      (selectionChange)="onSelectedEventConfigChange($event.value)">
+            <mat-option *ngFor="let eventConfig of eventConfigs" [value]="eventConfig">
+              {{eventConfig.event_name}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div class="col-8">
+        <div class="d-flex align-items-center justify-content-end">
+          <button mat-raised-button class="btn btn-primary" (click)="saveEventConfig()">
+            <mat-icon>save</mat-icon>
+            Save
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="page-body da-card">
+  <!-- Slideshow container -->
+  <div style="padding:5px;margin:5px;">
+    <div class="row">
+      <div class="col-3">
+        <form [formGroup]="clientForm" autocomplete="off">
+          <mat-form-field appearance="outline">
+            <!--<mat-label>Email ID</mat-label>-->
+            <input type="email" matInput placeholder="Enter Email" name="emailID" formControlName="emailID">
+
+          </mat-form-field>
+
+        </form>
+      </div>
+      <div class="col-6">
+        <button mat-raised-button class="btn btn-primary" (click)="addItem()" [disabled]="!clientForm.valid">
+          Add New
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <mat-divider></mat-divider>
+  <div mat-subheader>Subscribers</div>
+  <div class="ui-table table-container">
+    <mat-list>
+      @for (subscriber of subscribers; track subscriber) {
+      <mat-list-item>
+        
+        <div matListItemTitle>
+          <div class="row">
+          <div class="col-4"><mat-icon>account_circle</mat-icon> {{subscriber}}</div>
+          <div class="col-1"><mat-icon (click)="removeItem(subscriber)">close</mat-icon></div>
+          </div>
+       </div>
+      </mat-list-item>
+      }
+    </mat-list>
+
+  </div>
+</div>

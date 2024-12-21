@@ -1,0 +1,57 @@
+<div class="page-body">
+  <aside class="da-sibedar da-sidebar-md {{isOpenManageNewsSidebar ? 'da-sidebar-open' : ''}}">
+    <div class="sidebar-content">
+      <div class="sidebar-header">
+        <h6 class="sidebar-title">{{ data.news.news_Id> 0 ? 'Edit News' : 'Add News' }}</h6>
+        <div class="sidebar-action">
+          <button mat-raised-button [mat-dialog-close]="newsForm" [disabled]="!newsForm.valid">
+            <!--{{ data.news.news_Id> 0 ? 'Save' : 'Add' }}-->
+            Save
+          </button>
+          <a class="link-pointer" (click)="onCloseClick()">
+            <mat-icon>close</mat-icon>
+          </a>
+        </div>
+      </div>
+      <div class="sidebar-body">
+        <form [formGroup]="newsForm" autocomplete="off">
+          <mat-form-field appearance="outline">
+            <mat-label>Country</mat-label>
+            <mat-select formControlName="country_id" (selectionChange)="onfilterChange('country')">
+              <mat-option *ngFor="let country of all_countries" [value]="country.country_Id">{{ country.country_Name }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Company</mat-label>
+            <mat-select formControlName="company_id">
+              <mat-option *ngFor="let company of companies" [value]="company.company_Id">{{ company.company_Name }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>News Date</mat-label>
+            <input matInput formControlName="news_date" [matDatepicker]="newsDatePicker">
+            <mat-datepicker-toggle matIconSuffix [for]="newsDatePicker"></mat-datepicker-toggle>
+            <mat-datepicker #newsDatePicker></mat-datepicker>
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Short Message</mat-label>
+            <input matInput placeholder="Enter Short Message" name="short_message" formControlName="short_message">
+          </mat-form-field>
+          <div appearance="outline" style="margin-top:-15px;" class="mat-mdc-form-field">
+            <mat-label>Long Message</mat-label>
+            <!--<mat-label>Long Message</mat-label>-->
+            <!--<input matInput placeholder="Enter Long Message" name="long_message" formControlName="long_message">-->
+            <textarea style="height: 160px; width: 100%; margin-bottom: 20px;" required placeholder="Enter Long Message" cols="100" name="long_message" rows="5" formControlName="long_message"></textarea>
+          </div>
+          <mat-form-field appearance="outline">
+            <mat-label> News URL</mat-label>
+            <input matInput placeholder="Enter News URL" name="news_url" formControlName="news_url">
+          </mat-form-field>
+
+        </form>
+      </div>
+    </div>
+  </aside>
+  </div>
+  
+  

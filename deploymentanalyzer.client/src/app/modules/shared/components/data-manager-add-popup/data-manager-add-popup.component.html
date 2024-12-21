@@ -1,0 +1,348 @@
+<div class="page-body">
+  <aside class="da-sibedar da-sidebar-xl {{isOpenManageDataManagerSidebar ? 'da-sidebar-open' : ''}}">
+    <div class="sidebar-content">
+      <div class="sidebar-header">
+        <h6 class="sidebar-title">Add Record</h6>
+        <div class="sidebar-action">
+          <button mat-raised-button [mat-dialog-close]="dataManagerForm" [disabled]="!dataManagerForm.valid">Save</button>
+          <a class="link-pointer" (click)="onCloseClick()">
+            <mat-icon>close</mat-icon>
+          </a>
+        </div>
+      </div>
+      <div class="sidebar-body p-0">
+        <form [formGroup]="dataManagerForm" autocomplete="off">
+          <mat-tab-group dynamicHeight>
+
+            <mat-tab label="Salesforce Summary">
+              <div class="p-1">
+                <div class="row">
+
+                  <div class="col-12">
+                    <div class="form-field-group addon-btn">
+
+                      <mat-form-field appearance="outline">
+                        <mat-label>Salesforce Name</mat-label>
+                        <input type="text"
+                               placeholder="Pick one"
+                               aria-label="salesforcename"
+                               matInput
+                               formControlName="salesforce_Name"
+                               [matAutocomplete]="autoSalesforce">
+                        <mat-autocomplete autoActiveFirstOption #autoSalesforce="matAutocomplete">
+                          @for (option of filteredSalesForceOptions | async; track option.id) {
+                            <mat-option [value]="option.name">{{option.name}}</mat-option>
+                          }
+                        </mat-autocomplete>
+                      </mat-form-field>
+<!-- 
+                      <button type="button" class="form-field-addon-btn" (click)="addMasterCode('salesforce_Name','SalesForce')">
+                        <mat-icon>add</mat-icon>
+                      </button> -->
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-6">
+                    <mat-form-field appearance="outline">
+                      <mat-label>Company Name</mat-label>
+                      <mat-select formControlName="company_Name">
+                        <mat-option *ngFor="let company of companies_Names" [value]="company.name">{{ company.name }}</mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                    
+
+                  </div>
+                  <div class="col-6">
+                    <mat-form-field appearance="outline">
+                      <mat-label>Country Name</mat-label>
+                      <mat-select formControlName="country_Name">
+                        <mat-option *ngFor="let country of countries_Names" [value]="country.name">{{ country.name }}</mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                   
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-6">
+                    <div class="form-field-group addon-btn">
+                   
+                      <mat-form-field appearance="outline">
+                        <mat-label>Period Year</mat-label>
+                        <input type="number" [maxlength]="4"
+                               placeholder="Pick one"
+                               aria-label="periodyear"
+                               matInput
+                               formControlName="period_Year"
+                               [matAutocomplete]="autoYear">
+                        <mat-autocomplete autoActiveFirstOption #autoYear="matAutocomplete">
+                          @for (option of filteredYearsOptions | async; track option.id) {
+                            <mat-option [value]="option.name">{{option.name}}</mat-option>
+                          }
+                        </mat-autocomplete>
+                      </mat-form-field>
+                   
+                    <!-- <button type="button" (click)="addMasterCode('period_Year','Period_Year')" class="form-field-addon-btn">
+                      <mat-icon>add</mat-icon>
+                    </button> -->
+                  </div>
+                    
+                      
+                  </div>
+                  <div class="col-6">
+
+                    <mat-form-field appearance="outline">
+                      <mat-label>Period (Quarter)</mat-label>
+                      <mat-select formControlName="period_Quarter">
+                        <mat-option *ngFor="let quarter of period_Quarters" [value]="quarter">{{ quarter }}</mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                   
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-6">
+
+                    <mat-form-field appearance="outline">
+                      <mat-label>Type of Sales Force</mat-label>
+                      <mat-select formControlName="type_of_Salesforce">
+                        <mat-option *ngFor="let type of type_of_salesforce" [value]="type.name">{{ type.name }}</mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                    
+                    
+                  </div>
+
+                  <div class="col-6">
+                    <mat-form-field appearance="outline">
+                      <mat-label>Number of Sales Representatives</mat-label>
+                      <input matInput placeholder="Enter Number of Sales Representatives" type="number"
+                        name="number_Of_Sales_Representatives" formControlName="number_Of_Sales_Representatives">
+                    </mat-form-field>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-6">
+                    <mat-form-field appearance="outline">
+                      <mat-label>Number of District Managers</mat-label>
+                      <input matInput placeholder="Enter Number of District Managers" type="number"
+                        name="number_Of_District_Managers" formControlName="number_Of_District_Managers">
+                    </mat-form-field>
+                  </div>
+
+
+                  <div class="col-6">
+                    <mat-form-field appearance="outline">
+                      <mat-label>Number of Regional Managers</mat-label>
+                      <input matInput placeholder="Enter Number of Regional Managers" type="number"
+                        name="number_Of_Regional_Managers" formControlName="number_Of_Regional_Managers">
+                    </mat-form-field>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-6">
+                    <mat-form-field appearance="outline">
+                      <mat-label>Salary Low</mat-label>
+                      <input matInput placeholder="Enter Salary Low" type="number" name="salary_Low"
+                        formControlName="salary_Low">
+                    </mat-form-field>
+                  </div>
+
+                  <div class="col-6">
+                    <mat-form-field appearance="outline">
+                      <mat-label>Salary High</mat-label>
+                      <input matInput placeholder="Enter Salary High" type="number" name="salary_High"
+                        formControlName="salary_High">
+                    </mat-form-field>
+                  </div>
+                </div>
+
+                <div class="row">
+                   <!--<div class="col-6">
+                    <mat-form-field appearance="outline">
+                      <mat-label>Percentage Split Between Primary Care and Specialty</mat-label>
+                      <input matInput placeholder="Enter Percentage Split" type="number"
+                        name="pct_Split_Between_Primary_Care_And_Specialty"
+                        formControlName="pct_Split_Between_Primary_Care_And_Specialty">
+                    </mat-form-field>
+                  </div>--> 
+
+                  <div class="col-6">
+                    <mat-form-field appearance="outline">
+                      <mat-label>Target Bonus</mat-label>
+                      <input matInput placeholder="Enter Target Bonus" type="number" name="target_Bonus"
+                        formControlName="target_Bonus">
+                    </mat-form-field>
+                  </div>
+
+                  <div class="col-6">
+                    <mat-form-field appearance="outline">
+                      <mat-label>Frequency</mat-label>
+                      <input matInput placeholder="Enter Frequency" type="number" name="frequency"
+                        formControlName="frequency">
+                    </mat-form-field>
+                  </div>
+                </div> 
+                <div class="row">
+                  <div class="col-6">
+                    <mat-form-field appearance="outline">
+                      <mat-label>Reach</mat-label>
+                      <input matInput placeholder="Enter Reach" type="number" name="reach" formControlName="reach">
+                    </mat-form-field>
+                  </div>
+                  <div class="col-6">
+                    <mat-form-field appearance="outline">
+                      <mat-label>Additional Notes</mat-label>
+                      <textarea matInput placeholder="Enter Additional Notes" name="additional_Notes"
+                                formControlName="additional_Notes_Salesforce"></textarea>
+                    </mat-form-field>
+                  </div>
+                </div>
+              </div>
+            </mat-tab>
+
+            <mat-tab label="Product Summary">
+              <div class="p-1">
+                <div class="row">
+                  <div class="col-12">
+                    <mat-accordion>
+                      <mat-expansion-panel hideToggle [disabled]="true"
+                        [expanded]="isExpandedProductListExpansionPanel">
+                        <mat-expansion-panel-header class="pr-0">
+                          <mat-panel-title class="text-black fw-500" (click)="toggleProductListExpansionPanel()">
+                            Products
+                          </mat-panel-title>
+                          <mat-panel-description class="justify-content-end m-0">
+                            <button mat-button (click)="openAddEditPopup()">Add Product</button>
+                            <button mat-icon-button color="primary" (click)="toggleProductListExpansionPanel()">
+                              <mat-icon>{{isExpandedProductListExpansionPanel ? "keyboard_arrow_up" :
+                                "keyboard_arrow_down"}}</mat-icon>
+                            </button>
+                          </mat-panel-description>
+                        </mat-expansion-panel-header>
+                        @if(productItems.length > 0)
+                        {
+                          <section class="example-container mat-elevation-z8" tabindex="0">
+                        <div class="table-container">
+
+                          <table mat-table [dataSource]="productdataSource" matSort>
+
+                            <ng-container matColumnDef="select">
+                              <th mat-header-cell *matHeaderCellDef> Actions </th>
+                              <td mat-cell *matCellDef="let row">
+                                <button mat-icon-button matTooltip="Basic" [matMenuTriggerFor]="menu" aria-label="Example icon-button with a heart icon">
+                                  <mat-icon>more_vert</mat-icon>
+                                </button>
+                                <mat-menu #menu="matMenu">
+                                  <button (click)="openProductEditDialog(productItems.indexOf(row))" mat-mini-fab aria-label="Edit icon button" class="action-button edit">
+                                    <mat-icon>edit</mat-icon>
+                                  </button>
+                                  <button (click)="deleteProductItem(row)" mat-mini-fab aria-label="Delete icon button" color="warn" class="action-button delete">
+                                    <mat-icon>delete</mat-icon>
+                                  </button>
+                                </mat-menu>
+                              </td>
+                            </ng-container>
+                          
+                            
+                            <ng-container matColumnDef="uS_Product_Name_Product_Promoted">
+                              <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
+                              <td mat-cell *matCellDef="let element">{{element.uS_Product_Name_Product_Promoted}}</td>
+                            </ng-container>
+                          
+                            <ng-container matColumnDef="country_Specific_Product_Name_Product_Promoted">
+                              <th mat-header-cell *matHeaderCellDef mat-sort-header>Country Specific Name</th>
+                              <td mat-cell *matCellDef="let element">{{element.country_Specific_Product_Name_Product_Promoted}}</td>
+                            </ng-container>
+                          
+                            <ng-container matColumnDef="generic_Name">
+                              <th mat-header-cell *matHeaderCellDef mat-sort-header>Generic Name</th>
+                              <td mat-cell *matCellDef="let element">{{element.generic_Name}}</td>
+                            </ng-container>
+                          
+                            <ng-container matColumnDef="therapeutic_Category">
+                              <th mat-header-cell *matHeaderCellDef mat-sort-header>Therapeutic Category</th>
+                              <td mat-cell *matCellDef="let element">{{element.therapeutic_Category}}</td>
+                            </ng-container>
+                          
+                            <!-- <ng-container matColumnDef="product_Promotion_Priority_Order">
+                              <th mat-header-cell *matHeaderCellDef mat-sort-header>Promotion Priority</th>
+                              <td mat-cell *matCellDef="let element">{{element.product_Promotion_Priority_Order}}</td>
+                            </ng-container> -->
+                          
+                            <!-- <ng-container matColumnDef="total_Number_of_Full_Time_Equivalents_FTEs">
+                              <th mat-header-cell *matHeaderCellDef mat-sort-header>Total FTEs</th>
+                              <td mat-cell *matCellDef="let element">{{element.total_Number_of_Full_Time_Equivalents_FTEs}}</td>
+                            </ng-container> -->
+                          
+                            <ng-container matColumnDef="primary_Care_Full_Time_Equivalents_FTEs">
+                              <th mat-header-cell *matHeaderCellDef mat-sort-header>Primary Care FTEs</th>
+                              <td mat-cell *matCellDef="let element">{{element.primary_Care_Full_Time_Equivalents_FTEs}}</td>
+                            </ng-container>
+                          
+                            <ng-container matColumnDef="specialty_Full_Time_Equivalents_FTEs">
+                              <th mat-header-cell *matHeaderCellDef mat-sort-header>Specialty FTEs</th>
+                              <td mat-cell *matCellDef="let element">{{element.specialty_Full_Time_Equivalents_FTEs}}</td>
+                            </ng-container>
+                          
+                            <ng-container matColumnDef="physicians_Focus_Primary_Care_Physicians_Specialty_Physicians">
+                              <th mat-header-cell *matHeaderCellDef mat-sort-header>Physician Focus</th>
+                              <td mat-cell *matCellDef="let element">{{element.physicians_Focus_Primary_Care_Physicians_Specialty_Physicians}}</td>
+                            </ng-container>
+                          
+                            <ng-container matColumnDef="specialty_Physicians_Targeted">
+                              <th mat-header-cell *matHeaderCellDef mat-sort-header>Specialty Physicians Targeted</th>
+                              <td mat-cell *matCellDef="let element">{{element.specialty_Physicians_Targeted}}</td>
+                            </ng-container>
+                          
+                            <ng-container matColumnDef="co_Promotion_YesNo">
+                              <th mat-header-cell *matHeaderCellDef mat-sort-header>Co-Promotion</th>
+                              <td mat-cell *matCellDef="let element">{{element.co_Promotion_YesNo ? 'Yes' : 'No'}}</td>
+                            </ng-container>
+                          
+                            <ng-container matColumnDef="name_of_a_Partner_Company">
+                              <th mat-header-cell *matHeaderCellDef mat-sort-header>Partner Company</th>
+                              <td mat-cell *matCellDef="let element">{{element.name_of_a_Partner_Company}}</td>
+                            </ng-container>
+                          
+                            <ng-container matColumnDef="contract_Sales_Force_YesNo">
+                              <th mat-header-cell *matHeaderCellDef mat-sort-header>Contract Sales Force</th>
+                              <td mat-cell *matCellDef="let element">{{element.contract_Sales_Force_YesNo ? 'Yes' : 'No'}}</td>
+                            </ng-container>
+                          
+                            <ng-container matColumnDef="name_of_a_CSO_Contract_Sales_Organization">
+                              <th mat-header-cell *matHeaderCellDef mat-sort-header>CSO</th>
+                              <td mat-cell *matCellDef="let element">{{element.name_of_a_CSO_Contract_Sales_Organization}}</td>
+                            </ng-container>
+                          
+                            <ng-container matColumnDef="additional_Notes_Product">
+                              <th mat-header-cell *matHeaderCellDef mat-sort-header>Notes</th>
+                              <td mat-cell *matCellDef="let element">{{element.additional_Notes_Product}}</td>
+                            </ng-container>
+                          
+                            <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true;"></tr>
+                            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                          </table>
+                          
+
+                        </div>
+                        </section>
+                        }@else{
+                        <p>Add Products here to display.</p>
+                        }
+                      </mat-expansion-panel>
+                    </mat-accordion>
+                    <br />
+                  </div>
+                </div>
+
+                
+              </div>
+            </mat-tab>
+            
+          </mat-tab-group>
+        </form>
+      </div>
+    </div>
+  </aside>
+</div>

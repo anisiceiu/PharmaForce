@@ -1,0 +1,60 @@
+<div class="page-body">
+    <aside class="da-sibedar da-sidebar-sm {{isOpenManageKeyUpdateSidebar ? 'da-sidebar-open' : ''}}">
+      <div class="sidebar-content">
+        <div class="sidebar-header">
+          <h6 class="sidebar-title">{{ data.keyUpdate.keyUpdate_Id> 0 ? 'Edit keyUpdate' : 'Add keyUpdate' }}</h6>
+          <div class="sidebar-action">
+            <button mat-raised-button [mat-dialog-close]="keyUpdateForm" [disabled]="!keyUpdateForm.valid">
+             
+              Save
+            </button>
+            <a class="link-pointer" (click)="onCloseClick()">
+              <mat-icon>close</mat-icon>
+            </a>
+          </div>
+        </div>
+        <div class="sidebar-body">
+          <form [formGroup]="keyUpdateForm" autocomplete="off">
+            <mat-form-field appearance="outline">
+              <mat-label>Country</mat-label>
+              <mat-select formControlName="country_Id" (selectionChange)="onfilterChange('country')">
+                <mat-option *ngFor="let country of countries" [value]="country.country_Id">{{ country.country_Name }}</mat-option>
+              </mat-select>
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>Company</mat-label>
+              <mat-select formControlName="company_Id" (selectionChange)="onfilterChange('company')">
+                <mat-option *ngFor="let company of companies" [value]="company.company_Id">{{ company.company_Name }}</mat-option>
+              </mat-select>
+            </mat-form-field>
+            <!--<mat-form-field appearance="outline">
+              <mat-label>Therapeutic Category</mat-label>
+              <mat-select formControlName="therapeuticCategory_Id">
+                <mat-option *ngFor="let therapeuticCategory of therapeuticCategories " [value]="therapeuticCategory.therapeuticCategory_Id">{{ therapeuticCategory.therapeuticCategory_Name }}</mat-option>
+              </mat-select>
+            </mat-form-field>-->
+            <mat-form-field appearance="outline">
+              <mat-label>Period</mat-label>
+              <mat-select formControlName="period_Id">
+                <mat-option *ngFor="let period of periodList " [value]="period.period_Id">{{ period.displayed_Title }}</mat-option>
+              </mat-select>
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>Tag</mat-label>
+              <mat-select formControlName="updateTag">
+                <mat-option *ngFor="let tag of updateTagList " [value]="tag.tagName">{{ tag.tagName }}</mat-option>
+              </mat-select>
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>Note</mat-label>
+              <input matInput placeholder="Enter note" name="note" formControlName="note">
+            </mat-form-field>
+
+
+          </form>
+        </div>
+      </div>
+    </aside>
+    </div>
+    
+    

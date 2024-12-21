@@ -1,0 +1,45 @@
+<div class="page-header">
+  <span class="page-title">Company Update</span>
+</div>
+<div class="page-body da-card">
+  <!-- Slideshow container -->
+  <div class="tablist">
+    <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start">
+      <mat-tab *ngFor="let yml of yearMonthwiseList" label="{{yml.month_name}} {{yml.year}}">
+
+        <mat-stepper orientation="vertical" [linear]="true" #stepper>
+          <mat-step *ngFor="let cwl of yml.countryList">
+
+            <ng-template matStepLabel>{{cwl.country_name}}</ng-template>
+             <table>
+               <tr>
+                 <td style="vertical-align:top">
+                   <mat-list role="list">
+                     <mat-list-item *ngFor="let cin of cwl.companyList" role="listitem">{{cin.company_name}}</mat-list-item>
+                   </mat-list>
+                 </td>
+                 <td style="vertical-align:middle">
+                   <div style="width:50%!important" class="col-4">
+                     <img *ngIf="cwl.country_name=='United States'" src="/images/country-img/US.png" alt="" width="210" height="140" />
+                     <img *ngIf="cwl.country_name=='France'" src="/images/country-img/France.png" alt="" width="210" height="140" />
+                     <img *ngIf="cwl.country_name=='United Kingdom'" src="/images/country-img/US.png" alt="" width="210" height="140" />
+                     <img *ngIf="cwl.country_name=='Germany'" src="/images/country-img/Germany.png" alt="" width="210" height="140" />
+                     <img *ngIf="cwl.country_name=='Italy'" src="/images/country-img/Italy.png" alt="" width="210" height="140" />
+                     <img *ngIf="cwl.country_name=='Spain'" src="/images/country-img/Spain.png" alt="" width="210" height="140" />
+                   </div>
+                 </td>
+               </tr>
+             </table>
+             
+     
+          </mat-step>
+         
+        </mat-stepper>
+
+
+      </mat-tab>
+      
+    </mat-tab-group>
+  </div>
+  
+</div>

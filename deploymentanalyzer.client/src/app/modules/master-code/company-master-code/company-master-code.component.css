@@ -1,0 +1,5 @@
+.mat-column-country {
+  flex: none;
+  min-width: 180px;
+  max-width:300px;
+}

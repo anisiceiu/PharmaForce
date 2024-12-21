@@ -1,0 +1,109 @@
+<div class="page-body">
+  <aside class="da-sibedar da-sidebar-lg {{isOpenManageSavedSearchesSidebar ? 'da-sidebar-open' : ''}}">
+    <div class="sidebar-content">
+      <div class="sidebar-header">
+        <h6 class="sidebar-title">Manage Saved Searches</h6>
+        <div class="sidebar-action">
+          
+          <a class="link-pointer" (click)="onCloseClick()">
+            <mat-icon>close</mat-icon>
+          </a>
+        </div>
+      </div>
+      <div class="sidebar-body">
+        <form [formGroup]="savedSearchForm" autocomplete="off">
+          <div class="row" *ngIf="filterTosave && filterTosave.reportId">
+            <div class="col-6">
+              <mat-form-field appearance="outline">
+                <mat-label>Search Name</mat-label>
+                <input matInput placeholder="Enter name" name="savedName" formControlName="savedName">
+              </mat-form-field>
+            </div>
+            <div class="col-2">
+              <button mat-raised-button (click)="onSaveClick()" [disabled]="!savedSearchForm.valid">
+                Save
+              </button>
+            </div>
+          </div>
+        </form>
+          <div class="table-container">
+
+
+            <table mat-table [dataSource]="dataSource" matSort>
+
+              <ng-container matColumnDef="select">
+                <th mat-header-cell *matHeaderCellDef>
+                  Actions
+                </th>
+                <td mat-cell *matCellDef="let row">
+                  <div class="grid-action-cell">
+                    <ng-container *ngIf="editedRowIndex !== row.id; else saveCancel">
+                      <button mat-icon-button (click)="startEditing(row.id)">
+                        <mat-icon>edit</mat-icon>
+                      </button>
+                    </ng-container>
+                    <ng-template #saveCancel>
+                      <button mat-icon-button color="primary" (click)="saveRow(row)">
+                        <mat-icon>done</mat-icon>
+                      </button>
+                      <button mat-icon-button color="warn" (click)="cancelEditing()">
+                        <mat-icon>cancel</mat-icon>
+                      </button>
+                    </ng-template>
+                    <a (click)="deleteSearch(row)" matTooltip="Delete" aria-label="Remove icon button" color="warn"
+                       class="action-button remove">
+                      <mat-icon>delete</mat-icon>
+                    </a>
+
+                  </div>
+                </td>
+
+              </ng-container>
+              <!-- Displayed columns -->
+              <!--<ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef>ID</th>
+      <td mat-cell *matCellDef="let row">{{ row.id }}</td>
+    </ng-container>-->
+
+              <ng-container matColumnDef="searchFilterName">
+                <th mat-header-cell *matHeaderCellDef>Name</th>
+                <
+                <td mat-cell *matCellDef="let row">
+                  <ng-container *ngIf="editedRowIndex !== row.id; else editCell">
+                    {{ row.searchFilterName }}
+                  </ng-container>
+                  <ng-template #editCell>
+                    <input [(ngModel)]="row.searchFilterName" [ngModelOptions]="{standalone: true}" placeholder="Name">
+                  </ng-template>
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="createdDate">
+                <th mat-header-cell *matHeaderCellDef>Date Added</th>
+                <td mat-cell *matCellDef="let row">
+                  <ng-container>
+                    {{ row.createdDate | date:'medium' }}
+                  </ng-container>
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="action">
+                <th mat-header-cell *matHeaderCellDef>Action</th>
+                <td mat-cell *matCellDef="let row">
+                  <button (click)="applyFilter(row)" mat-button class="btn-primary">Apply Filter</button>
+                </td>
+              </ng-container>
+
+              <!-- Table rows -->
+              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+            </table>
+          </div>
+          <mat-paginator [pageSizeOptions]="[5,15,50,100]" showFirstLastButtons aria-label="Select page of mastercode">
+          </mat-paginator>
+        
+      </div>
+    </div>
+  </aside>
+</div>
+

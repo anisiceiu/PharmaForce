@@ -1,0 +1,72 @@
+<div class="page-header">
+  <span class="page-title">Brand Groups</span>
+  <div class="page-action">
+    <button mat-raised-button class="btn btn-primary" (click)="openDialog()">
+      <mat-icon>add</mat-icon>
+      Add Brand Group
+    </button>
+  </div>
+</div>
+<div class="ui-table page-body da-card table-container">
+  @defer () {
+  @if(this.myBrandGroups.length > 0){
+  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 demo-table" matSort
+         (matSortChange)="announceSortChange($event)">
+
+
+    <ng-container matColumnDef="select">
+      <th mat-header-cell *matHeaderCellDef>
+        Actions
+      </th>
+      <!--<td mat-cell *matCellDef="let row">
+    <div class="grid-action-cell">
+      <a (click)="deleteMyBrandGroup(row)" matTooltip="Delete" aria-label="Remove icon button" color="warn"
+         class="action-button remove">
+        <mat-icon>cancel</mat-icon>
+      </a>
+    </div>
+  </td>-->
+      <td mat-cell *matCellDef="let element">
+        <button mat-icon-button matTooltip="Basic" [matMenuTriggerFor]="menu"
+                aria-label="Example icon-button with a heart icon">
+          <mat-icon>more_vert</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu">
+          <button (click)="openDialog(element)" mat-mini-fab aria-label="Edit icon button" class="action-button edit">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button (click)="deleteMyBrandGroup(element)" mat-mini-fab aria-label="Delete icon button" color="warn"
+                  class="action-button delete">
+            <mat-icon>delete</mat-icon>
+          </button>
+
+        </mat-menu>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header sticky>Brand Group Name</th>
+      <td mat-cell *matCellDef="let row"> {{row.name}} </td>
+    </ng-container>
+    <!--<ng-container matColumnDef="isChemicalGroup">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header sticky>Is Chemical Group</th>
+      <td mat-cell *matCellDef="let row">
+        @if(row.isChemicalGroup){
+        <mat-icon class="icon-primary">toggle_on</mat-icon>
+        }@else{
+        <mat-icon class="icon-disabled">toggle_off</mat-icon>
+        }
+      </td>
+    </ng-container>-->
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true;"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+  }
+  }
+  
+</div>
+<div class="table-pagination">
+  <mat-paginator [pageSizeOptions]="[15, 30, 50, 100]" showFirstLastButtons aria-label="Select page of brandgroups">
+  </mat-paginator>
+</div>

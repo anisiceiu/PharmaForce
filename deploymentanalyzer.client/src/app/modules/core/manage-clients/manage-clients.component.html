@@ -1,0 +1,180 @@
+<div class="page-header">
+  <span class="page-title">Manage Clients</span>
+  <div class="page-action">
+    <button mat-raised-button class="btn btn-primary" (click)="openDialog()">
+      <mat-icon>add</mat-icon>
+      Add Client
+    </button>
+  </div>
+</div>
+<div class="page-body da-card list-filter-card">
+  <div class="advance-filter-card">
+    <div class="filter-header">
+      <div class="search-field">
+        <div><span>Active Clients : {{activeClientsCount}}</span></div>
+      </div>
+      <div class="divider"></div>
+      <div class="form-field ml-auto">
+        <mat-form-field appearance="outline">
+          <mat-label>Users</mat-label>
+          <mat-select [(value)]="selectedUser" (selectionChange)="loadClients($event.value)">
+            <mat-option *ngFor="let user of userList" [value]="user">{{ user.name }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+  </div>
+  <div class="list-card">
+    @defer () {
+    @if(this.userClientList.length > 0){
+
+    <table mat-table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)" disableClear>
+      <ng-container matColumnDef="select">
+        <th mat-header-cell *matHeaderCellDef>
+          Actions
+        </th>
+        <td mat-cell *matCellDef="let element">
+          <div class="grid-action-cell">
+            @if(element.isActive)
+            {
+            <a (click)="ActiveDeactiveToClient(element.clientID,false)" matTooltip="Deactive" aria-label="Disabled icon button" class="action-button remove">
+              <mat-icon class="icon-primary">toggle_on</mat-icon>
+            </a>
+            }
+            @else
+            {
+            <a (click)="ActiveDeactiveToClient(element.clientID,true)" color="accent" matTooltip="Active" aria-label="Disabled icon button" class="action-button">
+              <mat-icon class="icon-disabled">toggle_off</mat-icon>
+            </a>
+            }
+
+            @if(element.waiveActivation)
+            {
+            <a (click)="WaiveActivationToClient(element.clientID,false)" matTooltip="Waive Activation(No)" aria-label="Disabled icon button" class="action-button remove">
+              <mat-icon>free_cancellation</mat-icon>
+            </a>
+            }
+            @else
+            {
+            <a (click)="WaiveActivationToClient(element.clientID,true)" color="accent" matTooltip="Waive Activation(Yes)" aria-label="Disabled icon button" class="action-button">
+              <mat-icon>free_cancellation</mat-icon>
+            </a>
+            }
+
+            @if(element.unsubscribe)
+            {
+            <a (click)="UnsubscribeClient(element.clientID,false)" matTooltip="Subscribe" aria-label="Disabled icon button" class="action-button">
+              <mat-icon>subscriptions</mat-icon>
+            </a>
+            }
+            @else
+            {
+            <a (click)="UnsubscribeClient(element.clientID,true)" matTooltip="Unsubscribe" aria-label="Disabled icon button" class="action-button">
+              <mat-icon>unsubscribe</mat-icon>
+            </a>
+            }
+
+            @if(element.isLocked)
+            {
+            <a (click)="LockUnlockClientAccount(element.emailID,false)" matTooltip="Unlocked" aria-label="Disabled icon button" class="action-button">
+              <mat-icon>lock_open</mat-icon>
+            </a>
+            }
+            @else
+            {
+            <a (click)="LockUnlockClientAccount(element.emailID,true)" matTooltip="Lock" aria-label="Disabled icon button" class="action-button">
+              <mat-icon>lock</mat-icon>
+            </a>
+            }
+
+            <a (click)="RemoveUserClient(element.clientID,element.emailID)" matTooltip="Delete" aria-label="Remove icon button" color="warn"
+               class="action-button remove">
+              <mat-icon>delete</mat-icon>
+            </a>
+
+          </div>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="emailID">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Email ID</th>
+        <td mat-cell *matCellDef="let element">{{element.emailID}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="dateCreated">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Created Date</th>
+        <td mat-cell *matCellDef="let element">{{element.dateCreated | date}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="lastLogin">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Last Login</th>
+        <td mat-cell *matCellDef="let element">{{element.lastLogin | date}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="isActive" sticky>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Is Active</th>
+        <td mat-cell *matCellDef="let element">
+          @if(element.isActive){
+          <mat-icon class="icon-primary">toggle_on</mat-icon>
+          }@else{
+          <mat-icon class="icon-disabled">toggle_off</mat-icon>
+          }
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="isLocked" sticky>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Is Locked</th>
+        <td mat-cell *matCellDef="let element">
+          @if(element.isLocked){
+          <mat-icon class="icon-primary">toggle_on</mat-icon>
+          }@else{
+          <mat-icon class="icon-disabled">toggle_off</mat-icon>
+          }
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="unsubscribe" sticky>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Unsubscribe</th>
+        <td mat-cell *matCellDef="let element">
+          @if(element.unsubscribe){
+          <mat-icon class="icon-primary">toggle_on</mat-icon>
+          }@else{
+          <mat-icon class="icon-disabled">toggle_off</mat-icon>
+          }
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="waiveActivation" sticky>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Waive Activation</th>
+        <td mat-cell *matCellDef="let element">
+          @if(element.waiveActivation){
+          <mat-icon class="icon-primary">toggle_on</mat-icon>
+          }@else{
+          <mat-icon class="icon-disabled">toggle_off</mat-icon>
+          }
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="otp" sticky>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Last OTP</th>
+        <td mat-cell *matCellDef="let element">
+          {{element.otp}}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="action" sticky>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Action</th>
+        <td mat-cell *matCellDef="let element">
+          <button (click)="onClickImpersonate(element)" mat-button><mat-icon>supervisor_account</mat-icon> Impersonate</button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+
+    }
+
+
+    }
+  </div>
+  <mat-paginator [pageSizeOptions]="[10,30,50,100]" showFirstLastButtons aria-label="Select page of userClientList">
+  </mat-paginator>
+
+</div>

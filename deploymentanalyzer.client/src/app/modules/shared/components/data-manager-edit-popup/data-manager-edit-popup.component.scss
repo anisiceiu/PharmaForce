@@ -1,0 +1,94 @@
+/*.mat-mdc-table {
+    width: 100%;
+    max-height: auto;
+    overflow: auto;
+  }
+  
+  .example-container {
+    height: auto;
+    width: auto;
+    max-width: 100%;
+    overflow: auto;
+  }
+
+  .mat-column-uS_Product_Name_Product_Promoted {
+    flex: none;
+    min-width: 300px;
+  }
+
+  .mat-column-country_Specific_Product_Name_Product_Promoted {
+    flex: none;
+    min-width: 300px;
+  }
+
+  .mat-column-generic_Name {
+    flex: none;
+    min-width: 300px;
+  }
+
+  .mat-column-therapeutic_Category {
+    flex: none;
+    min-width: 300px;
+  }
+
+  .mat-column-primary_Care_Full_Time_Equivalents_FTEs {
+    flex: none;
+    min-width: 300px;
+  }
+
+  .mat-column-specialty_Physicians_Targeted {
+    flex: none;
+    min-width: 400px;
+  }
+
+  .mat-column-name_of_a_CSO_Contract_Sales_Organization {
+    flex: none;
+    min-width: 400px;
+  }
+
+  .mat-column-contract_Sales_Force_YesNo {
+    flex: none;
+    min-width: 400px;
+  }
+
+  .mat-column-name_of_a_Partner_Company {
+    flex: none;
+    min-width: 300px;
+  }
+
+*/
+
+::ng-deep .mat-mdc-form-field-hint-wrapper {
+  padding: 0 !important;
+}
+
+.mat-mdc-table {
+  width: 100%;
+  max-height: auto;
+  overflow: auto;
+}
+
+.example-container {
+  height: auto;
+  width: auto;
+  max-width: 100%;
+  overflow: auto;
+}
+
+.mat-column-specialty_Physicians_Targeted {
+  flex: none;
+  min-width: 300px;
+}
+
+.margin-top-0{
+    margin-top:0px!important;
+}
+
+.margin-left-50{
+  margin-left:50px!important;
+}
+.new-ui .form-switch-wrapper-x {
+  display: flex;
+  gap: 10px;
+  margin-top:0px;
+}

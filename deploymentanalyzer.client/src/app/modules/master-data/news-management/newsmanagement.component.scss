@@ -1,0 +1,163 @@
+.container {
+  background-color: white;
+  padding: 15px 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+.floating-button {
+  position: fixed;
+  bottom: 16px;
+  right: 16px;
+  z-index: 1000;
+}
+
+.search-and-filter-input {
+  width: 88%;
+}
+
+.action-button {
+  display: flex;
+  padding: 10px;
+  width: 100%;
+  box-shadow: none;
+  background-color: #fff;
+}
+
+// .action-button:last-child {
+//   margin-right: 0;
+// }
+
+.action-button-add {
+  margin-left: 20px;
+  margin-top: 10px;
+}
+
+.example-button-row button,
+.example-button-row a {
+  margin-right: 8px;
+}
+
+.news-container {
+  padding: 15px;
+}
+
+.dm-field-card {
+  background-color: var(--mdc-elevated-card-container-color);
+  border-color: var(--mdc-elevated-card-container-color);
+  border-radius: var(--mdc-elevated-card-container-shape);
+  box-shadow: var(--mdc-elevated-card-container-elevation);
+}
+
+::ng-deep .mat-grid-tile-content {
+  align-items: stretch !important;
+  justify-content: space-between !important;
+  width: 100%;
+}
+
+.news-card {
+  box-shadow: none !important;
+  width: 100%;
+}
+
+.mt-3 {
+  margin-top: 15px;
+}
+
+.mat-mdc-card-header {
+  padding: 5px 16px !important;
+  background: #4b7e7d;
+}
+
+.card-title {
+  width: 100%;
+  font-size: 18px;
+  font-weight: 500;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+}
+
+.company-name {
+  align-content: center;
+}
+
+.card-sub-header {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+  opacity: 0.8;
+  font-style: italic;
+}
+
+.news-url {
+  margin-bottom: 0;
+  display: block;
+  height: 7vh;
+  overflow: auto;
+  word-wrap: break-word;
+
+  a {
+    color: blue;
+  }
+}
+
+.news-message {
+  display: block;
+  height: 30vh;
+  overflow: auto;
+  word-wrap: break-word;
+  margin: 0px 0px 10px 0px;
+  border: 1px solid #cad6ea;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+// ::ng-deep .mat-mdc-menu-panel {
+//   background-color: #fff !important;
+// }
+
+::ng-deep .mat-mdc-mini-fab {
+  background-color: #fff !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+::ng-deep .mat-mdc-menu-content {
+  background: #fff;
+}
+
+// ::ng-deep .mdc-button__label{
+//   width: 100% !important;
+// }
+
+.menu-item {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  flex-direction: row-reverse;
+
+  span {
+    margin-left: 10px;
+  }
+}
+
+.icon-dots {
+  color: #fff;
+}
+.advance-filter-card {
+  width: 100%;
+}
+.advance-filter-card .filter-header {
+  border-bottom: 0 !important;
+  padding: 0 !important;
+  justify-content: flex-end;
+}
+
+.advance-filter-card .filter-header .search-field {
+  height: 44px;
+  border: 1px solid #EBECF0;
+  border-radius: 6px;
+  width: 400px;
+}

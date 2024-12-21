@@ -1,0 +1,11 @@
+.table-icons {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  padding: 0px 22px;
+}
+
+.advance-filter-card {
+  padding: 5px 15px !important;
+}
