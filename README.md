@@ -9,7 +9,7 @@ This is a full-stack enterprise-grade web application built using modern technol
 ### Backend (.NET Core 6 + Clean Architecture)
 - **ASP.NET Core 6 Web API**
 - **Clean Architecture** (Core, Application, Infrastructure, WebAPI)
-- **Entity Framework Core**
+- **Dapper**
 - **JWT Authentication**
 - **Azure Active Directory (Azure AD)**
 - **Microsoft Graph API Integration**
